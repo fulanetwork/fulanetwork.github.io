@@ -1,0 +1,126 @@
+/* === Site Footer === */
+.site-footer {
+  background: var(--color-darker-bg);
+  color: var(--color-text-white);
+  padding: var(--spacing-3xl) 0 var(--spacing-lg);
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: var(--spacing-2xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+/* Brand column */
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.footer__logo {
+  height: 36px;
+  width: auto;
+}
+
+.footer__tagline {
+  color: var(--color-text-white-muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+/* Nav columns */
+.footer__col-title {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-white);
+  margin-bottom: var(--spacing-sm);
+}
+
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer__link {
+  color: var(--color-text-white-muted);
+  font-size: var(--font-size-sm);
+  transition: color var(--transition-fast);
+}
+
+.footer__link:hover {
+  color: var(--color-primary);
+}
+
+/* Social icons */
+.footer__social {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: var(--spacing-lg) 0;
+  border-top: 1px solid var(--color-border-dark);
+  border-bottom: 1px solid var(--color-border-dark);
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.footer__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  color: var(--color-text-white-muted);
+  transition: all var(--transition-fast);
+}
+
+.footer__social-link:hover {
+  color: var(--color-primary);
+  background: rgba(29, 185, 84, 0.1);
+}
+
+.footer__social-link svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* Disclaimer */
+.footer__disclaimer {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-white-muted);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-sm);
+  opacity: 0.7;
+}
+
+/* Copyright */
+.footer__copyright {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-white-muted);
+  text-align: center;
+  opacity: 0.65;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer__grid {
+    grid-template-columns: 1fr;
+  }
+}

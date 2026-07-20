@@ -1,0 +1,15 @@
+{
+  "updated": "2026-03-02T08:13:05Z",
+  "week_of": "2026-03-02",
+  "headline": "Functionland Adds AI Site Builder as Cloud Outage Fears Mount",
+  "subtitle": "FxFiles' zero-cost IPFS website generator and a Fula Network stability upgrade arrive as centralized cloud failures put resilience back in focus.",
+  "briefing": "Functionland shipped two significant updates this week, with the more consumer-visible being an AI-powered website generator inside FxFiles that publishes sites directly to IPFS at no cost. Users select files, tap \"Generate,\" and receive a shareable, decentralized link \u2014 no hosting subscription required. The feature lands at a moment when the case for distributed infrastructure is being made by headline events, not just ideology.\n\nThe timing is pointed. <cite index=\"24-1,24-2\">AWS experienced one of the biggest cloud outages of 2025 when its services went down for 15 hours in October, affecting over 4 million users and more than 1,000 companies.</cite> <cite index=\"25-1\">Research firm Forrester now predicts at least two major multi-day hyperscaler outages in 2026, as AWS, Azure, and Google Cloud prioritize AI infrastructure upgrades over aging legacy systems.</cite> Against that backdrop, Functionland also released a stability update to the Fula Network, explicitly targeting worst-case connectivity scenarios \u2014 the kind of single-point failures <cite index=\"2-17\">that continue to leave centralized infrastructure vulnerable to large-scale service disruptions.</cite>\n\n<cite index=\"11-28,11-29\">The decentralized web hosting category gives builders a way to publish sites without depending on a single company, a single server, or a single point of failure \u2014 content is instead pushed to distributed networks where uptime can be significantly stronger.</cite> With Functionland's active node count at 42, the network remains small relative to peers like <cite index=\"7-13,7-14\">Filecoin, which has shifted its story from raw capacity to useful, paid storage, and has grown to nearly 3,000 storage providers.</cite> Whether Functionland can close that gap by converting FxFiles' AI tooling into sustained node growth is the metric worth watching in the weeks ahead.",
+  "sources": [
+    "https://www.techtarget.com/searchcloudcomputing/feature/Cloud-outages-expected-to-be-the-new-normal-in-2026",
+    "https://restofworld.org/2026/cloud-outages-2025-global-business-impact/",
+    "https://openmetal.io/resources/blog/forrester-predicts-two-major-cloud-outages-in-2026/",
+    "https://medium.com/storx-network/simplifying-data-resilience-in-2026-with-decentralized-storage-4e544e3f6fb3",
+    "https://blog.blockxs.com/decentralized-web-hosting-platforms-2026/",
+    "https://orochi.network/blog/top-10-de-pin-projects-and-emerging-trends-in-2026"
+  ]
+}

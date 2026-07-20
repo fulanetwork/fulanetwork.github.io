@@ -1,0 +1,15 @@
+{
+  "updated": "2026-05-18T09:11:31Z",
+  "week_of": "2026-05-18",
+  "headline": "Functionland Partners With Olostep, Doubling Node Rewards",
+  "subtitle": "The FxBlox network expands its AI utility as the broader DePIN compute sector reaches a $19 billion market cap.",
+  "briefing": "Functionland's most significant move this week is a partnership with Olostep \u2014 a web scraping and crawling API built specifically for AI agents \u2014 that introduces doubled rewards for FxBlox node operators. The collaboration positions the Fula network directly at the intersection of decentralized storage and the fast-growing AI data infrastructure market.\n\n<cite index=\"4-8\">Olostep is the web infrastructure for AI agents</cite>, <cite index=\"4-11,4-12\">providing the dedicated, reliable layer AI agents need to search, extract, and structure web data at machine speed \u2014 acting as a web scraping, crawling, and search API built specifically for how agents operate.</cite> That use case is gaining urgency: <cite index=\"1-10,1-11\">in the next two to five years, the primary user of the web for work will switch from humans to AI agents, and all businesses will deploy AI systems that need to search, extract, and structure knowledge from the web.</cite>\n\nThe timing aligns with a DePIN sector undergoing a structural shift. <cite index=\"30-1\">The DePIN compute sector has been reported at roughly $19 billion in market capitalization in 2026, up from about $5.2 billion a year earlier, with growth linked to real usage rather than purely speculative narratives.</cite> Industry analysts note that <cite index=\"27-21,27-22,27-23\">early DePIN growth was often driven by token rewards rather than service demand, and by 2026 that model is no longer sufficient \u2014 networks succeeding now are those where external customers are paying for actual services.</cite>\n\n<cite index=\"11-4\">FxBlox node operators earn FULA rewards by providing storage and compute to the decentralized network,</cite> and the Olostep integration extends that utility into live AI data workloads. With the network currently reporting 37 active nodes, the doubled reward structure is designed to accelerate operator growth at a moment when <cite index=\"21-8,21-9\">the decentralized AI ecosystem provides a critical release valve for the global compute shortage, forcing market efficiency and driving down the cost of foundational intelligence.</cite> Watch whether the partnership translates into measurable node expansion over the coming weeks.",
+  "sources": [
+    "https://www.olostep.com/about",
+    "https://www.olostep.com/blog/about-olostep",
+    "https://www.blockchain-council.org/blockchain/compute-coordination-for-ai-blockchain-decentralized-gpu-networks/",
+    "https://coincub.com/blog/depin-ai/",
+    "https://www.titannet.io/learn/basics/best-depin-projects-2026-top-decentralized-physical-infrastructure-networks",
+    "https://fx.land/"
+  ]
+}

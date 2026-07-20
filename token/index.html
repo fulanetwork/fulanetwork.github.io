@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FULA Token: DePIN AI Blockchain Rewards | Functionland</title>
+  <meta name="description" content="FULA Token powers the DePIN blockchain ecosystem with AI cloud storage. Staking rewards, governance, and decentralized data economy participation.">
+  <meta property="og:title" content="Token - Functionland">
+  <meta property="og:description" content="FULA Token powers the Functionland ecosystem. DePIN aggregation, storage rewards, staking, governance. Get FULA on Uniswap.">
+  <meta property="og:url" content="https://fula.network/token/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://fx.land/assets/images/logo/fula-icon-green.png">
+  <link rel="canonical" href="https://fula.network/token/">
+  <link rel="icon" type="image/png" href="../assets/images/logo/fula-icon-green.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="stylesheet" href="../css/token.css">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Functionland","url":"https://fx.land","logo":"https://fx.land/assets/images/logo/fula-lockup-green.png","description":"DePIN blockchain platform for decentralized AI-powered data storage","sameAs":["https://x.com/functionland","https://t.me/functionland","https://github.com/functionland","https://www.linkedin.com/company/functionland","https://instagram.com/functionland.official"]}
+  </script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="site-header__logo">
+        <img src="../assets/images/logo/fula-lockup-green.png" alt="Fula Network" width="140" height="36">
+      </a>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+      </button>
+      <nav class="nav">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="../index.html" class="nav__link">Home</a></li>
+          <li class="nav__item"><a href="../about/" class="nav__link">About</a></li>
+          <li class="nav__item"><a href="../token/" class="nav__link nav__link--active">Token</a></li>
+          <li class="nav__item"><a href="../ecosystem/" class="nav__link">Ecosystem</a></li>
+          <li class="nav__item nav__item--has-dropdown">
+            <a href="#" class="nav__link">Participate <span class="nav__arrow">&#9662;</span></a>
+            <div class="nav__dropdown">
+              <a href="../fula-staking/" class="nav__dropdown-link">FULA Staking</a>
+              <a href="../fula-vip-staking/" class="nav__dropdown-link">FULA VIP Staking</a>
+              <a href="../fec-nfts/" class="nav__dropdown-link">FEC NFTs</a>
+              <a href="https://fx.land/FulaWP" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">Whitepaper</a>
+              <a href="https://simulation.fx.land" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">Mining Simulation</a>
+              <a href="https://coinmarketcap.com/currencies/functionland/" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">CoinMarketCap</a>
+            </div>
+          </li>
+          <li class="nav__item"><a href="../grants/" class="nav__link">Grants</a></li>
+          <li class="nav__item"><a href="../supporters/" class="nav__link">Supporters</a></li>
+        </ul>
+        <a id="nav-cta" href="../grants/" class="btn btn--primary btn--sm nav__cta">Apply for a Grant</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Warning Banner -->
+    <div id="disclaimer-banner" style="background:#fff4e5;border-bottom:2px solid #ffcc80;padding:15px;font-family:sans-serif;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <strong style="color:#b34700;">⚠️ Important Information</strong>
+        <select id="lang-select" style="padding:5px;border:1px solid #ccc;border-radius:4px;">
+          <option value="en" selected>English</option>
+          <option value="zh">中文 (Chinese)</option>
+          <option value="tw">繁體中文 (Taiwanese)</option>
+          <option value="ms">Bahasa Melayu (Malaysian)</option>
+          <option value="hi">हिन्दी (Hindi - India)</option>
+          <option value="ar">العربية (Arabic)</option>
+        </select>
+      </div>
+
+      <!-- English version is preloaded for instant visibility -->
+      <p id="disclaimer-text" style="margin-top:10px;line-height:1.5;font-size:14px;color:#333;">
+        FULA Token is a utility token intended solely for use within the Functionland ecosystem.
+        It does not represent an investment, security, or share in any company, and it does not provide any ownership, voting rights, or entitlement to profits.<br><br>
+        The value of FULA may fluctuate significantly and may become worthless. Do not purchase FULA tokens with any expectation of profit.
+        Participation in the token sale or secondary market is entirely at your own risk.<br><br>
+        FULA tokens are not being offered or sold in jurisdictions where such distribution or sale would be unlawful.
+        Participants are responsible for ensuring compliance with all applicable laws in their jurisdiction.<br><br>
+        Always do your own research and seek independent legal, tax, and financial advice before contributing.
+      </p>
+    </div>
+
+    <script>
+    const disclaimers = {
+      zh: `FULA 代币是仅供在 Functionland 生态系统中使用的实用代币。它不代表任何公司的投资、证券或股份，也不提供所有权、投票权或利润分配权。
+    FULA 的价值可能会大幅波动甚至变得一文不值。请不要以盈利预期购买 FULA 代币。参与代币销售或二级市场交易完全由您自行承担风险。
+    FULA 代币不会在法律禁止的司法管辖区内发行或销售。参与者需自行确保遵守其所在司法管辖区的所有适用法律。
+    请务必自行研究并在出资前寻求独立的法律、税务和财务建议。`,
+
+      tw: `FULA 代幣是僅供在 Functionland 生態系統中使用的功能性代幣。它不代表任何公司的投資、證券或股份，也不提供所有權、投票權或分紅權。
+    FULA 的價值可能大幅波動甚至歸零。請勿以獲利為目的購買 FULA 代幣。參與代幣銷售或二級市場交易的風險完全由您自行承擔。
+    FULA 代幣不會在法律禁止的司法管轄區內發行或銷售。參與者需自行確保遵守所在地法律。
+    請務必自行研究並在出資前尋求獨立的法律、稅務與財務建議。`,
+
+      ms: `Token FULA ialah token utiliti yang hanya bertujuan untuk digunakan dalam ekosistem Functionland. Ia tidak mewakili pelaburan, sekuriti, atau saham dalam mana-mana syarikat dan tidak memberikan hak pemilikan, hak mengundi, atau hak keuntungan.
+    Nilai FULA boleh berubah dengan ketara dan mungkin menjadi tidak bernilai. Jangan beli token FULA dengan jangkaan keuntungan. Penyertaan dalam jualan token atau pasaran sekunder adalah sepenuhnya atas risiko anda sendiri.
+    Token FULA tidak ditawarkan atau dijual di bidang kuasa di mana pengedaran atau jualan tersebut adalah menyalahi undang-undang. Peserta bertanggungjawab memastikan pematuhan terhadap semua undang-undang yang berkenaan di bidang kuasa mereka.
+    Sentiasa lakukan penyelidikan anda sendiri dan dapatkan nasihat undang-undang, cukai, dan kewangan bebas sebelum menyumbang.`,
+
+      hi: `FULA टोकन केवल Functionland इकोसिस्टम के भीतर उपयोग के लिए एक उपयोगिता टोकन है। यह किसी कंपनी में निवेश, प्रतिभूति या शेयर का प्रतिनिधित्व नहीं करता है और न ही स्वामित्व, मतदान अधिकार या लाभ का अधिकार देता है।
+    FULA का मूल्य काफी हद तक उतार-चढ़ाव कर सकता है और बेकार भी हो सकता है। कृपया लाभ की अपेक्षा से FULA टोकन न खरीदें। टोकन बिक्री या द्वितीयक बाजार में भागीदारी पूरी तरह से आपके अपने जोखिम पर है।
+    FULA टोकन उन क्षेत्रों में पेश या बेचे नहीं जा रहे हैं जहां ऐसा वितरण या बिक्री अवैध है। प्रतिभागी अपने क्षेत्र के सभी लागू कानूनों के अनुपालन के लिए जिम्मेदार हैं।
+    कृपया अपना स्वयं का शोध करें और योगदान करने से पहले स्वतंत्र कानूनी, कर और वित्तीय सलाह लें।`,
+
+      ar: `رمز FULA هو رمز استخدامي مخصص فقط للاستخدام ضمن نظام Functionland البيئي. لا يمثل استثمارًا أو ورقة مالية أو حصة في أي شركة، ولا يمنح أي حقوق ملكية أو تصويت أو أرباح.
+    قد يتقلب سعر FULA بشكل كبير وقد يصبح عديم القيمة. لا تشترِ رموز FULA على أمل تحقيق أرباح. المشاركة في بيع الرموز أو السوق الثانوية تقع على مسؤوليتك الخاصة بالكامل.
+    لا يتم عرض أو بيع رموز FULA في أي ولاية قضائية يكون فيها هذا التوزيع أو البيع غير قانوني. يتحمل المشاركون مسؤولية ضمان الامتثال لجميع القوانين المعمول بها في ولايتهم القضائية.
+    يُرجى دائمًا إجراء البحث الخاص بك وطلب المشورة القانونية والضريبية والمالية المستقلة قبل المساهمة.`
+    };
+
+    document.getElementById('lang-select').addEventListener('change', e => {
+      const selected = e.target.value;
+      const text = selected === 'en' ? null : disclaimers[selected];
+      const textEl = document.getElementById('disclaimer-text');
+
+      if (text) textEl.innerText = text;
+      else location.reload(); // reload to restore native English markup (preserves formatting)
+    });
+    </script>
+
+    <!-- A) Hero -->
+    <section class="token-hero">
+      <div class="container">
+        <h1 class="token-hero__title">Join the AI Cloud DePIN SAAS Revolution</h1>
+        <p class="token-hero__subtitle">User-powered, and secure</p>
+        <p class="token-hero__text">Tired of empty hype? Join the DePIN revolution and stake your claim in AI's future.</p>
+      </div>
+    </section>
+
+    <!-- B) YouTube Embed -->
+    <section class="token-video">
+      <div class="container">
+        <div class="token-video__wrapper">
+          <iframe src="https://www.youtube.com/embed/t_16LQP3J0k?si=2YkdtEKkqqpIvCUQ" title="Functionland Token Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- C) Token Utility Cards -->
+    <section class="token-utility section">
+      <div class="container">
+        <div class="section__header fade-up">
+          <h2 class="section__title">Token Utility</h2>
+          <p class="section__subtitle">The FULA token powers every layer of the Functionland ecosystem.</p>
+        </div>
+        <div class="token-utility__grid fade-up">
+          <div class="token-utility__card">
+            <img src="../assets/images/icons/transaction-fees.svg" alt="DePIN blockchain aggregation" class="token-utility__icon" loading="lazy">
+            <h3 class="token-utility__card-title">DePIN Aggregation</h3>
+            <p class="token-utility__card-text">Provide resources to support any DePIN project, from storage, and compute to become the AI infrastructure</p>
+          </div>
+          <div class="token-utility__card">
+            <img src="../assets/images/icons/transaction-fees.svg" alt="DePIN storage rewards" class="token-utility__icon" loading="lazy">
+            <h3 class="token-utility__card-title">Storage Rewards</h3>
+            <p class="token-utility__card-text">Storage users pay storage providers for data storage on the network using FULA tokens.</p>
+          </div>
+          <div class="token-utility__card">
+            <img src="../assets/images/icons/governance.svg" alt="Blockchain application rewards" class="token-utility__icon" loading="lazy">
+            <h3 class="token-utility__card-title">Application Rewards</h3>
+            <p class="token-utility__card-text">Users pay developers for open-source applications on the network using FULA tokens.</p>
+          </div>
+          <div class="token-utility__card">
+            <img src="../assets/images/icons/governance.svg" alt="On-chain blockchain governance" class="token-utility__icon" loading="lazy">
+            <h3 class="token-utility__card-title">On-Chain Governance</h3>
+            <p class="token-utility__card-text">FULA tokens empower holders to vote on crucial network governance decisions</p>
+          </div>
+          <div class="token-utility__card">
+            <img src="../assets/images/icons/staking.svg" alt="DePIN blockchain staking" class="token-utility__icon" loading="lazy">
+            <h3 class="token-utility__card-title">Staking</h3>
+            <p class="token-utility__card-text">Getting staking reward, publishing applications, publishing plugins, reduced cost of app and storage are some of staking benefits</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- D) Thousands Are Already Participating -->
+    <section class="token-participating">
+      <div class="container">
+        <div class="token-participating__inner fade-up">
+          <div class="token-participating__media">
+            <img src="../assets/images/token/token-card.png" alt="DePIN blockchain network participants" loading="lazy">
+          </div>
+          <div class="token-participating__content">
+            <h2>Thousands Are Already Participating</h2>
+            <p>Explore the live network of nodes powering the Functionland ecosystem across the globe.</p>
+            <a href="https://fx.land/live-map/" target="_blank" rel="noopener" class="btn btn--primary btn--lg">View Live Map</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- E) Own $FULA. Own the Cloud. -->
+    <section class="token-own">
+      <div class="container">
+        <h2 class="token-own__title">Own $FULA. Own the Cloud.</h2>
+        <p class="token-own__text">Learn about the vision, tokenomics, and technical architecture behind the FULA token in our whitepaper.</p>
+        <a href="https://fx.land/FulaWP" class="btn btn--primary btn--lg" target="_blank" rel="noopener">Read the Whitepaper</a>
+      </div>
+    </section>
+
+    <!-- F) FxBlox Section -->
+    <section class="token-fxblox section">
+      <div class="container">
+        <div class="token-fxblox__inner fade-up">
+          <div class="token-fxblox__media">
+            <img src="../assets/images/token/openpad-banner.jpg" alt="FxBlox - the true power of DePIN" loading="lazy">
+          </div>
+          <div class="token-fxblox__content">
+            <h2>Meet the true power of DePIN</h2>
+            <p>FxBlox is the hardware backbone of the Functionland network. Plug in, earn rewards, and power the decentralized cloud.</p>
+            <a href="https://fx.land/fxblox-device/" target="_blank" rel="noopener" class="btn btn--primary btn--lg">Learn About FxBlox</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- F2) Backed by the Best - Logo Carousel -->
+    <section class="token-backers">
+      <div class="container">
+        <div class="section__header fade-up">
+          <h2 class="section__title">Backed by the Best</h2>
+          <p class="section__subtitle">Trusted by leading investors, advisors, and partners in Web3.</p>
+        </div>
+      </div>
+      <!-- Row 1: Left to Right -->
+      <div class="token-backers__row">
+        <div class="token-backers__track token-backers__track--ltr">
+          <img src="../assets/images/investors/outlier-ventures.png" alt="Outlier Ventures" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/protocol-labs.png" alt="Protocol Labs" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/techstars.png" alt="Techstars" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/partners/iotex.png" alt="IoTeX" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/dfinity.png" alt="DFINITY" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/dorahacks.png" alt="DoraHacks" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/master-ventures.png" alt="Master Ventures" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/advisors/singularitydao.png" alt="SingularityDAO" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/delta-fund.png" alt="Delta Fund" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/partners/1871.png" alt="1871" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/partners/treefrog.png" alt="Treefrog Accelerator" class="token-backers__logo" loading="lazy">
+          <!-- duplicate set for seamless loop -->
+          <img src="../assets/images/investors/outlier-ventures.png" alt="Outlier Ventures" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/protocol-labs.png" alt="Protocol Labs" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/techstars.png" alt="Techstars" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/partners/iotex.png" alt="IoTeX" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/dfinity.png" alt="DFINITY" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/dorahacks.png" alt="DoraHacks" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/master-ventures.png" alt="Master Ventures" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/advisors/singularitydao.png" alt="SingularityDAO" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/delta-fund.png" alt="Delta Fund" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/partners/1871.png" alt="1871" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/partners/treefrog.png" alt="Treefrog Accelerator" class="token-backers__logo" loading="lazy">
+        </div>
+      </div>
+      <!-- Row 2: Right to Left -->
+      <div class="token-backers__row">
+        <div class="token-backers__track token-backers__track--rtl">
+          <img src="../assets/images/investors/tenzor-capital.png" alt="Tenzor Capital" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/contango.png" alt="Contango" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/partners/fulama.png" alt="Fulama" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/primal.png" alt="Primal" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/pinnacle.png" alt="Pinnacle" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/oddgems.png" alt="OddGems" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/nxgen.png" alt="NxGen" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/asymmetry.png" alt="Asymmetry" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/partners/ct.png" alt="CT" class="token-backers__logo" loading="lazy">
+          <!-- duplicate set for seamless loop -->
+          <img src="../assets/images/investors/tenzor-capital.png" alt="Tenzor Capital" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/contango.png" alt="Contango" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/partners/fulama.png" alt="Fulama" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/primal.png" alt="Primal" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/pinnacle.png" alt="Pinnacle" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/oddgems.png" alt="OddGems" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/nxgen.png" alt="NxGen" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/asymmetry.png" alt="Asymmetry" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/partners/ct.png" alt="CT" class="token-backers__logo" loading="lazy">
+        </div>
+      </div>
+      <!-- Row 3: Left to Right -->
+      <div class="token-backers__row">
+        <div class="token-backers__track token-backers__track--ltr">
+          <img src="../assets/images/investors/mkd-capital.png" alt="MKD Capital" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/evo-labs.png" alt="Evo Labs" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/connectico.png" alt="Connectico" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/cogitent.png" alt="Cogitent" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/ct.png" alt="CT" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/partners/dorahacks.png" alt="DoraHacks" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/protocol-labs.png" alt="Protocol Labs" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/outlier-ventures.png" alt="Outlier Ventures" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/techstars.png" alt="Techstars" class="token-backers__logo" loading="lazy">
+          <!-- duplicate set for seamless loop -->
+          <img src="../assets/images/investors/mkd-capital.png" alt="MKD Capital" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/evo-labs.png" alt="Evo Labs" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/connectico.png" alt="Connectico" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/cogitent.png" alt="Cogitent" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/ct.png" alt="CT" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/partners/dorahacks.png" alt="DoraHacks" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/protocol-labs.png" alt="Protocol Labs" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/outlier-ventures.png" alt="Outlier Ventures" class="token-backers__logo" loading="lazy">
+          <img src="../assets/images/investors/techstars.png" alt="Techstars" class="token-backers__logo" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- G) Tokenomics Charts -->
+    <section id="tokenomics" class="token-charts">
+      <div class="container">
+        <div class="section__header fade-up">
+          <h2 class="section__title">Tokenomics</h2>
+          <p class="section__subtitle">Transparent allocation and distribution of the FULA token.</p>
+        </div>
+        <div class="token-charts__grid fade-up">
+          <div class="token-charts__item">
+            <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQvzLnxlP1ahunqn_5tGclaAFgqJAhMvQiJhwDvgd70xRCqKexZPzkYy2grL5gvrwdxIWZtSgZsoBXt/pubchart?oid=949661547&amp;format=interactive" width="100%" height="450" loading="lazy"></iframe>
+          </div>
+          <div class="token-charts__item">
+            <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQvzLnxlP1ahunqn_5tGclaAFgqJAhMvQiJhwDvgd70xRCqKexZPzkYy2grL5gvrwdxIWZtSgZsoBXt/pubchart?oid=1316760840&amp;format=interactive" width="100%" height="400" loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- G2) Live Token Stats -->
+    <section class="token-stats">
+      <div class="container">
+        <div class="section__header fade-up">
+          <span class="token-stats__eyebrow">Live On-Chain Data</span>
+          <h2 class="section__title">Token Stats</h2>
+          <p class="section__subtitle">Real-time FULA metrics &mdash; supply, distribution, and staking activity tracked directly from the blockchain.</p>
+        </div>
+        <div class="token-stats__grid fade-up">
+          <div class="token-stats__card">
+            <span class="token-stats__label">Total Supply</span>
+            <span class="token-stats__value">2B<span class="token-stats__unit">FULA</span></span>
+            <span class="token-stats__note">Fixed cap across all chains, multi-chain mint &amp; burn</span>
+          </div>
+          <div class="token-stats__card">
+            <span class="token-stats__label">Staking APY Range</span>
+            <span class="token-stats__value">2%&nbsp;&ndash;&nbsp;24%<span class="token-stats__unit">APY</span></span>
+            <span class="token-stats__note">Higher APY for longer lockup commitments</span>
+          </div>
+          <div class="token-stats__card">
+            <span class="token-stats__label">Active Staking Pools</span>
+            <span class="token-stats__value">2<span class="token-stats__unit">Pools</span></span>
+            <span class="token-stats__note">Short-term (90&ndash;365 days) and long-term options</span>
+          </div>
+          <div class="token-stats__card">
+            <span class="token-stats__label">Chains Live</span>
+            <span class="token-stats__value">4<span class="token-stats__unit">Networks</span></span>
+            <span class="token-stats__note">Ethereum &middot; Base &middot; SKALE &middot; IoTeX</span>
+          </div>
+        </div>
+        <div class="token-stats__cta fade-up">
+          <a href="https://docs.fx.land/token-stats/" class="btn btn--primary btn--lg" target="_blank" rel="noopener">View Live Dashboard</a>
+          <span class="token-stats__source">Real-time data from docs.fx.land/token-stats</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- H) Token Info Table -->
+    <section class="token-info section">
+      <div class="container">
+        <div class="section__header fade-up">
+          <h2 class="section__title">Token Information</h2>
+        </div>
+        <div class="token-table-wrapper">
+          <table class="token-table">
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ticker</td>
+                <td><a href="https://coinmarketcap.com/currencies/fula/" target="_blank" rel="noopener">FULA</a></td>
+              </tr>
+              <tr>
+                <td>Total Supply</td>
+                <td>Fixed 2,000,000,000 (2B)</td>
+              </tr>
+              <tr>
+                <td>Start Date</td>
+                <td>2021-March</td>
+              </tr>
+              <tr>
+                <td>Release Date</td>
+                <td>2025-March</td>
+              </tr>
+              <tr>
+                <td>Chains</td>
+                <td>Ethereum / Base / IoTeX / Skale / SFI</td>
+              </tr>
+              <tr>
+                <td>Audit Report</td>
+                <td>Audit by Hashlock Feb-2025 &mdash; <a href="https://hashlock.com/audits/functionland" target="_blank" rel="noopener">View Report</a></td>
+              </tr>
+              <tr>
+                <td>Utility</td>
+                <td>
+                  <ul class="token-utility-list">
+                    <li>
+                      <span class="token-utility-list__heading">Storage Access</span>
+                      <ul class="token-utility-list__sub">
+                        <li>Pay for decentralized storage services</li>
+                        <li>Purchase additional storage capacity</li>
+                      </ul>
+                    </li>
+                    <li>
+                      <span class="token-utility-list__heading">Application Usage</span>
+                      <ul class="token-utility-list__sub">
+                        <li>Pay developers for using the open-source dApps</li>
+                        <li>Access premium application functionalities</li>
+                      </ul>
+                    </li>
+                    <li>
+                      <span class="token-utility-list__heading">Governance Participation</span>
+                      <ul class="token-utility-list__sub">
+                        <li>Vote on network proposals</li>
+                        <li>Participate in protocol decisions except reward distributions</li>
+                        <li>Influence network development direction</li>
+                      </ul>
+                    </li>
+                    <li>
+                      <span class="token-utility-list__heading">Staking Functions</span>
+                      <ul class="token-utility-list__sub">
+                        <li>Stake to access reduced storage costs</li>
+                        <li>Stake to receive staking rewards</li>
+                        <li>Stake tokens to publish new plugins</li>
+                      </ul>
+                    </li>
+                    <li>
+                      <span class="token-utility-list__heading">Plugin Access</span>
+                      <ul class="token-utility-list__sub">
+                        <li>Cross-token payments for integrated plugins</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td>Legal Opinion</td>
+                <td>Lorez Legal &mdash; <a href="https://docs.google.com/document/d/1qNQJgbcnnYNMrhKxe_XJQwFmh4BARcoX/edit?rtpof=true&amp;sd=true&amp;pli=1&amp;tab=t.0" target="_blank" rel="noopener">View Legal Opinion</a></td>
+              </tr>
+              <tr>
+                <td>Token DAO</td>
+                <td>Fula Governance Association<br>Fraumunsterstrasse 16, 8001 Zurich, Switzerland, 1st floor</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="token-info__cta">
+          <a href="#tokenomics" class="btn btn--primary">View Full Tokenomics</a>
+          <a href="https://fx.land/FulaWP" class="btn btn--outline" target="_blank" rel="noopener">View Whitepaper</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- I) Contract Addresses & Known Wallets (Tabbed) -->
+    <section class="token-contracts">
+      <div class="container">
+        <div class="section__header fade-up">
+          <h2 class="section__title">Contract Addresses</h2>
+          <p class="section__subtitle">Official FULA token smart contract addresses by chain.</p>
+        </div>
+
+        <!-- Tab Navigation -->
+        <nav class="token-tabs__nav" aria-label="Contract address tabs">
+          <button class="token-tabs__btn active" data-tab="ethereum">Ethereum</button>
+          <button class="token-tabs__btn" data-tab="base">Base</button>
+          <button class="token-tabs__btn" data-tab="iotex">IoTeX</button>
+          <button class="token-tabs__btn" data-tab="skale">SKALE-EUROPA</button>
+          <button class="token-tabs__btn" data-tab="sfi">SFI</button>
+          <button class="token-tabs__btn" data-tab="wallets">Known Wallets</button>
+        </nav>
+
+        <!-- Ethereum Tab -->
+        <div class="token-tabs__panel active" id="tab-ethereum">
+          <div class="token-table-wrapper">
+            <table class="token-table token-table--contracts">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Contract Name</th>
+                  <th>Address</th>
+                  <th>Description</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>StorageToken</td>
+                  <td><code><a href="https://etherscan.io/token/0x92217cCaEDBdbc54C76c15feA18823db1558fDc9" target="_blank" rel="noopener">0x92217cCaEDBdbc54C76c15feA18823db1558fDc9</a></code></td>
+                  <td>Main Token Contract (Proxy)</td>
+                  <td class="cell-note">
+                    <p>Contract is made proxy to be upgradeable to sustain long-term changes and features. However, proxy upgrades are only done through DAO and governance (implemented in the contract).</p>
+                    <p>Mint and Burn are implemented for the multi-chain features while keeping total cap fixed which is implemented in the contract.</p>
+                    <p>Ownership is not renounced as owner is just an admin and all transactions require all admins' approvals (which will be changed to DAO members).</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>TokenDistributionEngine</td>
+                  <td><code><a href="https://etherscan.io/address/0x1961d9869c8Cf8F724CC2DEA49BdAc60Bb7B6072" target="_blank" rel="noopener">0x1961d9869c8Cf8F724CC2DEA49BdAc60Bb7B6072</a></code></td>
+                  <td>Vesting cap manager for investors, advisors and founders (proxy)</td>
+                  <td class="cell-note">&mdash;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Base Tab -->
+        <div class="token-tabs__panel" id="tab-base">
+          <div class="token-table-wrapper">
+            <table class="token-table token-table--contracts">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Contract Name</th>
+                  <th>Address</th>
+                  <th>Description</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>StorageToken</td>
+                  <td><code><a href="https://basescan.org/token/0x9e12735d77c72c5C3670636D428f2F3815d8A4cB" target="_blank" rel="noopener">0x9e12735d77c72c5C3670636D428f2F3815d8A4cB</a></code></td>
+                  <td>Main token contract on Base</td>
+                  <td class="cell-note">&mdash;</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>AirDropContract</td>
+                  <td><code><a href="https://basescan.org/address/0x0AF8Bf19C18a3c7352f831cf950CA8971202e4Be" target="_blank" rel="noopener">0x0AF8Bf19C18a3c7352f831cf950CA8971202e4Be</a></code></td>
+                  <td>Manages the distribution and claiming of airdrop tokens according to vesting schedule</td>
+                  <td class="cell-note">&mdash;</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>TestnetMiningRewards</td>
+                  <td><code><a href="https://basescan.org/address/0x0AF8Bf19C18a3c7352f831cf950CA8971202e4Be" target="_blank" rel="noopener">0x0AF8Bf19C18a3c7352f831cf950CA8971202e4Be</a></code></td>
+                  <td>Manages the distribution and claiming of airdrop tokens according to vesting schedule</td>
+                  <td class="cell-note">&mdash;</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>StakingEngineLinear</td>
+                  <td>
+                    <code><a href="https://basescan.org/address/0x5907C63C4b7636F4A29B1c52aB39D0A067147bca" target="_blank" rel="noopener">0x5907C63C4b7636F4A29B1c52aB39D0A067147bca</a></code> (proxy)
+                    <span class="sub-address">Staked Pool: <code>0xfa9cb36656cf9A2D2BA3a6b0aD810fB9993F7A21</code> (proxy)</span>
+                    <span class="sub-address">Rewards Pool: <code>0xDB2ab8De23eb8dd6cd12127673be9ae6Ae6edd9A</code> (proxy)</span>
+                  </td>
+                  <td>Manages FULA staking rewards</td>
+                  <td class="cell-note">&mdash;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- IoTeX Tab -->
+        <div class="token-tabs__panel" id="tab-iotex">
+          <div class="token-table-wrapper">
+            <table class="token-table token-table--contracts">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Contract Name</th>
+                  <th>Address</th>
+                  <th>Description</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>StorageToken</td>
+                  <td><code><a href="https://iotexscan.io/token/0x9e12735d77c72c5C3670636D428f2F3815d8A4cB" target="_blank" rel="noopener">0x9e12735d77c72c5C3670636D428f2F3815d8A4cB</a></code></td>
+                  <td>Main Token Contract</td>
+                  <td class="cell-note">&mdash;</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>AirDropContract</td>
+                  <td><code><a href="https://iotexscan.io/address/0x92217cCaEDBdbc54C76c15feA18823db1558fDc9" target="_blank" rel="noopener">0x92217cCaEDBdbc54C76c15feA18823db1558fDc9</a></code></td>
+                  <td>Manages Airdrop claim according to vesting for eligible wallets</td>
+                  <td class="cell-note">&mdash;</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>StakingEngineLinear</td>
+                  <td>
+                    <code><a href="https://iotexscan.io/address/0xfe3574Fc1CC7c389fd916e891A497A4D986a8268" target="_blank" rel="noopener">0xfe3574Fc1CC7c389fd916e891A497A4D986a8268</a></code> (proxy)
+                    <span class="sub-address">Staked Pool: <code>0xe6396c9A97D0abADF0EaaA59CAdB83F1f6DF686C</code> (proxy)</span>
+                    <span class="sub-address">Rewards Pool: <code>0x506500211De270Fa181c26c50593110fc54e53D6</code> (proxy)</span>
+                  </td>
+                  <td>Manages FULA staking rewards</td>
+                  <td class="cell-note">&mdash;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SKALE-EUROPA Tab -->
+        <div class="token-tabs__panel" id="tab-skale">
+          <div class="token-table-wrapper">
+            <table class="token-table token-table--contracts">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Contract Name</th>
+                  <th>Address</th>
+                  <th>Description</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>StorageToken</td>
+                  <td><code><a href="https://elated-tan-skat.explorer.mainnet.skalenodes.com/token/0x9e12735d77c72c5C3670636D428f2F3815d8A4cB" target="_blank" rel="noopener">0x9e12735d77c72c5C3670636D428f2F3815d8A4cB</a></code></td>
+                  <td>Main Token Contract</td>
+                  <td class="cell-note">&mdash;</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>TestnetMiningRewards</td>
+                  <td><code><a href="https://elated-tan-skat.explorer.mainnet.skalenodes.com/address/0x92217cCaEDBdbc54C76c15feA18823db1558fDc9" target="_blank" rel="noopener">0x92217cCaEDBdbc54C76c15feA18823db1558fDc9</a></code></td>
+                  <td>Manages conversion and claiming of incentivized testnet tokens from mining</td>
+                  <td class="cell-note">&mdash;</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>StakingEngineLinear</td>
+                  <td>
+                    <code><a href="https://elated-tan-skat.explorer.mainnet.skalenodes.com/address/0xA002a09Fb3b9E8ac930B72C61De6F3979335bFa2" target="_blank" rel="noopener">0xA002a09Fb3b9E8ac930B72C61De6F3979335bFa2</a></code> (proxy)
+                    <span class="sub-address">Staked Pool: <code>0x4337124896C11534E3De99da8ff0E4fE22465743</code> (proxy)</span>
+                    <span class="sub-address">Rewards Pool: <code>0x9f0815CeDdd2f4E8Be37D09d95Fbfe0EFE57f0B9</code> (proxy)</span>
+                  </td>
+                  <td>Manages FULA staking rewards</td>
+                  <td class="cell-note">&mdash;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SFI Tab -->
+        <div class="token-tabs__panel" id="tab-sfi">
+          <div class="token-table-wrapper">
+            <table class="token-table token-table--contracts">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Contract Name</th>
+                  <th>Address</th>
+                  <th>Description</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>TBD</td>
+                  <td><code>0x9e12735d77c72c5C3670636D428f2F3815d8A4cB</code></td>
+                  <td>To be announced</td>
+                  <td class="cell-note">&mdash;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Known Wallets Tab -->
+        <div class="token-tabs__panel" id="tab-wallets">
+          <div class="token-table-wrapper">
+            <table class="token-table token-table--contracts">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name / Entity</th>
+                  <th>Wallet Address</th>
+                  <th>Purpose / Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Token Contract Address</td>
+                  <td><code>0x127108AbEea6d4C23c9843B97FADf3c99752D075</code></td>
+                  <td>Main token contract</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Gains IDO</td>
+                  <td><code>0x4174935f10609111754063f8C7d29Dc5a522cF19</code></td>
+                  <td>Initial DEX Offering</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Gains IDO</td>
+                  <td><code>0xcd231d4ba7b15a4722ac057419d9cd7689e7b8db</code></td>
+                  <td>Initial DEX Offering</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>SDAO IDO</td>
+                  <td><code>0x6FFA3CdfE3b2d46bEd7B0dA4c8800667B38fE575</code></td>
+                  <td>SDAO Initial DEX Offering</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>Dex MM Account</td>
+                  <td><code>0x2E9F6ed18039b626d6E01dD0740119E95A50Ac73</code></td>
+                  <td>DEX Market Maker Account</td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td>Dex MM Account</td>
+                  <td><code>0x4F0964105639BC066Fc6Cb63C84070B408BB541a</code></td>
+                  <td>DEX Market Maker Account</td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td>Redkite IDO</td>
+                  <td><code>0xfc0896aaf7d28A27780df70f01EAaA4cFA685CF1</code></td>
+                  <td>Redkite Initial DEX Offering</td>
+                </tr>
+                <tr>
+                  <td>8</td>
+                  <td>Redkite IDO</td>
+                  <td><code>0x4e3ae00E8323558fA5Cac04b152238924AA31B60</code></td>
+                  <td>Redkite Initial DEX Offering</td>
+                </tr>
+                <tr>
+                  <td>9</td>
+                  <td>Redkite IDO</td>
+                  <td><code>0xDEA9B8EB61349f0C5a378f448A61836C62C6aFB3</code></td>
+                  <td>Redkite Initial DEX Offering</td>
+                </tr>
+                <tr>
+                  <td>10</td>
+                  <td>MEXC MM Account</td>
+                  <td><code>0x6509853E919Eb8666Bb9ba576630151dAb4EEF87</code></td>
+                  <td>MEXC Market Maker Account</td>
+                </tr>
+                <tr>
+                  <td>11</td>
+                  <td>MEXC MM Account</td>
+                  <td><code>0xAf23E21546A753C05c27bB4Ba10B19050e08d74F</code></td>
+                  <td>MEXC Market Maker Account</td>
+                </tr>
+                <tr>
+                  <td>12</td>
+                  <td>KOL Distribution</td>
+                  <td><code>0x12B36a93Fc7A0E313eD957a2Cd544A09734C8323</code></td>
+                  <td>Key Opinion Leader Distribution</td>
+                </tr>
+                <tr>
+                  <td>13</td>
+                  <td>Redkite IDO Fees</td>
+                  <td><code>0x09e2022f5fBD529B164106197B9907F58B524AEf</code></td>
+                  <td>Redkite IDO fee wallet</td>
+                </tr>
+                <tr>
+                  <td>14</td>
+                  <td>team.finance Distribution</td>
+                  <td><code>0x383a6A34C623C02dcf9BB7069FAE4482967fb713</code></td>
+                  <td>Team finance distribution</td>
+                </tr>
+                <tr>
+                  <td>15</td>
+                  <td>Contract Owner</td>
+                  <td><code>0x0C85A8E992E3Eb04A22027F7E0BC53392A331aC8</code></td>
+                  <td>Contract owner wallet</td>
+                </tr>
+                <tr>
+                  <td>16</td>
+                  <td>Distribution Contract</td>
+                  <td><code>0x614aeC80e35B2082122fFF4350aa5e82DD38254c</code></td>
+                  <td>Token distribution contract</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Tab switching script -->
+    <script>
+    (function() {
+      var nav = document.querySelector('.token-tabs__nav');
+      if (!nav) return;
+      nav.addEventListener('click', function(e) {
+        var btn = e.target.closest('.token-tabs__btn');
+        if (!btn) return;
+        var tabId = btn.getAttribute('data-tab');
+        nav.querySelectorAll('.token-tabs__btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        document.querySelectorAll('.token-tabs__panel').forEach(function(p) { p.classList.remove('active'); });
+        document.getElementById('tab-' + tabId).classList.add('active');
+      });
+    })();
+    </script>
+
+    <!-- J) Get Token Section -->
+    <section class="token-exchange section">
+      <div class="container">
+        <div class="section__header fade-up">
+          <h2 class="section__title">Get $FULA Token</h2>
+          <p class="section__subtitle">Purchase FULA tokens through a decentralized exchange or with a credit card.</p>
+        </div>
+        <div class="token-exchange__grid fade-up">
+          <a href="https://app.uniswap.org/swap?chain=base&inputCurrency=NATIVE&outputCurrency=0x9e12735d77c72c5c3670636d428f2f3815d8a4cb" class="token-exchange__card" target="_blank" rel="noopener">
+            <img src="../assets/images/token/uniswap.png" alt="Uniswap" loading="lazy">
+            <div class="token-exchange__card-body">
+              <h3 class="token-exchange__card-title">Get from Uniswap</h3>
+              <p class="token-exchange__card-note">* Globally</p>
+              <span class="btn btn--primary">Swap on Uniswap</span>
+            </div>
+          </a>
+          <div class="token-exchange__card">
+            <img src="../assets/images/token/card.webp" alt="Credit Card" loading="lazy">
+            <div class="token-exchange__card-body">
+              <h3 class="token-exchange__card-title">Get with Credit Card</h3>
+              <p class="token-exchange__card-note">Coming Soon</p>
+              <span class="btn btn--outline" style="pointer-events: none; opacity: 0.6;">Coming Soon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Instagram Feed -->
+    <section class="ig-feed section">
+      <div class="container">
+        <div class="section__header fade-up">
+          <h2 class="section__title">Latest <span class="gradient-text">Updates</span></h2>
+        </div>
+        <div class="ig-feed__carousel fade-up">
+          <button class="ig-feed__prev" aria-label="Previous">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="ig-feed__track"></div>
+          <button class="ig-feed__next" aria-label="Next">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- K) FAQs -->
+    <section class="token-faq section">
+      <div class="container">
+        <div class="section__header fade-up">
+          <h2 class="section__title">FAQs</h2>
+          <p class="section__subtitle">Explore frequently asked questions about Fula, plans and strategy.</p>
+        </div>
+        <div class="token-faq__list fade-up">
+
+          <!-- FAQ 1 -->
+          <div class="token-faq__item">
+            <button class="token-faq__question">What is the GTM Strategy? <span class="token-faq__icon">+</span></button>
+            <div class="token-faq__answer">
+              <div class="token-faq__answer-inner">
+                <p>With Token listing, we are introducing the ecosystem to the public. Token will initially get listed on MEXC and DEX and we expand the listing after TGE with adding onramp/offramp payments and more exchanges.</p>
+                <p>We have strong partners made, such as Streamr, Filecoin, IoTex and we are expanding the utility of the hardware by adding more DePIN use cases to the node which increases the reach.</p>
+                <p>Since our protocol supports mobile-native applications, we partnered with web2 applications, such as Amaze File Manager, to expand into web2 users and can go to mainstream quicker.</p>
+                <p>We are currently collaborating with companies to onboard their data into the ecosystem. For example we are working with Qubic blockchain to onboard all chain data to Fula network.</p>
+                <p>We are closely working with local network marketing partners, such as Fulama, to expand the ecosystem in the Asia region and then expand to Africa and India. The goal is to onboard more individual users to the FxFiles application and also onboard more hardware nodes.</p>
+                <p>With a multi-chain approach and integrating with partner chains we want to also cover a wider range of ecosystem users.</p>
+                <p>The plan for sales of hardware and protocol revenue together can bring <strong>$14M cash flow</strong> to the treasury in the next 12 months after TGE.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="token-faq__item">
+            <button class="token-faq__question">How does your roadmap look like? <span class="token-faq__icon">+</span></button>
+            <div class="token-faq__answer">
+              <div class="token-faq__answer-inner">
+                <ul>
+                  <li><strong>Q1 2025:</strong> Token Listing/TGE on Ethereum, Base, SKALE, IoTeX</li>
+                  <li><strong>Q2 2025:</strong> IoID (IoTex) integration and RocketPool integration to the hardware and chain integration with Singularity Finance. Also implementing the bridge for multi-chain token transfer. Finalizing onboarding Qubic blockchain into our ecosystem.</li>
+                  <li><strong>Q3 2025:</strong> Integration with Amaze File Manager (1M users) and fine tuning the SDK and documentation to prepare self-serve onboarding of more web2 applications. Expanding customer support lines for both hardware and application developers.</li>
+                  <li><strong>Q4 2025:</strong> Mainnet launch for Proof and Pool protocol</li>
+                  <li><strong>Q1 2026:</strong> Focus on onboarding more DePIN protocols to the hardware with focus on AI use cases and decentralized AI.</li>
+                  <li><strong>Q2 2026:</strong> Focus on migrating larger companies and organizations' data from the traditional cloud to Fula ecosystem.</li>
+                  <li><strong>Q3 2026:</strong> Release the open-source monetization plan, so that ecosystem gets monetized for application developers and influencers as well. When a user watches a video in a YouTube-alternative on the Fula ecosystem, part of payment from user goes to the video storer, part goes to the application developer and part goes to the influencer who created the video. Although these payments are small and overall cheaper for users than traditional cloud, because there is no middle-man, all parties can get 13 times higher revenues compared with traditional cloud.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="token-faq__item">
+            <button class="token-faq__question">What are the main differentiators with other projects? <span class="token-faq__icon">+</span></button>
+            <div class="token-faq__answer">
+              <div class="token-faq__answer-inner">
+                <p>The project can be compared with both DePIN/AI and Storage protocols and has several key differences:</p>
+                <ul>
+                  <li><strong>Plug and Play Hardware:</strong> We totally custom designed the hardware and did not use off-the-shelf ones. This not only reduces the cost of manufacturing, but also creates limitless opportunities for adding features and makes it plug and play due to having full control over both hardware and software. The hardware provides consumer-friendly dedicated nodes that can contribute to the resources and stability of the network.</li>
+                  <li><strong>Pricing:</strong> Due to the low-power node requirement for the network, the price of resources in the network is much less than any central or decentralized network. For example it costs half of Google or AWS to store data on Fula network and 1/10th of some web3 solutions.</li>
+                  <li><strong>Mobile-native SDKs:</strong> Mobile applications are the main way users interact with their data and Fula protocol supports both Android and iOS applications which is a huge improvement over other protocols which can only support web browsers.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="token-faq__item">
+            <button class="token-faq__question">How does Fula handle data security? <span class="token-faq__icon">+</span></button>
+            <div class="token-faq__answer">
+              <div class="token-faq__answer-inner">
+                <p>The full application and data life cycle is as follows:</p>
+                <ol>
+                  <li>Anyone can go to Google Play or App Store and download the applications built on top of the ecosystem (no need to be a node).</li>
+                  <li>When they login to the application a private key is generated and kept safely on the device. The key is generated from the login method, either MetaMask or traditional Google login approach.</li>
+                  <li>Any file intended to be uploaded to the network gets chunked into multiple pieces (through IPLD tree creation process), then each chunk is encrypted on the client device (through WNFS algorithm).</li>
+                  <li>Each encrypted chunk is then sent to a storage node in the network. Nodes are selected based on certain criteria to provide the user the best speed and uptime (through the Libp2p DHT).</li>
+                  <li>Then each piece is replicated 6 times on different nodes to ensure that data is reliably accessible (through IPFS-Cluster).</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="token-faq__item">
+            <button class="token-faq__question">What is your vision? <span class="token-faq__icon">+</span></button>
+            <div class="token-faq__answer">
+              <div class="token-faq__answer-inner">
+                <p>Our vision is to enable the public to preside over and participate in the advancement of technology.</p>
+                <p>We put an end to the "Rental Web" by providing people with the infrastructure to own it, democratize access to cutting edge technologies like AI and Blockchain, and create an open ecosystem for software/hardware developers in all capacities to dedicate their time to building on these technologies, whilst sustaining and thriving. We design from the first principles for "privacy" and "ethics" to be the foundation, not an afterthought.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 6 -->
+          <div class="token-faq__item">
+            <button class="token-faq__question">Who are top 15 holders (As of 8-SEP-2025)? <span class="token-faq__icon">+</span></button>
+            <div class="token-faq__answer">
+              <div class="token-faq__answer-inner">
+                <p>Transparency and community trust are core values of the FULA ecosystem. Below is a detailed breakdown of our top token holders, demonstrating our commitment to responsible token distribution and governance.</p>
+                <div class="token-table-wrapper">
+                  <table class="token-table token-table--contracts">
+                    <thead>
+                      <tr>
+                        <th>Rank</th>
+                        <th>Address / Entity</th>
+                        <th>Description &amp; Purpose</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Fula Main Contract</td>
+                        <td>Official Fula DAO treasury managed through decentralized governance. All major decisions require community votes from co-founders, VCs, and legal department. Full transparency with 24-hour public notice for any changes.</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td><code>0x0c85...1ac8</code></td>
+                        <td>KOL (Key Opinion Leader) token distribution contract with completed mission. Features responsible vesting caps of 8,000 tokens per month per user to ensure healthy market dynamics. Unused funds being returned to treasury as planned.</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td><code>0x8adb...68dC</code></td>
+                        <td>ApeBond platform smart contract &ndash; a reputable token sale and vesting platform endorsed by Singularity DAO. Ensures secure and transparent token distribution through proven smart contract technology.</td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td><code>0x03Aa...0c16</code></td>
+                        <td>Fula DAO multi-signature wallet providing enhanced security through distributed control. Represents community governance and collective decision-making in the ecosystem.</td>
+                      </tr>
+                      <tr>
+                        <td>5</td>
+                        <td><code>0x5c23...39E</code></td>
+                        <td>Strategic allocation for key ecosystem contributor IBO Malaysia, supporting project development and community growth initiatives.</td>
+                      </tr>
+                      <tr>
+                        <td>6</td>
+                        <td><code>0x1Def...545d</code></td>
+                        <td>Testnet rewards distribution contract with responsible monthly caps of 8,000 tokens per user. Incentivizes early community participation and network testing.</td>
+                      </tr>
+                      <tr>
+                        <td>7</td>
+                        <td><code>0xDba3...DEd8</code></td>
+                        <td>Fula ecosystem inventory wallet managed for strategic market operations and controlled token releases to support healthy price discovery.</td>
+                      </tr>
+                      <tr>
+                        <td>8</td>
+                        <td><code>0xE745...d7f5</code></td>
+                        <td>Fulama HK allocation &ndash; supporting core team member committed to project success and long-term ecosystem development.</td>
+                      </tr>
+                      <tr>
+                        <td>9</td>
+                        <td><code>0xaEb5...297c</code></td>
+                        <td>Fulama distribution wallet &ndash; facilitating strategic partnerships and controlled token distribution to expand the FULA ecosystem reach.</td>
+                      </tr>
+                      <tr>
+                        <td>10</td>
+                        <td><code>0xDEA9...aFB3</code></td>
+                        <td>Uniswap DEX liquidity pool providing essential trading infrastructure and price discovery mechanisms for the FULA community.</td>
+                      </tr>
+                      <tr>
+                        <td>11</td>
+                        <td><code>0xC5CD...b490</code></td>
+                        <td>Toronto development team allocation supporting North American operations and technical development initiatives.</td>
+                      </tr>
+                      <tr>
+                        <td>12</td>
+                        <td><code>0x398A...5E13</code></td>
+                        <td>Strategic Toronto contributor from Fulama's network, bringing valuable expertise and resources to strengthen the ecosystem.</td>
+                      </tr>
+                      <tr>
+                        <td>13</td>
+                        <td><code>0x99c7...3e2e</code></td>
+                        <td>Toronto team contributor, contributing to regional expansion and development efforts in the North American market.</td>
+                      </tr>
+                      <tr>
+                        <td>14</td>
+                        <td><code>0xAf23...d74F</code></td>
+                        <td>IBC Group investment contract with custom vesting management ($10K allocation). Demonstrates institutional confidence while maintaining appropriate scale.</td>
+                      </tr>
+                      <tr>
+                        <td>15</td>
+                        <td><code>0xA13E...a8c9</code></td>
+                        <td>Influential Key Opinion Leader (KOL) supporting community growth and ecosystem advocacy through strategic token holding.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p><strong>Key Highlights:</strong></p>
+                <ul class="token-faq__highlights">
+                  <li><strong>Transparency:</strong> All major holdings are clearly identified and explained</li>
+                  <li><strong>Responsible Distribution:</strong> Vesting caps and controls prevent market manipulation</li>
+                  <li><strong>Diverse Ecosystem:</strong> Mix of governance, development, community, and strategic holdings</li>
+                  <li><strong>Professional Management:</strong> Use of reputable platforms and multi-sig wallets for security</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Accordion Script -->
+    <script>
+    (function() {
+      var items = document.querySelectorAll('.token-faq__item');
+      items.forEach(function(item) {
+        item.querySelector('.token-faq__question').addEventListener('click', function() {
+          var isActive = item.classList.contains('active');
+          items.forEach(function(i) { i.classList.remove('active'); });
+          if (!isActive) item.classList.add('active');
+        });
+      });
+    })();
+    </script>
+
+    <!-- L) Disclaimer -->
+    <section class="section">
+      <div class="container">
+        <div class="disclaimer">
+          <h3 class="disclaimer__title">Important Notice</h3>
+          <p class="disclaimer__text">This website is owned by Fula Governance Association and not Functionland Inc. Functionland is the name of the decentralized network that is created by Fula Governance Association DAO. Functionland Inc (Canada) is a community member of Fula Governance Association (Switzerland) and a grantee (receiver of grants) that works on adding value to the Functionland network, and does not involve in sales of token or token treasury management or token distribution or NFTs. Functionland Inc is a separate and independent entity and acts independently. Functionland Inc receives grants to work on the marketing, development and maintenance of the Fula network and blockchain and is not liable for token related matters. Fula Governance Association is a separate entity and the relationship between Functionland and Fula Governance Association is that of a community member and grantee. Functionland acts independently and has no authority to bind Fula Governance Association. You must do your own DD separately for the Fula Governance Association. The mention of token on fx.land is temporary and at the request of Fula Governance Association until they create their own separate website and in accordance with the terms of the grant. For more information on available grants, contact Fula Governance members if you have something that adds value to the network.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img src="../assets/images/logo/fula-lockup-green.png" alt="Fula Network" class="footer__logo" width="360" height="36">
+          <p class="footer__tagline">Decentralized storage, governed by its community.</p>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Network</h4>
+          <div class="footer__links">
+            <a href="../index.html" class="footer__link">Home</a>
+            <a href="../about/" class="footer__link">About Fula</a>
+            <a href="../token/" class="footer__link">Token</a>
+            <a href="../ecosystem/" class="footer__link">Ecosystem</a>
+            <a href="../fec-nfts/" class="footer__link">FEC NFTs</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Participate</h4>
+          <div class="footer__links">
+            <a href="../fula-staking/" class="footer__link">FULA Staking</a>
+            <a href="../fula-vip-staking/" class="footer__link">FULA VIP Staking</a>
+            <a href="../grants/" class="footer__link">Grants</a>
+            <a href="../supporters/" class="footer__link">Supporters</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Additional</h4>
+          <div class="footer__links">
+            <a href="https://fx.land/FulaWP" class="footer__link" target="_blank" rel="noopener">Whitepaper</a>
+            <a href="https://simulation.fx.land" class="footer__link" target="_blank" rel="noopener">Mining Simulation</a>
+            <a href="https://coinmarketcap.com/currencies/functionland/" class="footer__link" target="_blank" rel="noopener">CoinMarketCap</a>
+            <a href="https://fx.land" class="footer__link" target="_blank" rel="noopener">Functionland Inc</a>
+            <a href="../privacy-policy/" class="footer__link">Privacy Policy</a>
+            <a href="../terms/" class="footer__link">Terms of Use</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="footer__disclaimer">This website is owned and operated by Fula Governance Association (Switzerland), the association that governs the Fula network. Fula Governance Association is responsible for the FULA token, including its issuance, distribution and treasury management, and for FEC NFTs. Functionland Inc (Canada) is a separate and independent entity and a grantee (receiver of grants) of Fula Governance Association that works on adding value to the Fula network; it acts independently, has no authority to bind Fula Governance Association, and is not liable for token related matters. For more information on available grants, contact Fula Governance members if you have something that adds value to the network.</p>
+
+      <p class="footer__copyright">&copy; 2026 Fula Governance Association. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../js/nav.js"></script>
+  <script src="../js/analytics.js"></script>
+  <script src="../js/instagram-feed.js?v=2" defer></script>
+  <script src="../js/scroll-reveal.js" defer></script>
+</body>
+</html>

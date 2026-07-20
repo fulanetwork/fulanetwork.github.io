@@ -1,0 +1,14 @@
+{
+  "updated": "2026-02-23T17:17:31Z",
+  "week_of": "2026-02-23",
+  "headline": "Functionland Targets Cloud Subscriptions as DePIN Storage War Heats Up",
+  "subtitle": "With FxFiles live on iOS and a benchmark challenge to IPFS, Functionland is staking its claim in a decentralized storage market analysts say could reach $3.5 trillion by 2028.",
+  "briefing": "Functionland's most consequential recent move was the February launch of FxFiles on iOS \u2014 a consumer-facing application that lets iPhone users replace paid cloud subscriptions with self-sovereign, node-backed storage. The release arrives at an inflection point for the broader DePIN sector. In 2026, the sector's focus has shifted strictly to fundamentals: network revenue, utilization rates, and paying customers, with the combined DePIN market cap exceeding $10 billion as of late January. Functionland's 900-node network remains modest next to incumbents \u2014 Storj, for instance, counts over 20,000 storage nodes across more than 100 countries. But the company is competing on a different axis: speed. Its published Fula benchmark claims to outperform IPFS, a credible target given that IPFS I/O performance is heavily affected by access patterns, and experimental studies reveal that both resolving and downloading operations can become bottlenecks. The competitive landscape above is also shifting fast. In January 2026, Filecoin launched its Onchain Cloud mainnet, transforming the network from a cold storage archive into programmable decentralized cloud infrastructure aimed at AI workloads. For Functionland, the strategic window is clear: Flexera's 2025 State of the Cloud report found that 84% of respondents cite managing cloud spend as their top cloud challenge \u2014 precisely the pain point FxFiles and the Fula network are engineered to address. Watch for whether Functionland can convert its iOS launch and benchmark momentum into measurable node growth and $FULA token utility.",
+  "sources": [
+    "https://valr.com/blog/top-10-depin-use-cases-for-2026",
+    "https://coinlaunch.space/blog/top-depin-crypto-projects/",
+    "https://dl.acm.org/doi/10.1145/3326285.3329052",
+    "https://blog.mexc.com/news/why-filecoins-jan-2026-1-58-rally-onchain-cloud-could-make-it-ai-infrastructures-12b-hidden-gem/",
+    "https://orochi.network/blog/top-10-de-pin-projects-and-emerging-trends-in-2026"
+  ]
+}

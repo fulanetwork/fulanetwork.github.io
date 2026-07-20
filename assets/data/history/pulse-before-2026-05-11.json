@@ -1,0 +1,13 @@
+{
+  "updated": "2026-05-04T08:50:48Z",
+  "week_of": "2026-05-04",
+  "headline": "Functionland Adds Olostep Plugin, Turning FxBlox Into AI Data Nodes",
+  "subtitle": "The Fula network's first third-party AI plugin lets node operators earn revenue by powering real-time web data pipelines for AI teams.",
+  "briefing": "Functionland this week activated its first revenue-generating third-party plugin on the Fula network: Olostep, a San Francisco-based web data API. <cite index=\"1-13,1-14\">Olostep is a developer-friendly platform that helps AI teams search, crawl, scrape, and structure web data, turning public web content into clean, structured outputs for research, enrichment, and automation.</cite> By integrating Olostep directly into the FxBlox hardware stack, Functionland enables its 39 active node operators to contribute compute and connectivity to live AI data workflows \u2014 and earn in return.\n\nThe timing is well-chosen. <cite index=\"17-6\">In January 2026, decentralized physical infrastructure networks crossed $150 million in monthly on-chain revenue from customers paying for actual services \u2014 compute jobs, storage deals, and bandwidth.</cite> <cite index=\"15-1\">Data networks are emerging as a critical pillar within DePIN because AI is hungry for both compute and data provenance.</cite> <cite index=\"5-7\">The web scraping market itself was valued at $1.03 billion in 2025 and is projected to reach $2.23 billion by 2031.</cite>\n\nFor Functionland, the Olostep integration marks a meaningful step in its plugin monetization strategy: FxBlox devices are no longer solely storage nodes but active participants in AI data supply chains. With the web data API market expanding and DePIN networks competing aggressively to attract real-world workloads, watch for Functionland to announce additional third-party plugin partnerships in the weeks ahead.",
+  "sources": [
+    "https://www.olostep.com/",
+    "https://blockeden.xyz/blog/2026/04/03/depin-revenue-inflection-enterprise-cloud-overflow-akash-ionet/",
+    "https://orochi.network/blog/top-10-de-pin-projects-and-emerging-trends-in-2026",
+    "https://www.olostep.com/blog/what-is-web-scraping"
+  ]
+}

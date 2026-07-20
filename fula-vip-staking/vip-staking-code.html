@@ -1,0 +1,887 @@
+<style>
+    div#stakingmain {
+      --primary: #00D4AA;
+      --primary-dark: #00B894;
+      --primary-light: #55EFC4;
+      --secondary: #6C5CE7;
+      --accent: #FD79A8;
+      --bg-dark: #0F0F1A;
+      --bg-card: #1A1A2E;
+      --bg-card-hover: #252542;
+      --text-primary: #FFFFFF;
+      --text-secondary: #A0A0B8;
+      --text-muted: #6B6B80;
+      --border: #2D2D44;
+      --success: #00D4AA;
+      --error: #FF6B6B;
+      --warning: #FDCB6E;
+      --gradient-primary: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+      --gradient-card: linear-gradient(145deg, #1A1A2E 0%, #16162A 100%);
+      --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
+      --shadow-glow: 0 0 30px rgba(0, 212, 170, 0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      border-radius: 10px;
+    }
+
+    #fula-vip-staking { max-width: 520px; margin: 0 auto; padding: 20px; min-height: 100vh; }
+    .fula-header { text-align: center; padding: 30px 0 40px; }
+    .fula-logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px; }
+    .fula-logo-icon { width: 48px; height: 48px; background: #ffc60d; border-radius: 48px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 20px; color: var(--bg-dark); box-shadow: var(--shadow-glow); }
+    .fula-header h1 { font-size: 28px; font-weight: 700; -webkit-text-fill-color: #ffc60d; }
+    .fula-header p { color: var(--text-secondary); font-size: 15px; margin-top: 4px; }
+    .fula-connect-section { margin-bottom: 24px; }
+    .fula-connect-btn { width: 100%; padding: 16px 24px; border: none; border-radius: var(--radius-lg); font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .fula-connect-btn.disconnected { background: var(--gradient-primary); color: var(--bg-dark); box-shadow: var(--shadow-glow); }
+    .fula-connect-btn.disconnected:hover { transform: translateY(-2px); }
+    .fula-connect-btn.connected { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
+    .fula-connect-btn.connected:hover { background: var(--bg-card-hover); border-color: var(--error); }
+    .fula-connect-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .fula-wallet-icon { width: 20px; height: 20px; }
+    .fula-wallet-card { background: var(--gradient-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 24px; display: none; }
+    .fula-wallet-card.visible { display: block; animation: slideDown 0.3s ease; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .fula-wallet-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .fula-wallet-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .fula-wallet-row:first-child { padding-top: 0; }
+    .fula-wallet-label { color: var(--text-secondary); font-size: 14px; }
+    .fula-wallet-value { font-family: 'Space Mono', monospace; font-size: 14px; color: var(--text-primary); }
+    .fula-wallet-value.highlight { color: var(--primary); font-weight: 600; }
+    .fula-user-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+    .fula-stat-card { background: var(--gradient-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; text-align: center; transition: all 0.3s ease; }
+    .fula-stat-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+    .fula-stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .fula-stat-value { font-size: 18px; font-weight: 700; color: var(--primary); font-family: 'Space Mono', monospace; }
+    .fula-tabs { display: flex; background: var(--bg-card); padding: 4px; margin-bottom: 24px; border: 1px solid var(--border); }
+    .fula-tab { flex: 1; padding: 12px 16px; border: none; background: transparent; color: var(--text-secondary); font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+    .fula-tab:hover { color: var(--text-primary); }
+    .fula-tab.active { background: var(--gradient-primary); color: var(--bg-dark); }
+    .fula-tab-content { display: none; }
+    .fula-tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .fula-staking-options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+    .fula-stake-option { background: var(--gradient-card); border: 2px solid var(--border); border-radius: var(--radius-lg); padding: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; }
+    .fula-stake-option:hover { border-color: var(--primary); transform: translateY(-2px); }
+    .fula-stake-option.selected { border-color: var(--primary); background: linear-gradient(145deg, rgba(0, 212, 170, 0.1) 0%, rgba(0, 184, 148, 0.05) 100%); }
+    .fula-stake-option.selected::after { content: "✓"; position: absolute; top: 12px; right: 16px; width: 24px; height: 24px; background: var(--primary); color: var(--bg-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; }
+    .fula-option-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .fula-option-title { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+    .fula-option-apy { font-size: 24px; font-weight: 700; color: var(--primary); font-family: 'Space Mono', monospace; }
+    .fula-option-details { display: flex; gap: 16px; font-size: 13px; color: var(--text-secondary); }
+    .fula-option-badge { background: rgba(0, 212, 170, 0.15); color: var(--primary); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+    .fula-input-group { margin-bottom: 20px; }
+    .fula-input-label { display: block; font-size: 14px; font-weight: 500; color: var(--text-secondary); margin-bottom: 8px; }
+    .fula-input-wrapper { display: flex; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; transition: border-color 0.3s ease; }
+    .fula-input-wrapper:focus-within { border-color: var(--primary); }
+    .fula-input { flex: 1; padding: 14px 16px; border: none; background: transparent; color: var(--text-primary); font-family: 'Space Mono', monospace; font-size: 16px; outline: none; }
+    .fula-input::placeholder { color: var(--text-muted); }
+    .fula-input-btn { padding: 14px 20px; border: none; background: rgba(0, 212, 170, 0.15); color: var(--primary); font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.3s ease; }
+    .fula-input-btn:hover { background: rgba(0, 212, 170, 0.25); }
+    .fula-action-btn { width: 100%; padding: 16px 24px; border: none; border-radius: var(--radius-lg); background: var(--gradient-primary); color: var(--bg-dark); font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .fula-action-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+    .fula-action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .fula-hint { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; min-height: 20px; }
+    .fula-hint.error { color: var(--error); }
+    .fula-hint.warning { color: var(--warning); }
+    .fula-stakes-list { display: flex; flex-direction: column; gap: 16px; }
+    .fula-stake-item { background: var(--gradient-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; transition: all 0.3s ease; }
+    .fula-stake-item:hover { border-color: var(--primary); }
+    .fula-stake-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+    .fula-stake-amount { font-size: 20px; font-weight: 700; color: var(--primary); font-family: 'Space Mono', monospace; }
+    .fula-stake-period { font-size: 12px; color: var(--text-muted); background: var(--bg-card-hover); padding: 4px 10px; border-radius: var(--radius-sm); }
+    .fula-stake-info { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+    .fula-stake-info-item { font-size: 13px; }
+    .fula-stake-info-label { color: var(--text-muted); margin-bottom: 2px; }
+    .fula-stake-info-value { color: var(--text-primary); font-family: 'Space Mono', monospace; }
+    .fula-stake-rewards { background: rgba(0, 212, 170, 0.1); border-radius: var(--radius-md); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .fula-stake-rewards-label { font-size: 13px; color: var(--text-secondary); }
+    .fula-stake-rewards-value { font-size: 16px; font-weight: 600; color: var(--primary); font-family: 'Space Mono', monospace; }
+    .fula-stake-status { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 8px 12px; border-radius: var(--radius-sm); margin-bottom: 16px; }
+    .fula-stake-status.locked { background: rgba(253, 203, 110, 0.1); color: var(--warning); }
+    .fula-stake-status.unlocked { background: rgba(0, 212, 170, 0.1); color: var(--success); }
+    .fula-stake-actions { display: flex; gap: 12px; }
+    .fula-stake-btn { flex: 1; padding: 12px 16px; border-radius: var(--radius-md); font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: none; }
+    .fula-stake-btn.claim { background: rgba(0, 212, 170, 0.15); color: var(--primary); }
+    .fula-stake-btn.claim:hover:not(:disabled) { background: rgba(0, 212, 170, 0.25); }
+    .fula-stake-btn.unstake { background: var(--bg-card-hover); color: var(--text-primary); border: 1px solid var(--border); }
+    .fula-stake-btn.unstake:hover:not(:disabled) { border-color: var(--error); color: var(--error); }
+    .fula-stake-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Expandable Details */
+    .fula-details-toggle { width: 100%; padding: 10px 16px; margin-top: 12px; background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-secondary); font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease; }
+    .fula-details-toggle:hover { border-color: var(--primary); color: var(--primary); }
+    .fula-details-toggle .arrow { transition: transform 0.3s ease; }
+    .fula-details-toggle.open .arrow { transform: rotate(180deg); }
+    .fula-details-content { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .fula-details-content.open { display: block; animation: fadeIn 0.3s ease; }
+
+    /* Calendar */
+    .fula-calendar { background: var(--bg-card-hover); border-radius: var(--radius-md); padding: 16px; }
+    .fula-calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .fula-calendar-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .fula-calendar-nav { display: flex; gap: 8px; }
+    .fula-calendar-nav-btn { width: 28px; height: 28px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary); border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+    .fula-calendar-nav-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .fula-calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 8px; }
+    .fula-calendar-weekday { text-align: center; font-size: 11px; color: var(--text-muted); padding: 4px; }
+    .fula-calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .fula-calendar-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg-card); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary); min-height: 44px; }
+    .fula-calendar-day.empty { background: transparent; }
+    .fula-calendar-day.has-reward { background: rgba(0, 212, 170, 0.1); border: 1px solid rgba(0, 212, 170, 0.2); }
+    .fula-calendar-day.today { border: 2px solid var(--primary); }
+    .fula-calendar-day.future { opacity: 0.5; }
+    .fula-calendar-day-number { font-weight: 500; color: var(--text-primary); }
+    .fula-calendar-day-reward { font-size: 9px; color: var(--primary); font-family: 'Space Mono', monospace; margin-top: 2px; }
+    .fula-calendar-summary { margin-top: 16px; padding: 12px; background: var(--bg-card); border-radius: var(--radius-sm); display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .fula-calendar-summary-item { text-align: center; }
+    .fula-calendar-summary-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+    .fula-calendar-summary-value { font-size: 14px; font-weight: 600; color: var(--primary); font-family: 'Space Mono', monospace; }
+
+    .fula-empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+    .fula-empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
+    .fula-empty-text { font-size: 15px; }
+
+    /* Referrer */
+    .fula-referrer-link-section { background: var(--gradient-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 24px; }
+    .fula-referrer-link-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+    .fula-referrer-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+    .fula-referrer-stat { background: var(--gradient-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; }
+    .fula-referrer-stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .fula-referrer-stat-value { font-size: 16px; font-weight: 700; color: var(--primary); font-family: 'Space Mono', monospace; }
+    .fula-section-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .fula-referred-stakers-list { display: flex; flex-direction: column; gap: 16px; }
+    .fula-referred-staker-card { background: var(--gradient-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; transition: all 0.3s ease; }
+    .fula-referred-staker-card:hover { border-color: var(--primary); }
+    .fula-referred-staker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .fula-referred-staker-address { font-family: 'Space Mono', monospace; font-size: 14px; color: var(--text-primary); background: var(--bg-card-hover); padding: 6px 12px; border-radius: var(--radius-sm); }
+    .fula-referred-staker-badge { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
+    .fula-referred-staker-badge.active { background: rgba(0, 212, 170, 0.15); color: var(--primary); }
+    .fula-referred-staker-badge.completed { background: rgba(108, 92, 231, 0.15); color: var(--secondary); }
+    .fula-referred-staker-info { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+    .fula-referred-staker-info-item { font-size: 13px; }
+    .fula-referred-staker-info-label { color: var(--text-muted); margin-bottom: 2px; }
+    .fula-referred-staker-info-value { color: var(--text-primary); font-family: 'Space Mono', monospace; }
+    .fula-referred-staker-progress { height: 6px; background: var(--bg-card-hover); border-radius: 3px; margin: 16px 0; overflow: hidden; }
+    .fula-referred-staker-progress-bar { height: 100%; background: var(--gradient-primary); border-radius: 3px; transition: width 0.3s ease; }
+    .fula-referred-staker-rewards { background: rgba(0, 212, 170, 0.1); border-radius: var(--radius-md); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .fula-referred-staker-rewards-label { font-size: 13px; color: var(--text-secondary); }
+    .fula-referred-staker-rewards-value { font-size: 16px; font-weight: 600; color: var(--primary); font-family: 'Space Mono', monospace; }
+
+    /* Info */
+    .fula-info-section { background: var(--gradient-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px; }
+    .fula-info-title { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; }
+    .fula-info-table { width: 100%; border-collapse: collapse; }
+    .fula-info-table th, .fula-info-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .fula-info-table th { color: var(--text-muted); font-weight: 500; font-size: 12px; text-transform: uppercase; }
+    .fula-info-table td { color: var(--text-primary); }
+    .fula-info-table tr:last-child td { border-bottom: none; }
+    .fula-info-notes { margin-top: 20px; }
+    .fula-info-notes-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+    .fula-info-notes ul { list-style: none; padding: 0; margin: 0; }
+    .fula-info-notes li { font-size: 13px; color: var(--text-secondary); padding: 8px 0; padding-left: 20px; position: relative; border-bottom: 1px solid var(--border); }
+    .fula-info-notes li:last-child { border-bottom: none; }
+    .fula-info-notes li::before { content: "•"; color: var(--primary); position: absolute; left: 0; font-weight: 700; }
+    .fula-get-token-banner { background: linear-gradient(135deg, rgba(255, 198, 13, 0.15) 0%, rgba(255, 198, 13, 0.05) 100%); border: 1px solid rgba(255, 198, 13, 0.3); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 20px; text-align: center; }
+    .fula-get-token-text { font-size: 16px; color: var(--text-primary); margin-bottom: 16px; }
+    .fula-uniswap-link { display: inline-flex; align-items: center; gap: 10px; background: #FF007A; color: white; padding: 16px 32px; border-radius: var(--radius-lg); text-decoration: none; font-size: 18px; font-weight: 600; transition: all 0.3s ease; min-height: 56px; }
+    .fula-uniswap-link:hover { background: #E5006D; transform: translateY(-2px); }
+    .fula-uniswap-link svg { width: 24px; height: 24px; }
+    .fula-notification { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 16px 24px; border-radius: var(--radius-lg); font-size: 14px; font-weight: 500; opacity: 0; transition: all 0.3s ease; z-index: 10000; max-width: 90%; text-align: center; }
+    .fula-notification.success { background: var(--success); color: var(--bg-dark); }
+    .fula-notification.error { background: var(--error); color: var(--text-primary); }
+    .fula-notification.warning { background: var(--warning); color: var(--bg-dark); }
+    .fula-notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .fula-spinner { width: 18px; height: 18px; border: 2px solid transparent; border-top-color: currentColor; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .fula-network-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(0, 82, 255, 0.15); color: #0052FF; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-top: 12px; }
+    .fula-network-dot { width: 8px; height: 8px; background: #0052FF; border-radius: 50%; }
+    .fula-terms-container { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; padding: 16px; background: rgba(253, 203, 110, 0.08); border: 1px solid rgba(253, 203, 110, 0.2); border-radius: var(--radius-md); cursor: pointer; transition: all 0.3s ease; }
+    .fula-terms-container:hover { background: rgba(253, 203, 110, 0.12); }
+    .fula-terms-checkbox { width: 20px; height: 20px; min-width: 20px; margin-top: 2px; accent-color: var(--primary); cursor: pointer; }
+    .fula-terms-label { font-size: 13px; color: var(--text-secondary); line-height: 1.5; cursor: pointer; user-select: none; }
+    .fula-terms-label a { color: var(--primary); text-decoration: underline; }
+    .fula-terms-container.checked { background: rgba(0, 212, 170, 0.08); border-color: rgba(0, 212, 170, 0.3); }
+
+    @media (max-width: 480px) {
+      #fula-vip-staking { padding: 16px; }
+      .fula-header h1 { font-size: 24px; }
+      .fula-user-stats { grid-template-columns: 1fr; }
+      .fula-tab { padding: 10px 12px; font-size: 13px; }
+      .fula-option-apy { font-size: 20px; }
+      .fula-stake-info { grid-template-columns: 1fr; }
+      .fula-stake-actions { flex-direction: column; }
+      .fula-referrer-stats-grid { grid-template-columns: 1fr; }
+      .fula-calendar-day { min-height: 36px; }
+      .fula-calendar-day-reward { font-size: 8px; }
+    }
+</style>
+
+<div id="stakingmain">
+  <div id="fula-vip-staking">
+    <div class="fula-header">
+      <div class="fula-logo">
+        <div class="fula-logo-icon">F</div>
+        <h1>FULA VIP Staking</h1>
+      </div>
+      <p>Stake your FULA tokens and earn rewards</p>
+      <div class="fula-network-badge">
+        <span class="fula-network-dot"></span>
+        Base Network
+      </div>
+    </div>
+
+    <div class="fula-connect-section">
+      <button id="fula-connect-btn" class="fula-connect-btn disconnected">
+        <svg class="fula-wallet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1v-3"/>
+          <path d="M21 12a2 2 0 0 0-2-2h-4a2 2 0 0 0 0 4h4a2 2 0 0 0 2-2z"/>
+        </svg>
+        Connect Wallet
+      </button>
+    </div>
+
+    <div id="fula-wallet-card" class="fula-wallet-card">
+      <div class="fula-wallet-row">
+        <span class="fula-wallet-label">Wallet</span>
+        <span class="fula-wallet-value" id="fula-wallet-address">0x...0000</span>
+      </div>
+      <div class="fula-wallet-row">
+        <span class="fula-wallet-label">FULA Balance</span>
+        <span class="fula-wallet-value highlight" id="fula-balance">0.0000</span>
+      </div>
+      <div class="fula-wallet-row">
+        <span class="fula-wallet-label">ETH for Gas</span>
+        <span class="fula-wallet-value" id="fula-eth-balance">0.0000</span>
+      </div>
+    </div>
+
+    <div class="fula-user-stats" id="fula-user-stats" style="display: none;">
+      <div class="fula-stat-card">
+        <div class="fula-stat-label">Total Staked</div>
+        <div class="fula-stat-value" id="fula-user-staked">0 FULA</div>
+      </div>
+      <div class="fula-stat-card">
+        <div class="fula-stat-label">Active Stakes</div>
+        <div class="fula-stat-value" id="fula-active-stakes">0</div>
+      </div>
+    </div>
+
+    <div class="fula-tabs">
+      <button class="fula-tab active" data-tab="stake">Stake</button>
+      <button class="fula-tab" data-tab="unstake">My Stakes</button>
+      <button class="fula-tab" data-tab="referrer">Referrer</button>
+      <button class="fula-tab" data-tab="info">Info</button>
+    </div>
+
+    <div id="fula-stake-tab" class="fula-tab-content active">
+      <div class="fula-staking-options">
+        <div class="fula-stake-option" data-period="365" data-apy="15">
+          <div class="fula-option-header">
+            <span class="fula-option-title">1 Year Lock</span>
+            <span class="fula-option-apy">15% APY</span>
+          </div>
+          <div class="fula-option-details">
+            <span>365 days lock period</span>
+            <span class="fula-option-badge">4% Referrer Reward</span>
+          </div>
+        </div>
+        <div class="fula-stake-option" data-period="730" data-apy="18">
+          <div class="fula-option-header">
+            <span class="fula-option-title">2 Year Lock</span>
+            <span class="fula-option-apy">18% APY</span>
+          </div>
+          <div class="fula-option-details">
+            <span>730 days lock period</span>
+            <span class="fula-option-badge">6% Referrer Reward</span>
+          </div>
+        </div>
+		<div class="fula-stake-option" data-period="1095" data-apy="24">
+		  <div class="fula-option-header">
+			<span class="fula-option-title">3 Year Lock</span>
+			<span class="fula-option-apy">24% APY</span>
+		  </div>
+		  <div class="fula-option-details">
+			<span>1095 days lock period</span>
+			<span class="fula-option-badge">8% Referrer Reward</span>
+		  </div>
+		</div>
+      </div>
+
+      <div class="fula-input-group">
+        <label class="fula-input-label">Amount to Stake</label>
+        <div class="fula-input-wrapper">
+          <input type="number" id="fula-stake-amount" class="fula-input" placeholder="0.0" min="0" step="0.01">
+          <button id="fula-max-btn" class="fula-input-btn">MAX</button>
+        </div>
+      </div>
+
+      <div class="fula-input-group">
+        <label class="fula-input-label">Referrer Address (Optional)</label>
+        <div class="fula-input-wrapper">
+          <input type="text" id="fula-referrer-input" class="fula-input" placeholder="0x...">
+        </div>
+      </div>
+
+      <div class="fula-terms-container" id="fula-terms-container">
+        <input type="checkbox" id="fula-terms-checkbox" class="fula-terms-checkbox">
+        <span class="fula-terms-label">By staking FULA, I understand that FULA is a utility token and I understand the <a href="#disclaimer-banner" onclick="event.stopPropagation();">important information</a> mentioned at the end of this page.</span>
+      </div>
+
+      <div class="fula-hint" id="fula-stake-hint"></div>
+      <button id="fula-stake-btn" class="fula-action-btn" disabled>Stake FULA</button>
+    </div>
+
+    <div id="fula-unstake-tab" class="fula-tab-content">
+      <div class="fula-stakes-list" id="fula-stakes-list">
+        <div class="fula-empty-state" id="fula-no-stakes">
+          <div class="fula-empty-icon">📦</div>
+          <div class="fula-empty-text">You don't have any active stakes yet</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="fula-referrer-tab" class="fula-tab-content">
+      <div class="fula-referrer-link-section">
+        <div class="fula-referrer-link-title">Your Referrer Link</div>
+        <div class="fula-input-wrapper">
+          <input type="text" id="fula-referrer-link" class="fula-input" readonly placeholder="Connect wallet to get your link">
+          <button id="fula-copy-link-btn" class="fula-input-btn">Copy</button>
+        </div>
+      </div>
+
+      <div class="fula-referrer-stats-grid">
+        <div class="fula-referrer-stat">
+          <div class="fula-referrer-stat-label">Total Referred</div>
+          <div class="fula-referrer-stat-value" id="fula-total-referred">0 FULA</div>
+        </div>
+        <div class="fula-referrer-stat">
+          <div class="fula-referrer-stat-label">Total Rewards</div>
+          <div class="fula-referrer-stat-value" id="fula-total-ref-rewards">0 FULA</div>
+        </div>
+        <div class="fula-referrer-stat">
+          <div class="fula-referrer-stat-label">Unclaimed</div>
+          <div class="fula-referrer-stat-value" id="fula-unclaimed-rewards">0 FULA</div>
+        </div>
+        <div class="fula-referrer-stat">
+          <div class="fula-referrer-stat-label">Referred Stakers</div>
+          <div class="fula-referrer-stat-value" id="fula-referred-count">0</div>
+        </div>
+      </div>
+
+      <div class="fula-section-title">Referred Stakers</div>
+      <div class="fula-referred-stakers-list" id="fula-referred-stakers-list">
+        <div class="fula-empty-state" id="fula-no-referrer-rewards">
+          <div class="fula-empty-icon">🎁</div>
+          <div class="fula-empty-text">No referred stakers yet. Share your link to earn rewards!</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="fula-info-tab" class="fula-tab-content">
+      <div class="fula-get-token-banner">
+        <div class="fula-get-token-text">You need FULA token to stake. Get FULA from any DEX like Uniswap:</div>
+        <a href="https://app.uniswap.org/swap?chain=base&inputCurrency=NATIVE&outputCurrency=0x9e12735d77c72c5c3670636d428f2f3815d8a4cb" target="_blank" rel="noopener noreferrer" class="fula-uniswap-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          Get FULA on Uniswap
+        </a>
+      </div>
+
+      <div class="fula-info-section">
+        <div class="fula-info-title">Staking Rewards</div>
+        <table class="fula-info-table">
+          <thead><tr><th>Period</th><th>APY</th><th>Referrer</th></tr></thead>
+          <tbody>
+            <tr><td>1 Year (365 days)</td><td>15%</td><td>4%</td></tr>
+            <tr><td>2 Years (730 days)</td><td>18%</td><td>6%</td></tr>
+			<tr><td>3 Years (1095 days)</td><td>24%</td><td>8%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="fula-info-section">
+        <div class="fula-info-notes">
+          <div class="fula-info-notes-title">Important Information</div>
+          <ul>
+            <li>Tokens are locked for the full staking period</li>
+            <li>You cannot unstake before the lock period ends</li>
+            <li>You can claim rewards at any time during staking</li>
+            <li><strong>You must claim all rewards before unstaking</strong></li>
+            <li>Referrer rewards are distributed linearly over the lock period</li>
+            <li>Use a referrer address to give them bonus rewards</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="fula-notification" class="fula-notification"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/web3@4.16.0/dist/web3.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  const CONFIG = {
+    STAKING_CONTRACT: '0xb2064743e3da40bB4C18e80620A02a38e87fB145',
+    TOKEN_CONTRACT: '0x9e12735d77c72c5C3670636D428f2F3815d8A4cB',
+    CHAIN_ID: 8453,
+    CHAIN_ID_HEX: '0x2105',
+    CHAIN_NAME: 'Base',
+    RPC_URL: 'https://mainnet.base.org',
+    EXPLORER_URL: 'https://basescan.org',
+    LOCK_PERIODS: { 365: 365*24*60*60, 730: 730*24*60*60, 1095: 1095*24*60*60 },
+    STAKING_INFO: { 365: { apy: 15, referrerReward: 4 }, 730: { apy: 18, referrerReward: 6 }, 1095: { apy: 24, referrerReward: 8 } }
+  };
+
+  const TOKEN_ABI = [
+    {"constant":true,"inputs":[{"name":"account","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"constant":true,"inputs":[{"name":"owner","type":"address"},{"name":"spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"amount","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}
+  ];
+
+  const STAKING_ABI = [
+    {"inputs":[],"name":"getTotalStaked","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserTotalStaked","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserStakes","outputs":[{"components":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"rewardDebt","type":"uint256"},{"internalType":"uint256","name":"lockPeriod","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"address","name":"referrer","type":"address"},{"internalType":"bool","name":"isActive","type":"bool"}],"internalType":"struct StakingEngineLinear.StakeInfo[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"internalType":"address","name":"referrer","type":"address"}],"name":"getReferrerStats","outputs":[{"components":[{"internalType":"uint256","name":"totalReferred","type":"uint256"},{"internalType":"uint256","name":"totalReferrerRewards","type":"uint256"},{"internalType":"uint256","name":"unclaimedRewards","type":"uint256"},{"internalType":"uint256","name":"lastClaimTime","type":"uint256"},{"internalType":"uint256","name":"referredStakersCount","type":"uint256"},{"internalType":"uint256","name":"activeReferredStakersCount","type":"uint256"},{"internalType":"uint256","name":"totalActiveStaked","type":"uint256"},{"internalType":"uint256","name":"totalUnstaked","type":"uint256"},{"internalType":"uint256","name":"totalActiveStaked90Days","type":"uint256"},{"internalType":"uint256","name":"totalActiveStaked180Days","type":"uint256"},{"internalType":"uint256","name":"totalActiveStaked365Days","type":"uint256"}],"internalType":"struct StakingEngineLinear.ReferrerInfo","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"internalType":"address","name":"referrer","type":"address"}],"name":"getReferrerRewards","outputs":[{"components":[{"internalType":"uint256","name":"stakeId","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"lockPeriod","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"totalReward","type":"uint256"},{"internalType":"uint256","name":"claimedReward","type":"uint256"},{"internalType":"uint256","name":"nextClaimTime","type":"uint256"},{"internalType":"bool","name":"isActive","type":"bool"},{"internalType":"address","name":"referee","type":"address"}],"internalType":"struct StakingEngineLinear.ReferrerRewardInfo[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"internalType":"address","name":"staker","type":"address"},{"internalType":"uint256","name":"stakeIndex","type":"uint256"}],"name":"getClaimableStakerReward","outputs":[{"internalType":"uint256","name":"toClaim","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"lockPeriod","type":"uint256"}],"name":"stakeToken","outputs":[],"stateMutability":"nonpayable","type":"function"},
+    {"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"lockPeriod","type":"uint256"},{"internalType":"address","name":"referrer","type":"address"}],"name":"stakeTokenWithReferrer","outputs":[],"stateMutability":"nonpayable","type":"function"},
+    {"inputs":[{"internalType":"uint256","name":"index","type":"uint256"}],"name":"unstakeToken","outputs":[],"stateMutability":"nonpayable","type":"function"},
+    {"inputs":[{"internalType":"uint256","name":"stakeIndex","type":"uint256"}],"name":"claimStakerReward","outputs":[],"stateMutability":"nonpayable","type":"function"},
+    {"inputs":[{"internalType":"uint256","name":"rewardIndex","type":"uint256"}],"name":"claimReferrerReward","outputs":[],"stateMutability":"nonpayable","type":"function"}
+  ];
+
+  let web3=null,provider=null,stakingContract=null,tokenContract=null,selectedAccount=null,selectedPeriod=null,tokenBalance=0,userStakes=[],currentBlockTimestamp=0,termsAccepted=false;
+
+  const el = {
+    connectBtn: document.getElementById('fula-connect-btn'),
+    walletCard: document.getElementById('fula-wallet-card'),
+    walletAddress: document.getElementById('fula-wallet-address'),
+    balance: document.getElementById('fula-balance'),
+    ethBalance: document.getElementById('fula-eth-balance'),
+    userStats: document.getElementById('fula-user-stats'),
+    userStaked: document.getElementById('fula-user-staked'),
+    activeStakes: document.getElementById('fula-active-stakes'),
+    stakeAmount: document.getElementById('fula-stake-amount'),
+    maxBtn: document.getElementById('fula-max-btn'),
+    referrerInput: document.getElementById('fula-referrer-input'),
+    stakeHint: document.getElementById('fula-stake-hint'),
+    stakeBtn: document.getElementById('fula-stake-btn'),
+    stakesList: document.getElementById('fula-stakes-list'),
+    noStakes: document.getElementById('fula-no-stakes'),
+    referrerLink: document.getElementById('fula-referrer-link'),
+    copyLinkBtn: document.getElementById('fula-copy-link-btn'),
+    totalReferred: document.getElementById('fula-total-referred'),
+    totalRefRewards: document.getElementById('fula-total-ref-rewards'),
+    unclaimedRewards: document.getElementById('fula-unclaimed-rewards'),
+    referredCount: document.getElementById('fula-referred-count'),
+    referredStakersList: document.getElementById('fula-referred-stakers-list'),
+    noReferrerRewards: document.getElementById('fula-no-referrer-rewards'),
+    notification: document.getElementById('fula-notification'),
+    tabs: document.querySelectorAll('.fula-tab'),
+    tabContents: document.querySelectorAll('.fula-tab-content'),
+    stakeOptions: document.querySelectorAll('.fula-stake-option'),
+    termsContainer: document.getElementById('fula-terms-container'),
+    termsCheckbox: document.getElementById('fula-terms-checkbox')
+  };
+
+  const formatAddress = a => a ? a.substring(0,6)+'...'+a.substring(a.length-4) : '';
+  const formatNumber = (n,d=4) => parseFloat(n).toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d});
+  const formatDate = t => { const d=new Date(t*1000); return d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); };
+  const formatShortDate = t => new Date(t*1000).toLocaleDateString(undefined,{month:'short',day:'numeric'});
+  
+  let isLoadingData = false;
+  let listenersAttached = false;
+
+  function showNotification(msg, type='success') {
+    el.notification.textContent = msg;
+    el.notification.className = 'fula-notification '+type+' show';
+    setTimeout(() => el.notification.classList.remove('show'), 5000);
+  }
+
+  function setButtonLoading(btn, loading, text='') {
+    if(loading) { btn.disabled=true; btn.innerHTML='<span class="fula-spinner"></span> '+(text||'Processing...'); }
+    else { btn.disabled=false; btn.innerHTML=text||btn.dataset.originalText||'Submit'; }
+  }
+
+  async function connectWallet() {
+    if(!window.ethereum) { showNotification('No wallet detected.','error'); return false; }
+    try {
+      setButtonLoading(el.connectBtn,true,'Connecting...');
+      provider = window.ethereum;
+      const accounts = await provider.request({method:'eth_requestAccounts'});
+      if(!accounts.length) throw new Error('No accounts');
+      web3 = new Web3(provider);
+      selectedAccount = accounts[0];
+      
+      // Only attach listeners once
+      if (!listenersAttached) {
+        provider.on('accountsChanged', accs => { 
+          if(!accs.length) handleDisconnect(); 
+          else { selectedAccount=accs[0]; updateConnectedUI(); loadUserData(); }
+        });
+        provider.on('chainChanged', () => { ensureBaseNetwork(); loadUserData(); });
+        listenersAttached = true;
+      }
+      
+      await ensureBaseNetwork();
+      await initializeContracts();
+      await loadUserData();
+      updateConnectedUI();
+      localStorage.setItem('fula-wallet-connected','true');
+      return true;
+    } catch(e) {
+      console.error(e);
+      showNotification(e.code===4001?'Connection cancelled':'Connection failed','warning');
+      setButtonLoading(el.connectBtn,false,'Connect Wallet');
+      return false;
+    }
+  }
+
+  function handleDisconnect() {
+    selectedAccount=null; provider=null; web3=null; stakingContract=null; tokenContract=null; userStakes=[]; tokenBalance=0;
+    updateDisconnectedUI();
+    localStorage.removeItem('fula-wallet-connected');
+  }
+
+  async function ensureBaseNetwork() {
+    if(!provider) return;
+    try {
+      const chainId = await web3.eth.getChainId();
+      if(Number(chainId) !== CONFIG.CHAIN_ID) {
+        try { await provider.request({method:'wallet_switchEthereumChain',params:[{chainId:CONFIG.CHAIN_ID_HEX}]}); }
+        catch(e) { if(e.code===4902) await provider.request({method:'wallet_addEthereumChain',params:[{chainId:CONFIG.CHAIN_ID_HEX,chainName:CONFIG.CHAIN_NAME,nativeCurrency:{name:'ETH',symbol:'ETH',decimals:18},rpcUrls:[CONFIG.RPC_URL],blockExplorerUrls:[CONFIG.EXPLORER_URL]}]}); }
+      }
+    } catch(e) { showNotification('Please switch to Base network','warning'); }
+  }
+
+  function updateConnectedUI() {
+    el.connectBtn.classList.remove('disconnected'); el.connectBtn.classList.add('connected');
+    el.connectBtn.innerHTML = `<svg class="fula-wallet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1v-3"/><path d="M21 12a2 2 0 0 0-2-2h-4a2 2 0 0 0 0 4h4a2 2 0 0 0 2-2z"/></svg>${formatAddress(selectedAccount)} - Disconnect`;
+    el.connectBtn.disabled = false;
+    el.walletCard.classList.add('visible');
+    el.walletAddress.textContent = formatAddress(selectedAccount);
+    el.userStats.style.display = 'grid';
+    el.referrerLink.value = window.location.origin+window.location.pathname+'?referrer='+selectedAccount;
+  }
+
+  function updateDisconnectedUI() {
+    el.connectBtn.classList.remove('connected'); el.connectBtn.classList.add('disconnected');
+    el.connectBtn.innerHTML = `<svg class="fula-wallet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1v-3"/><path d="M21 12a2 2 0 0 0-2-2h-4a2 2 0 0 0 0 4h4a2 2 0 0 0 2-2z"/></svg>Connect Wallet`;
+    el.connectBtn.disabled = false;
+    el.walletCard.classList.remove('visible');
+    el.userStats.style.display = 'none';
+    el.stakeBtn.disabled = true;
+    el.referrerLink.value = '';
+    el.balance.textContent = '0.0000';
+    el.ethBalance.textContent = '0.0000';
+    el.userStaked.textContent = '0 FULA';
+    el.activeStakes.textContent = '0';
+  }
+
+  async function initializeContracts() {
+    if(!web3) return;
+    stakingContract = new web3.eth.Contract(STAKING_ABI, CONFIG.STAKING_CONTRACT);
+    tokenContract = new web3.eth.Contract(TOKEN_ABI, CONFIG.TOKEN_CONTRACT);
+  }
+
+  async function loadUserData() {
+    if(!selectedAccount||!stakingContract||!tokenContract) return;
+    if(isLoadingData) return; // Prevent concurrent calls
+    isLoadingData = true;
+    try {
+      const block = await web3.eth.getBlock('latest');
+      currentBlockTimestamp = Number(block.timestamp);
+      const balance = await tokenContract.methods.balanceOf(selectedAccount).call();
+      tokenBalance = web3.utils.fromWei(balance,'ether');
+      el.balance.textContent = formatNumber(tokenBalance);
+      const ethBal = await web3.eth.getBalance(selectedAccount);
+      el.ethBalance.textContent = formatNumber(web3.utils.fromWei(ethBal,'ether'));
+      const totalStaked = await stakingContract.methods.getUserTotalStaked(selectedAccount).call();
+      el.userStaked.textContent = formatNumber(web3.utils.fromWei(totalStaked,'ether'))+' FULA';
+      await loadUserStakes();
+      await loadReferrerData();
+      validateStakeAmount();
+    } catch(e) { console.error(e); }
+    finally { isLoadingData = false; }
+  }
+
+  async function loadUserStakes() {
+    try {
+      const stakes = await stakingContract.methods.getUserStakes(selectedAccount).call();
+      userStakes = stakes;
+      const active = stakes.filter(s=>s.isActive);
+      el.activeStakes.textContent = active.length;
+      
+      if(!active.length) { 
+        el.stakesList.innerHTML = '';
+        el.stakesList.appendChild(el.noStakes); 
+        el.noStakes.style.display='block'; 
+        return; 
+      }
+      
+      el.noStakes.style.display = 'none';
+      
+      // Build all elements FIRST, then update DOM once
+      const elements = [];
+      for(let i=0;i<stakes.length;i++) { 
+        if(!stakes[i].isActive) continue; 
+        elements.push(await createStakeElement(stakes[i],i)); 
+      }
+      
+      // Clear and append all at once to avoid race conditions
+      el.stakesList.innerHTML = '';
+      elements.forEach(elem => el.stakesList.appendChild(elem));
+      
+    } catch(e) { 
+      console.error(e); 
+      el.stakesList.innerHTML='<div class="fula-empty-state"><div class="fula-empty-text">Error loading stakes</div></div>'; 
+    }
+  }
+
+  function generateCalendarHTML(stake, index) {
+    const startTime=Number(stake.startTime), lockPeriod=Number(stake.lockPeriod), endTime=startTime+lockPeriod;
+    const amount=parseFloat(web3.utils.fromWei(stake.amount,'ether'));
+    let fixedAPY=15; if(lockPeriod===CONFIG.LOCK_PERIODS[730]) fixedAPY=18; else if(lockPeriod===CONFIG.LOCK_PERIODS[1095]) fixedAPY=24;
+    const totalReward=(amount*fixedAPY*lockPeriod)/(100*365*24*60*60);
+    const dailyReward=totalReward/(lockPeriod/(24*60*60));
+    const now=new Date(currentBlockTimestamp*1000), currentMonth=now.getMonth(), currentYear=now.getFullYear();
+    const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const weekdays=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const firstDay=new Date(currentYear,currentMonth,1), lastDay=new Date(currentYear,currentMonth+1,0);
+    const daysInMonth=lastDay.getDate(), startDayOfWeek=firstDay.getDay();
+    const elapsed=Math.min(currentBlockTimestamp-startTime,lockPeriod);
+    const earnedRewards=(totalReward*elapsed)/lockPeriod, remainingRewards=totalReward-earnedRewards;
+    let calendarDaysHTML='';
+    for(let i=0;i<startDayOfWeek;i++) calendarDaysHTML+='<div class="fula-calendar-day empty"></div>';
+    for(let day=1;day<=daysInMonth;day++) {
+      const dayTs=new Date(currentYear,currentMonth,day).getTime()/1000;
+      const isToday=day===now.getDate(), isFuture=dayTs>currentBlockTimestamp;
+      const isInStakePeriod=dayTs>=startTime&&dayTs<endTime, hasReward=isInStakePeriod&&dayTs<=currentBlockTimestamp;
+      let classes='fula-calendar-day'; if(isToday)classes+=' today'; if(isFuture)classes+=' future'; if(hasReward)classes+=' has-reward';
+      let rewardHTML=isInStakePeriod?`<div class="fula-calendar-day-reward">+${dailyReward.toFixed(2)}</div>`:'';
+      calendarDaysHTML+=`<div class="${classes}"><div class="fula-calendar-day-number">${day}</div>${rewardHTML}</div>`;
+    }
+    return `<div class="fula-calendar" data-stake-index="${index}" data-year="${currentYear}" data-month="${currentMonth}">
+      <div class="fula-calendar-header"><div class="fula-calendar-title">${monthNames[currentMonth]} ${currentYear}</div>
+      <div class="fula-calendar-nav"><button class="fula-calendar-nav-btn" onclick="window.fulaCalendarNav(${index},-1)">‹</button><button class="fula-calendar-nav-btn" onclick="window.fulaCalendarNav(${index},1)">›</button></div></div>
+      <div class="fula-calendar-weekdays">${weekdays.map(d=>`<div class="fula-calendar-weekday">${d}</div>`).join('')}</div>
+      <div class="fula-calendar-days">${calendarDaysHTML}</div>
+      <div class="fula-calendar-summary">
+        <div class="fula-calendar-summary-item"><div class="fula-calendar-summary-label">Total Earned</div><div class="fula-calendar-summary-value">${formatNumber(earnedRewards,4)} FULA</div></div>
+        <div class="fula-calendar-summary-item"><div class="fula-calendar-summary-label">Remaining</div><div class="fula-calendar-summary-value">${formatNumber(remainingRewards,4)} FULA</div></div>
+        <div class="fula-calendar-summary-item"><div class="fula-calendar-summary-label">Daily Rate</div><div class="fula-calendar-summary-value">${formatNumber(dailyReward,4)} FULA</div></div>
+        <div class="fula-calendar-summary-item"><div class="fula-calendar-summary-label">Total Reward</div><div class="fula-calendar-summary-value">${formatNumber(totalReward,4)} FULA</div></div>
+      </div></div>`;
+  }
+
+  window.fulaCalendarNav = function(idx, dir) {
+    const cal=document.querySelector(`.fula-calendar[data-stake-index="${idx}"]`); if(!cal) return;
+    let year=parseInt(cal.dataset.year), month=parseInt(cal.dataset.month)+dir;
+    if(month<0){month=11;year--;} else if(month>11){month=0;year++;}
+    cal.dataset.year=year; cal.dataset.month=month;
+    updateCalendarMonth(cal,userStakes[idx],idx,year,month);
+  };
+
+  function updateCalendarMonth(cal,stake,idx,year,month) {
+    const startTime=Number(stake.startTime),lockPeriod=Number(stake.lockPeriod),endTime=startTime+lockPeriod;
+    const amount=parseFloat(web3.utils.fromWei(stake.amount,'ether'));
+    let fixedAPY=15; if(lockPeriod===CONFIG.LOCK_PERIODS[730]) fixedAPY=18; else if(lockPeriod===CONFIG.LOCK_PERIODS[1095]) fixedAPY=24;
+    const totalReward=(amount*fixedAPY*lockPeriod)/(100*365*24*60*60);
+    const dailyReward=totalReward/(lockPeriod/(24*60*60));
+    const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const now=new Date(currentBlockTimestamp*1000);
+    const firstDay=new Date(year,month,1),lastDay=new Date(year,month+1,0);
+    const daysInMonth=lastDay.getDate(),startDayOfWeek=firstDay.getDay();
+    let calendarDaysHTML='';
+    for(let i=0;i<startDayOfWeek;i++) calendarDaysHTML+='<div class="fula-calendar-day empty"></div>';
+    for(let day=1;day<=daysInMonth;day++) {
+      const dayTs=new Date(year,month,day).getTime()/1000;
+      const isToday=year===now.getFullYear()&&month===now.getMonth()&&day===now.getDate();
+      const isFuture=dayTs>currentBlockTimestamp,isInStakePeriod=dayTs>=startTime&&dayTs<endTime,hasReward=isInStakePeriod&&dayTs<=currentBlockTimestamp;
+      let classes='fula-calendar-day'; if(isToday)classes+=' today'; if(isFuture)classes+=' future'; if(hasReward)classes+=' has-reward';
+      let rewardHTML=isInStakePeriod?`<div class="fula-calendar-day-reward">+${dailyReward.toFixed(2)}</div>`:'';
+      calendarDaysHTML+=`<div class="${classes}"><div class="fula-calendar-day-number">${day}</div>${rewardHTML}</div>`;
+    }
+    cal.querySelector('.fula-calendar-title').textContent=`${monthNames[month]} ${year}`;
+    cal.querySelector('.fula-calendar-days').innerHTML=calendarDaysHTML;
+  }
+
+  async function createStakeElement(stake,index) {
+    const amount=web3.utils.fromWei(stake.amount,'ether'), startTime=Number(stake.startTime), lockPeriod=Number(stake.lockPeriod), endTime=startTime+lockPeriod;
+    const isLocked=currentBlockTimestamp<endTime;
+    let periodLabel='',apyLabel='';
+    if(lockPeriod===CONFIG.LOCK_PERIODS[365]){periodLabel='1 Year';apyLabel='15% APY';}
+    else if(lockPeriod===CONFIG.LOCK_PERIODS[730]){periodLabel='2 Years';apyLabel='18% APY';}
+	else if(lockPeriod===CONFIG.LOCK_PERIODS[1095]){periodLabel='3 Years';apyLabel='24% APY';}
+    else{periodLabel=Math.round(lockPeriod/(24*60*60))+' Days';apyLabel='Legacy';}
+    let claimableRewards='0';
+    try{const c=await stakingContract.methods.getClaimableStakerReward(selectedAccount,index).call();claimableRewards=web3.utils.fromWei(c,'ether');}catch(e){}
+    const hasUnclaimed=parseFloat(claimableRewards)>0.000001, canUnstake=!isLocked&&!hasUnclaimed;
+    const div=document.createElement('div'); div.className='fula-stake-item';
+    div.innerHTML=`<div class="fula-stake-header"><div class="fula-stake-amount">${formatNumber(amount)} FULA</div><div class="fula-stake-period">${periodLabel} • ${apyLabel}</div></div>
+      <div class="fula-stake-info"><div class="fula-stake-info-item"><div class="fula-stake-info-label">Start Date</div><div class="fula-stake-info-value">${formatDate(startTime)}</div></div>
+      <div class="fula-stake-info-item"><div class="fula-stake-info-label">End Date</div><div class="fula-stake-info-value">${formatDate(endTime)}</div></div></div>
+      <div class="fula-stake-rewards"><span class="fula-stake-rewards-label">Claimable Rewards</span><span class="fula-stake-rewards-value">${formatNumber(claimableRewards,6)} FULA</span></div>
+      <div class="fula-stake-status ${isLocked?'locked':'unlocked'}">${isLocked?'🔒 Locked until '+formatDate(endTime):'✓ Ready to unstake'}</div>
+      ${!canUnstake&&!isLocked?'<div class="fula-hint warning" style="margin-bottom:12px">⚠️ Claim all rewards before unstaking</div>':''}
+      <div class="fula-stake-actions"><button class="fula-stake-btn claim" data-index="${index}" ${hasUnclaimed?'':'disabled'}>Claim All Rewards</button>
+      <button class="fula-stake-btn unstake" data-index="${index}" ${canUnstake?'':'disabled'}>Unstake</button></div>
+      <button class="fula-details-toggle" data-index="${index}"><span>View Rewards Calendar</span><span class="arrow">▼</span></button>
+      <div class="fula-details-content" data-index="${index}">${generateCalendarHTML(stake,index)}</div>`;
+    div.querySelector('.fula-stake-btn.claim').addEventListener('click',()=>handleClaimStakerReward(index,div.querySelector('.fula-stake-btn.claim')));
+    div.querySelector('.fula-stake-btn.unstake').addEventListener('click',()=>handleUnstake(index,div.querySelector('.fula-stake-btn.unstake'),hasUnclaimed));
+    const toggle=div.querySelector('.fula-details-toggle'),content=div.querySelector('.fula-details-content');
+    toggle.addEventListener('click',()=>{toggle.classList.toggle('open');content.classList.toggle('open');});
+    return div;
+  }
+
+  async function loadReferrerData() {
+    try {
+      const stats=await stakingContract.methods.getReferrerStats(selectedAccount).call();
+      el.totalReferred.textContent=formatNumber(web3.utils.fromWei(stats.totalReferred,'ether'))+' FULA';
+      el.totalRefRewards.textContent=formatNumber(web3.utils.fromWei(stats.totalReferrerRewards,'ether'))+' FULA';
+      el.unclaimedRewards.textContent=formatNumber(web3.utils.fromWei(stats.unclaimedRewards,'ether'))+' FULA';
+      el.referredCount.textContent=stats.referredStakersCount;
+      await loadReferredStakers();
+    } catch(e){console.error(e);}
+  }
+
+  async function loadReferredStakers() {
+    try {
+      const rewards=await stakingContract.methods.getReferrerRewards(selectedAccount).call();
+      el.referredStakersList.innerHTML='';
+      if(!rewards.length){el.referredStakersList.appendChild(el.noReferrerRewards);el.noReferrerRewards.style.display='block';return;}
+      el.noReferrerRewards.style.display='none';
+      for(let i=0;i<rewards.length;i++) el.referredStakersList.appendChild(createReferredStakerCard(rewards[i],i));
+    } catch(e){console.error(e);}
+  }
+
+  function createReferredStakerCard(reward,index) {
+    const totalReward=web3.utils.fromWei(reward.totalReward,'ether'), claimedReward=web3.utils.fromWei(reward.claimedReward,'ether');
+    const stakedAmount=web3.utils.fromWei(reward.amount,'ether'), startTime=Number(reward.startTime), endTime=Number(reward.endTime), lockPeriod=Number(reward.lockPeriod), isActive=reward.isActive;
+    const elapsed=Math.min(currentBlockTimestamp-startTime,lockPeriod), progress=(elapsed/lockPeriod)*100;
+    const claimable=(parseFloat(totalReward)*elapsed/lockPeriod)-parseFloat(claimedReward), hasClaimable=claimable>0.000001;
+    let periodLabel=''; if(lockPeriod===CONFIG.LOCK_PERIODS[365])periodLabel='1 Year'; else if(lockPeriod===CONFIG.LOCK_PERIODS[730])periodLabel='2 Years'; else if(lockPeriod===CONFIG.LOCK_PERIODS[1095])periodLabel='3 Years'; else periodLabel=Math.round(lockPeriod/(24*60*60))+' Days';
+    const div=document.createElement('div'); div.className='fula-referred-staker-card';
+    div.innerHTML=`<div class="fula-referred-staker-header"><div class="fula-referred-staker-address">${formatAddress(reward.referee)}</div><div class="fula-referred-staker-badge ${isActive?'active':'completed'}">${isActive?'Active':'Completed'}</div></div>
+      <div class="fula-referred-staker-info">
+        <div class="fula-referred-staker-info-item"><div class="fula-referred-staker-info-label">Staked Amount</div><div class="fula-referred-staker-info-value">${formatNumber(stakedAmount)} FULA</div></div>
+        <div class="fula-referred-staker-info-item"><div class="fula-referred-staker-info-label">Lock Period</div><div class="fula-referred-staker-info-value">${periodLabel}</div></div>
+        <div class="fula-referred-staker-info-item"><div class="fula-referred-staker-info-label">Your Total Reward</div><div class="fula-referred-staker-info-value">${formatNumber(totalReward,6)} FULA</div></div>
+        <div class="fula-referred-staker-info-item"><div class="fula-referred-staker-info-label">Already Claimed</div><div class="fula-referred-staker-info-value">${formatNumber(claimedReward,6)} FULA</div></div>
+        <div class="fula-referred-staker-info-item"><div class="fula-referred-staker-info-label">Start Date</div><div class="fula-referred-staker-info-value">${formatShortDate(startTime)}</div></div>
+        <div class="fula-referred-staker-info-item"><div class="fula-referred-staker-info-label">End Date</div><div class="fula-referred-staker-info-value">${formatShortDate(endTime)}</div></div>
+      </div>
+      <div class="fula-referred-staker-progress"><div class="fula-referred-staker-progress-bar" style="width:${Math.min(100,progress)}%"></div></div>
+      <div class="fula-referred-staker-rewards"><span class="fula-referred-staker-rewards-label">Claimable Now</span><span class="fula-referred-staker-rewards-value">${formatNumber(Math.max(0,claimable),6)} FULA</span></div>
+      <button class="fula-action-btn" data-index="${index}" ${hasClaimable&&isActive?'':'disabled'}>${isActive?'Claim Reward':'Stake Ended'}</button>`;
+    if(hasClaimable&&isActive) div.querySelector('.fula-action-btn').addEventListener('click',()=>handleClaimReferrerReward(index,div.querySelector('.fula-action-btn')));
+    return div;
+  }
+
+  async function getGasPrice() { try{const g=await web3.eth.getGasPrice();return Math.ceil(Number(g)*1.05).toString();}catch(e){return web3.utils.toWei('0.1','gwei');} }
+
+  async function estimateGas(method,params) {
+    try{return Math.ceil(Number(await method.estimateGas(params))*1.2);}
+    catch(e){const limits={stakeToken:460000,stakeTokenWithReferrer:900000,unstakeToken:500000,claimStakerReward:300000,claimReferrerReward:300000,approve:200000};return limits[method._method?.name]||600000;}
+  }
+
+  async function handleStake() {
+    if(!selectedAccount||!stakingContract||!tokenContract||!selectedPeriod) return;
+    if(!termsAccepted){showNotification('Please accept the terms','error');return;}
+    const amount=parseFloat(el.stakeAmount.value); if(!amount||amount<=0){showNotification('Enter valid amount','error');return;}
+    const amountWei=web3.utils.toWei(amount.toString(),'ether'), referrer=el.referrerInput.value.trim(), lockPeriod=CONFIG.LOCK_PERIODS[selectedPeriod];
+    try {
+      setButtonLoading(el.stakeBtn,true,'Approving...');
+      const allowance=await tokenContract.methods.allowance(selectedAccount,CONFIG.STAKING_CONTRACT).call();
+      if(BigInt(allowance)<BigInt(amountWei)) {
+        const approveMethod=tokenContract.methods.approve(CONFIG.STAKING_CONTRACT,amountWei);
+        await approveMethod.send({from:selectedAccount,gas:await estimateGas(approveMethod,{from:selectedAccount},'approve'),gasPrice:await getGasPrice()});
+      }
+      setButtonLoading(el.stakeBtn,true,'Staking...');
+      let stakeMethod; if(referrer&&web3.utils.isAddress(referrer)&&referrer.toLowerCase()!==selectedAccount.toLowerCase()) stakeMethod=stakingContract.methods.stakeTokenWithReferrer(amountWei,lockPeriod,referrer);
+      else stakeMethod=stakingContract.methods.stakeToken(amountWei,lockPeriod);
+      await stakeMethod.send({from:selectedAccount,gas:await estimateGas(stakeMethod,{from:selectedAccount}),gasPrice:await getGasPrice()});
+      showNotification('Successfully staked '+amount+' FULA!','success');
+      el.stakeAmount.value=''; el.referrerInput.value=''; el.stakeOptions.forEach(o=>o.classList.remove('selected')); selectedPeriod=null;
+      el.termsCheckbox.checked=false; termsAccepted=false; el.termsContainer.classList.remove('checked');
+      await loadUserData();
+    } catch(e){console.error(e);showNotification(e.code===4001?'Cancelled':'Staking failed','warning');}
+    finally{setButtonLoading(el.stakeBtn,false,'Stake FULA');el.stakeBtn.disabled=true;validateStakeAmount();}
+  }
+
+  async function handleClaimStakerReward(index,btn) {
+    if(!selectedAccount||!stakingContract) return;
+    const orig=btn.textContent;
+    try {
+      setButtonLoading(btn,true,'Claiming...');
+      const m=stakingContract.methods.claimStakerReward(index);
+      await m.send({from:selectedAccount,gas:await estimateGas(m,{from:selectedAccount}),gasPrice:await getGasPrice()});
+      showNotification('Rewards claimed!','success'); await loadUserData();
+    } catch(e){console.error(e);showNotification(e.code===4001?'Cancelled':'Claim failed','warning');setButtonLoading(btn,false,orig);}
+  }
+
+  async function handleUnstake(index,btn,hasUnclaimed) {
+    if(!selectedAccount||!stakingContract) return;
+    if(hasUnclaimed){showNotification('Claim rewards first','warning');return;}
+    try{const c=await stakingContract.methods.getClaimableStakerReward(selectedAccount,index).call();if(parseFloat(web3.utils.fromWei(c,'ether'))>0.000001){showNotification('Claim rewards first','warning');return;}}catch(e){}
+    const orig=btn.textContent;
+    try {
+      setButtonLoading(btn,true,'Unstaking...');
+      const m=stakingContract.methods.unstakeToken(index);
+      await m.send({from:selectedAccount,gas:await estimateGas(m,{from:selectedAccount}),gasPrice:await getGasPrice()});
+      showNotification('Unstaked!','success'); await loadUserData();
+    } catch(e){console.error(e);showNotification(e.code===4001?'Cancelled':'Unstake failed','warning');setButtonLoading(btn,false,orig);}
+  }
+
+  async function handleClaimReferrerReward(index,btn) {
+    if(!selectedAccount||!stakingContract) return;
+    const orig=btn.textContent;
+    try {
+      setButtonLoading(btn,true,'Claiming...');
+      const m=stakingContract.methods.claimReferrerReward(index);
+      await m.send({from:selectedAccount,gas:await estimateGas(m,{from:selectedAccount}),gasPrice:await getGasPrice()});
+      showNotification('Referrer reward claimed!','success'); await loadReferrerData();
+    } catch(e){console.error(e);showNotification(e.code===4001?'Cancelled':'Claim failed','warning');setButtonLoading(btn,false,orig);}
+  }
+
+  function validateStakeAmount() {
+    const amount=parseFloat(el.stakeAmount.value), hint=el.stakeHint;
+    if(!selectedAccount){hint.textContent='Connect wallet to stake';hint.className='fula-hint';el.stakeBtn.disabled=true;return;}
+    if(!selectedPeriod){hint.textContent='Select a staking period';hint.className='fula-hint';el.stakeBtn.disabled=true;return;}
+    if(!amount||amount<=0){hint.textContent='Enter an amount';hint.className='fula-hint';el.stakeBtn.disabled=true;return;}
+    if(amount>parseFloat(tokenBalance)){hint.textContent='Insufficient balance';hint.className='fula-hint error';el.stakeBtn.disabled=true;return;}
+    if(!termsAccepted){hint.textContent='Accept terms and conditions';hint.className='fula-hint warning';el.stakeBtn.disabled=true;return;}
+    hint.textContent=''; el.stakeBtn.disabled=false;
+  }
+
+  function init() {
+    el.connectBtn.addEventListener('click',()=>{if(selectedAccount)handleDisconnect();else connectWallet();});
+    el.tabs.forEach(t=>t.addEventListener('click',()=>{el.tabs.forEach(x=>x.classList.remove('active'));el.tabContents.forEach(x=>x.classList.remove('active'));t.classList.add('active');document.getElementById('fula-'+t.dataset.tab+'-tab').classList.add('active');}));
+    el.stakeOptions.forEach(o=>o.addEventListener('click',()=>{el.stakeOptions.forEach(x=>x.classList.remove('selected'));o.classList.add('selected');selectedPeriod=parseInt(o.dataset.period);validateStakeAmount();}));
+    el.maxBtn.addEventListener('click',()=>{el.stakeAmount.value=parseFloat(tokenBalance).toFixed(4);validateStakeAmount();});
+    el.stakeAmount.addEventListener('input',validateStakeAmount);
+    el.stakeBtn.addEventListener('click',handleStake);
+    el.copyLinkBtn.addEventListener('click',()=>{if(!el.referrerLink.value){showNotification('Connect wallet first','warning');return;}el.referrerLink.select();document.execCommand('copy');showNotification('Link copied!','success');});
+    el.termsContainer.addEventListener('click',e=>{if(e.target.tagName==='A')return;if(e.target!==el.termsCheckbox)el.termsCheckbox.checked=!el.termsCheckbox.checked;termsAccepted=el.termsCheckbox.checked;el.termsContainer.classList.toggle('checked',termsAccepted);validateStakeAmount();});
+    if(localStorage.getItem('fula-wallet-connected')&&window.ethereum) setTimeout(connectWallet,500);
+    const urlRef=new URLSearchParams(window.location.search).get('referrer'); if(urlRef) el.referrerInput.value=urlRef;
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>

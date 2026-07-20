@@ -1,0 +1,13 @@
+{
+  "updated": "2026-06-08T09:36:05Z",
+  "week_of": "2026-06-08",
+  "headline": "Functionland Launches Referral Rewards as DePIN Storage Matures",
+  "subtitle": "FULA token incentives and censorship-resistant file sharing position Functionland at the convergence of user-owned storage and protocol-driven network growth.",
+  "briefing": "Functionland this week spotlighted two pillars of its network strategy: a peer-referral reward mechanism tied to its FULA token, and a resilience feature in FxFiles that keeps shared links live even when central servers go offline. Under the referral model, users who bring new participants onto the storage network automatically earn FULA as those new nodes generate storage rewards \u2014 aligning node growth directly with token incentives rather than relying on one-time bonuses.\n\nThe timing is deliberate. <cite index=\"4-1\">The DePIN sector is entering a new phase in 2026, as several blockchain projects transition from early narratives to operational systems generating measurable activity.</cite> Crucially, <cite index=\"2-1,2-2\">early DePIN growth was often driven by token rewards rather than service demand \u2014 by 2026, that model is no longer sufficient.</cite> Functionland's approach addresses this directly: referral rewards are contingent on referred nodes actually contributing storage, tying token distribution to real network utility.\n\nThe FxFiles link-persistence feature adds a complementary layer. Files published through the app live on a distributed node network, meaning a shared link continues resolving even during server downtime \u2014 a meaningful differentiator as <cite index=\"5-2\">resilience and decentralization, by avoiding single points of failure, remain core advantages DePIN networks hold over centralized infrastructure.</cite>\n\nWith 42 active nodes currently on the network, Functionland's near-term test will be whether the referral mechanism meaningfully accelerates that count \u2014 and whether node density translates into the kind of verifiable, paid storage utility that <cite index=\"3-17\">investors in 2026 are asking about: what converts activity into revenue.</cite>",
+  "sources": [
+    "https://www.bitget.com/news/detail/12560605395321",
+    "https://www.titannet.io/learn/basics/best-depin-projects-2026-top-decentralized-physical-infrastructure-networks",
+    "https://www.quicknode.com/builders-guide/best/top-10-decentralized-physical-infrastructure-networks",
+    "https://orochi.network/blog/top-10-de-pin-projects-and-emerging-trends-in-2026"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "updated": "2026-03-23T08:20:01Z",
+  "week_of": "2026-03-23",
+  "headline": "FxFiles Adds Private OCR and Gasless NFT Sharing",
+  "subtitle": "Functionland ships two consumer-facing features that address Web3's biggest barrier: accessibility.",
+  "briefing": "Functionland closed the week with two concrete product updates to its FxFiles application, advancing its case that decentralized storage can compete with mainstream consumer apps on usability. The more notable addition is on-device optical character recognition (OCR) that processes images entirely locally \u2014 receipts, signage, book pages \u2014 with no data leaving the user's device. Privacy-preserving compute is among the most actively developed frontiers in DePIN right now: <cite index=\"4-3,4-4\">the AI and privacy compute category is one of the densest clusters in the sector's March 2026 landscape map, and the overlap between AI infrastructure demand and distributed hardware is considered the sector's most active development frontier.</cite>\n\nThe second update introduces gasless NFT generation from personal photos, shareable with friends and family who need no crypto wallet or Web3 knowledge to claim them. This directly targets the onboarding problem that has historically constrained NFT adoption. <cite index=\"12-7\">User onboarding is the single area where gasless Web3 applications deliver the most transformative improvement</cite>, and <cite index=\"19-6\">the concept is particularly powerful for onboarding non-crypto-native users who may not be familiar with token economics or wallet mechanics.</cite>\n\nFunctionland's network now stands at 900 active nodes. <cite index=\"2-6\">Attracting and retaining a broad base of non-technical participants remains a defining challenge for DePIN projects, requiring user-friendly interfaces and robust support systems</cite> \u2014 precisely the gap these two features aim to close. Watch for whether the gasless NFT flow drives measurable new-user growth in the coming weeks.",
+  "sources": [
+    "https://www.ethnews.com/the-depin-sector-now-has-over-650-active-projects-the-march-2026-landscape-shows-where-the-build-is-happening/",
+    "https://www.nadcab.com/blog/gasless-transactions-web3",
+    "https://www.coinsdo.com/en/blog/what-are-gasless-transactions",
+    "https://www.roscoeviewjournal.com/depin-revolution-how-decentralized-physical-infrastructure-networks-are-reshaping-industries-in-2026/"
+  ]
+}

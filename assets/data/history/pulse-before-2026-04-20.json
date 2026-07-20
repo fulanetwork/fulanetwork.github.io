@@ -1,0 +1,13 @@
+{
+  "updated": "2026-04-13T08:42:44Z",
+  "week_of": "2026-04-13",
+  "headline": "Functionland Builds Quietly as DePIN Storage Sector Matures",
+  "subtitle": "With FxFiles' feature stack expanding and the broader DePIN market generating $150M monthly, Functionland is positioned at a meaningful inflection point.",
+  "briefing": "With no new announcements this week, Functionland's recent product work speaks for itself. Over the past month, the team shipped three meaningful FxFiles features: encrypted folder-sharing links via FxFiles Collaborate, on-device OCR text extraction for full privacy, and gasless NFT generation requiring zero Web3 knowledge \u2014 all running on the Fula decentralized storage network. The product direction is deliberate: make decentralized infrastructure invisible to the end user. That philosophy is increasingly aligned with where the broader market is heading.\n\nThe DePIN sector is no longer a speculative narrative. <cite index=\"1-11\">In January 2026 alone, leading DePIN networks generated roughly $150 million in on-chain revenue paid by real customers for storage deals, compute jobs, data credits, and mapping services.</cite> <cite index=\"7-12,7-13\">During 2025, venture capital funds invested more than $740 million in DePIN projects \u2014 not exploratory capital, but early, strategic positioning.</cite> For decentralized storage specifically, <cite index=\"2-5,2-6\">cloud cost pressure is a key driver, with Flexera's 2025 State of the Cloud findings showing 84% of respondents cite managing cloud spend as their top cloud challenge.</cite>\n\nFunctionland's 42-node network remains modest relative to larger DePIN peers, but its consumer-facing approach \u2014 <cite index=\"13-5,13-6\">familiar apps requiring no Web3 knowledge, letting users upgrade from user to owner</cite> \u2014 targets the friction point that has limited broader DePIN adoption. <cite index=\"18-19\">Storage on the Fula network is priced at up to two times cheaper than central cloud alternatives.</cite> Watch for whether the team translates its recent feature cadence into node growth and user acquisition metrics in the weeks ahead.",
+  "sources": [
+    "https://www.kucoin.com/blog/en-depin-crypto-sector-2026-how-decentralized-infrastructure-surpassed-oracles",
+    "https://crypto-economy.com/depin-in-2026-key-insights-and-future-trends-in-decentralized-infrastructure/",
+    "https://orochi.network/blog/top-10-de-pin-projects-and-emerging-trends-in-2026",
+    "https://fx.land/use-apps/"
+  ]
+}

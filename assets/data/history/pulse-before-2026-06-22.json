@@ -1,0 +1,13 @@
+{
+  "updated": "2026-06-15T10:08:23Z",
+  "week_of": "2026-06-15",
+  "headline": "FxFiles Goes Browser-Native With Self-Healing Storage",
+  "subtitle": "Functionland brings decentralized file access to any device and adds automated data integrity checks, raising the usability bar for DePIN storage.",
+  "briefing": "Functionland this week delivered two tangible product advances that move decentralized storage closer to everyday consumer utility. FxFiles is now accessible entirely through a web browser at files.fx.land, accepting sign-in via Google, Apple, or a 24-word recovery phrase \u2014 meaning users can reach their files from any borrowed or shared device without installing software. Separately, the platform introduced self-healing storage: every file now carries a unique cryptographic fingerprint, and if anything breaks in the underlying infrastructure, the app automatically detects and recovers it.\n\nThe timing is significant. <cite index=\"5-9\">Leading DePIN networks generated roughly $150 million in on-chain revenue in January 2026 alone</cite>, and <cite index=\"8-2\">the strongest DePIN tokens share one trait: utility tied directly to real usage, not just narrative.</cite> Functionland's browser launch directly addresses one of the sector's persistent friction points: <cite index=\"11-9\">centralized cloud providers can modify terms, increase prices, or terminate service without user consent</cite> \u2014 a risk the self-healing fingerprint system is designed to neutralize at the file level. <cite index=\"1-5\">2026 could mark a turning point for DePIN projects because their model has started to align with a concrete, unmet need</cite>, and browser-native access with built-in integrity checks positions Functionland to capture users who want decentralized resilience without sacrificing convenience. With 35 active nodes on the network, watch for whether the browser launch accelerates node growth as new users convert to full participants.",
+  "sources": [
+    "https://www.kucoin.com/blog/en-depin-crypto-sector-2026-how-decentralized-physical-infrastructure-surpassed-oracles",
+    "https://devel.coinbrain.com/blog/top-depin-crypto-projects",
+    "https://www.nadcab.com/blog/data-storage-in-web3",
+    "https://crypto-economy.com/depin-in-2026-key-insights-and-future-trends-in-decentralized-infrastructure/"
+  ]
+}

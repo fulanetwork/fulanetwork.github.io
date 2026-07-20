@@ -1,0 +1,13 @@
+{
+  "updated": "2026-07-06T09:22:00Z",
+  "week_of": "2026-07-06",
+  "headline": "FxFiles Matures as DePIN Storage Market Accelerates",
+  "subtitle": "With browser-based access now live and community integrations continuing, Functionland is positioning FxFiles at a moment of broad structural tailwinds for decentralized storage.",
+  "briefing": "Functionland enters July with no major announcements, but its recent product work continues to gain traction in the background. The browser-based FxFiles platform \u2014 which lets users access encrypted personal storage from any device at files.fx.land using Google, Apple, or a 24-word passphrase \u2014 remains the project's sharpest demonstration of consumer-ready decentralized storage. Community developers continue building integrations on top of it, a signal of ecosystem momentum even in a quiet news week, with the FULA network currently operating 26 active nodes.\n\nThe timing is notable. The decentralized cloud storage market is expanding at a meaningful clip: one industry report projects it will grow from $3 billion in 2025 to $3.62 billion in 2026, with a CAGR of 21% through 2030. A separate forecast puts the broader sector on a path to $61.2 billion by 2034. The wider DePIN category is similarly buoyant \u2014 Messari counts more than 650 distinct projects, and DePINScan tracked 8.8 million active devices globally as of late March 2026. Driving the demand, in part, is enterprise cost pressure: one survey found 84% of cloud buyers cite managing cloud spend as a top challenge.\n\nFunctionland's differentiation remains its user-sovereignty angle \u2014 encrypted, hardware-optional, no-install access \u2014 which aligns directly with what analysts describe as a growing industry focus on encrypted storage and privacy-centric services. As the FULA community broadens the integration layer, the key metric to watch is whether that ecosystem activity translates into measurable node growth.",
+  "sources": [
+    "https://natlawreview.com/press-releases/decentralized-cloud-storage-market-projected-grow-212-cagr-through-2030",
+    "https://market.us/report/decentralized-cloud-storage-market/",
+    "https://blockeden.xyz/blog/2026/03/21/depin-march-2026-reality-check-650-projects-19b-market-cap-revenue/",
+    "https://orochi.network/blog/top-10-de-pin-projects-and-emerging-trends-in-2026"
+  ]
+}

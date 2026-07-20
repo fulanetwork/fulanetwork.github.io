@@ -1,0 +1,13 @@
+{
+  "updated": "2026-06-01T09:50:54Z",
+  "week_of": "2026-06-01",
+  "headline": "FxFiles Adds 'Shelf' Inbox to Capture Any Content Instantly",
+  "subtitle": "Functionland's new system-wide drop zone takes aim at the fragmented, cloud-dependent way users save links, photos, and notes on mobile.",
+  "briefing": "Functionland this week shipped a meaningful quality-of-life upgrade to FxFiles: a feature called \"Shelf,\" a system-wide inbox that lets users capture any content \u2014 links, screenshots, notes \u2014 from any app via the native Share menu, without routing data through a third-party cloud. Links automatically pull Open Graph previews, giving the saved item context at a glance.\n\nThe timing reflects a broader shift in how users and developers think about personal data capture. Existing cross-device clipboard tools \u2014 from Apple's Universal Clipboard to open-source options like ClipCascade \u2014 either remain locked to a single ecosystem or still rely on centralized relay servers to sync content between devices. Functionland's Shelf, by contrast, stores content locally on the user's own hardware, consistent with the company's broader data-sovereignty thesis.\n\nThat philosophy is gaining commercial tailwinds in the DePIN sector. <cite index=\"1-9\">Leading DePIN networks generated roughly $150 million in on-chain revenue in January 2026 alone</cite>, reflecting growing consumer appetite for user-owned infrastructure. <cite index=\"4-22,4-23\">By 2026, the most successful DePIN projects are becoming \"boring in the best way\" \u2014 users experience them as ordinary consumer tools, not blockchain protocols.</cite> Functionland's Shelf is a step in that direction: a familiar productivity feature that quietly routes around centralized storage. With 40 active nodes on the network, the next test will be whether the Shelf experience can become seamless enough to draw mainstream users deeper into the FxFiles ecosystem.",
+  "sources": [
+    "https://www.kucoin.com/blog/en-depin-crypto-sector-2026-how-decentralized-physical-infrastructure-surpassed-oracles",
+    "https://www.titannet.io/learn/basics/best-depin-projects-2026-top-decentralized-physical-infrastructure-networks",
+    "https://www.xda-developers.com/open-source-self-hosted-app-syncs-clipboard-across-devices/",
+    "https://textexpander.com/blog/best-clipboard-managers"
+  ]
+}

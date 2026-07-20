@@ -1,0 +1,238 @@
+/* === About Page === */
+
+.about-hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--color-darker-bg) 0%, var(--color-dark-bg) 100%);
+  color: var(--color-text-white);
+  padding: 10rem 0 7rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.about-hero__bg {
+  position: absolute;
+  inset: 0;
+  background: url('../assets/images/team/teamhero.webp') center/cover no-repeat;
+  opacity: 0.25;
+}
+
+.about-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.about-hero__title {
+  font-size: var(--font-size-5xl);
+  font-weight: 800;
+  margin-bottom: var(--spacing-sm);
+}
+
+.about-hero__subtitle {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-white-muted);
+}
+
+/* Team Section */
+.team {
+  padding: var(--spacing-3xl) 0;
+}
+
+.team__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.team-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.team-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.team-card__photo {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  aspect-ratio: 3 / 4;
+}
+
+.team-card__body {
+  padding: var(--spacing-md);
+}
+
+.team-card__name {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.team-card__title {
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.team-card__bio {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  margin-bottom: 0.75rem;
+}
+
+.team-card__links {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.team-card__link {
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.team-card__link:hover {
+  color: var(--color-primary);
+}
+
+.team-card__link svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* Advisors */
+.advisors {
+  background: var(--color-light-bg);
+  padding: var(--spacing-3xl) 0;
+}
+
+.advisors__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.advisor-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base);
+}
+
+.advisor-card:hover {
+  transform: translateY(-3px);
+}
+
+.advisor-card__photo {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  margin: 0 auto var(--spacing-sm);
+}
+
+.advisor-card__logo {
+  height: 60px;
+  object-fit: contain;
+  margin: 0 auto var(--spacing-sm);
+}
+
+.advisor-card__name {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.advisor-card__desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+}
+
+/* Investors */
+.investors {
+  padding: var(--spacing-3xl) 0;
+}
+
+.investors__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+.investor-logo {
+  height: 50px;
+  object-fit: contain;
+  margin: 0 auto;
+  opacity: 0.7;
+  transition: opacity var(--transition-base);
+  display: block;
+}
+
+.investor-logo:hover {
+  opacity: 1;
+}
+
+/* Contact */
+.contact-section {
+  background: var(--color-dark-bg);
+  color: var(--color-text-white);
+  padding: var(--spacing-3xl) 0;
+  text-align: center;
+}
+
+/* Legal Notices */
+.legal-notices {
+  padding: var(--spacing-2xl) 0;
+}
+
+.legal-notice {
+  background: var(--color-light-bg);
+  border-left: 4px solid var(--color-primary);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+}
+
+.legal-notice__title {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.legal-notice__text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-hero {
+    padding: 5rem 0 3rem;
+  }
+
+  .about-hero__title {
+    font-size: var(--font-size-3xl);
+  }
+
+  .team__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .advisors__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .investors__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

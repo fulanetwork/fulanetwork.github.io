@@ -1,0 +1,2309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FULA Staking: DePIN Blockchain Rewards | Functionland</title>
+  <meta name="description" content="Stake FULA tokens on the DePIN blockchain network. Earn AI-optimized rewards with 90-day, 180-day, or 365-day staking plans on multiple chains.">
+  <meta property="og:title" content="FULA Staking - Functionland">
+  <meta property="og:description" content="Stake FULA tokens across Base, IoTeX, SKALE, and Ethereum. Earn up to 15% APY.">
+  <meta property="og:url" content="https://fula.network/fula-staking/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://fx.land/assets/images/logo/fula-icon-green.png">
+  <link rel="canonical" href="https://fula.network/fula-staking/">
+  <link rel="icon" type="image/png" href="../assets/images/logo/fula-icon-green.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <style>
+    .staking-widget-wrapper { padding: 6rem 0 2rem; }
+    .staking-widget-wrapper .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+  </style>
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Functionland","url":"https://fx.land","logo":"https://fx.land/assets/images/logo/fula-lockup-green.png","description":"DePIN blockchain platform for decentralized AI-powered data storage","sameAs":["https://x.com/functionland","https://t.me/functionland","https://github.com/functionland","https://www.linkedin.com/company/functionland","https://instagram.com/functionland.official"]}
+  </script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="site-header__logo">
+        <img src="../assets/images/logo/fula-lockup-green.png" alt="Fula Network" width="140" height="36">
+      </a>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+      </button>
+      <nav class="nav">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="../index.html" class="nav__link">Home</a></li>
+          <li class="nav__item"><a href="../about/" class="nav__link">About</a></li>
+          <li class="nav__item"><a href="../token/" class="nav__link">Token</a></li>
+          <li class="nav__item"><a href="../ecosystem/" class="nav__link">Ecosystem</a></li>
+          <li class="nav__item nav__item--has-dropdown">
+            <a href="#" class="nav__link">Participate <span class="nav__arrow">&#9662;</span></a>
+            <div class="nav__dropdown">
+              <a href="../fula-staking/" class="nav__dropdown-link">FULA Staking</a>
+              <a href="../fula-vip-staking/" class="nav__dropdown-link">FULA VIP Staking</a>
+              <a href="../fec-nfts/" class="nav__dropdown-link">FEC NFTs</a>
+              <a href="https://fx.land/FulaWP" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">Whitepaper</a>
+              <a href="https://simulation.fx.land" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">Mining Simulation</a>
+              <a href="https://coinmarketcap.com/currencies/functionland/" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">CoinMarketCap</a>
+            </div>
+          </li>
+          <li class="nav__item"><a href="../grants/" class="nav__link">Grants</a></li>
+          <li class="nav__item"><a href="../supporters/" class="nav__link">Supporters</a></li>
+        </ul>
+        <a id="nav-cta" href="../grants/" class="btn btn--primary btn--sm nav__cta">Apply for a Grant</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="staking-widget-wrapper">
+      <div class="container">
+<!-- FULA Staking Widget for WordPress HTML Block -->
+
+<!-- CSS Styles -->
+<style>
+  #fula-staking-widget {
+    font-family: 'Inter', 'Roboto', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #f8faf8;
+    box-shadow: 0 4px 12px rgba(0, 100, 0, 0.1);
+    color: #333;
+  }
+  
+  .fula-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .fula-header h2 {
+    color: #2e7d32;
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  
+  .fula-header p {
+    color: #558b2f;
+    font-size: 16px;
+  }
+  
+  /* Stats boxes styles */
+  .fula-stats-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+  }
+  
+  .fula-stats-box {
+    flex: 1;
+    min-width: 150px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 100, 0, 0.1);
+    border-left: 4px solid #43a047;
+    transition: transform 0.3s;
+  }
+  
+  .fula-stats-box:hover {
+    transform: translateY(-3px);
+  }
+  
+  .fula-stats-title {
+    color: #558b2f;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  .fula-stats-value {
+    color: #2e7d32;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .fula-connect-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .fula-network-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .fula-network-selector label {
+    margin-right: 10px;
+    font-weight: 500;
+    color: #2e7d32;
+  }
+  
+  .fula-network-selector select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #81c784;
+    background-color: white;
+    color: #2e7d32;
+    font-size: 14px;
+  }
+  
+  .fula-connect-button {
+    background-color: #43a047;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .fula-connect-button:hover {
+    background-color: #2e7d32;
+  }
+  
+  .fula-connect-button:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
+  }
+  
+  .fula-connect-button.connected {
+    background-color: #d32f2f;
+    color: #fff;
+  }
+  
+  .fula-wallet-info {
+    display: none;
+    background-color: #e8f5e9;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #43a047;
+  }
+  
+  .fula-wallet-address {
+    font-family: monospace;
+    font-size: 14px;
+    word-break: break-all;
+  }
+  
+  .fula-balance {
+    margin-top: 5px;
+    font-weight: 500;
+  }
+  
+  .fula-tabs {
+    display: flex;
+    border-bottom: 1px solid #81c784;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .fula-tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #558b2f;
+    font-weight: 500;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  
+  .fula-tab.active {
+    border-bottom: 3px solid #2e7d32;
+    color: #2e7d32;
+  }
+  
+  .fula-tab-content {
+    display: none;
+  }
+  
+  .fula-tab-content.active {
+    display: block;
+  }
+  
+  .fula-staking-options {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .fula-staking-option {
+    flex: 1;
+    min-width: 200px;
+    background-color: white;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+  
+  .fula-staking-option:hover {
+    border-color: #81c784;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 100, 0, 0.1);
+  }
+  
+  .fula-staking-option.selected {
+    border-color: #43a047;
+    background-color: #e8f5e9;
+  }
+  
+  .fula-staking-option.selected:after {
+    content: "✓";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #43a047;
+    font-weight: bold;
+  }
+  
+  .fula-staking-option h4 {
+    color: #2e7d32;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .fula-staking-option .apy {
+    font-size: 24px;
+    font-weight: bold;
+    color: #43a047;
+    margin-bottom: 10px;
+  }
+  
+  .fula-staking-option .period {
+    font-size: 14px;
+    color: #558b2f;
+  }
+  
+  .fula-input-group {
+    margin-bottom: 20px;
+  }
+  
+  .fula-input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2e7d32;
+    font-weight: 500;
+  }
+  
+  .fula-input-wrapper {
+    display: flex;
+    border: 1px solid #81c784;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  .fula-input-wrapper input {
+    flex: 1;
+    padding: 10px 15px;
+    border: none;
+    font-size: 16px;
+  }
+  
+  .fula-input-wrapper input:focus {
+    outline: none;
+  }
+  
+  .fula-input-wrapper .fula-max-button {
+    background-color: #c8e6c9;
+    border: none;
+    color: #2e7d32;
+    padding: 0 15px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .fula-input-wrapper .fula-max-button:hover {
+    background-color: #a5d6a7;
+  }
+  
+  .fula-referral-input {
+    margin-top: 15px;
+  }
+  
+  .fula-action-button {
+    width: 100%;
+    background-color: #43a047;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+  }
+  
+  .fula-action-button:hover {
+    background-color: #2e7d32;
+  }
+  
+  .fula-action-button:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
+  }
+  
+  .fula-info-section {
+    background-color: #e8f5e9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 30px;
+  }
+  
+  .fula-info-section h3 {
+    color: #2e7d32;
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  
+  .fula-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+  }
+  
+  .fula-info-table th, .fula-info-table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #c8e6c9;
+  }
+  
+  .fula-info-table th {
+    color: #2e7d32;
+    font-weight: 500;
+  }
+  
+  .fula-stakes-list {
+    margin-top: 20px;
+  }
+  
+  .fula-stake-item {
+    background-color: white;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .fula-stake-item .stake-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .fula-stake-item .stake-amount {
+    font-weight: bold;
+    color: #2e7d32;
+  }
+  
+  .fula-stake-item .stake-period {
+    color: #558b2f;
+  }
+  
+  .fula-stake-item .stake-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+  
+  .fula-stake-item .stake-rewards {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #43a047;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #f1f8e9;
+    border-radius: 4px;
+  }
+  
+  .fula-stake-item .unstake-button, .fula-stake-item .claim-button {
+    margin-top: 10px;
+    background-color: #f1f8e9;
+    border: 1px solid #81c784;
+    color: #2e7d32;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-right: 10px;
+  }
+  
+  .fula-stake-item .unstake-button:hover, .fula-stake-item .claim-button:hover {
+    background-color: #c8e6c9;
+  }
+  
+  .fula-stake-item .unstake-button:disabled, .fula-stake-item .claim-button:disabled {
+    background-color: #f1f8e9;
+    color: #a5d6a7;
+    cursor: not-allowed;
+    border-color: #c8e6c9;
+  }
+  
+  .fula-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    z-index: 1000;
+    max-width: 300px;
+  }
+  
+  .fula-notification.success {
+    background-color: #43a047;
+  }
+  
+  .fula-notification.error {
+    background-color: #e53935;
+  }
+  
+  .fula-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .fula-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: fula-spin 1s ease-in-out infinite;
+    margin-right: 10px;
+  }
+  
+  .fula-referrer-stats {
+    background-color: #e8f5e9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .fula-referrer-stats h3 {
+    color: #2e7d32;
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  
+  .fula-referrer-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .fula-referrer-stat-item {
+    background-color: white;
+    border-radius: 6px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 100, 0, 0.1);
+  }
+  
+  .fula-referrer-stat-label {
+    font-size: 12px;
+    color: #558b2f;
+    margin-bottom: 5px;
+  }
+  
+  .fula-referrer-stat-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2e7d32;
+  }
+  
+  .fula-referrer-claim-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin-top: 15px;
+  }
+  
+  .fula-referrer-claim-info {
+    font-weight: 500;
+    color: #2e7d32;
+  }
+  
+  .fula-referrer-claim-button {
+    background-color: #43a047;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .fula-referrer-claim-button:hover {
+    background-color: #2e7d32;
+  }
+  
+  .fula-referrer-claim-button:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
+  }
+  
+  .fula-referrer-rewards-list {
+    margin-top: 15px;
+  }
+  
+  .fula-referrer-reward-item {
+    background-color: white;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .fula-referrer-reward-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  .fula-referrer-reward-referee {
+    font-weight: 500;
+    color: #2e7d32;
+  }
+  
+  .fula-referrer-reward-amount {
+    font-weight: bold;
+    color: #43a047;
+  }
+  
+  .fula-referrer-reward-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+  }
+  
+  .fula-referrer-reward-progress {
+    height: 6px;
+    background-color: #e8f5e9;
+    border-radius: 3px;
+    margin: 8px 0;
+    overflow: hidden;
+  }
+  
+  .fula-referrer-reward-progress-bar {
+    height: 100%;
+    background-color: #43a047;
+    border-radius: 3px;
+  }
+  
+  .fula-button-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  @keyframes fula-spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .fula-connect-section {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .fula-connect-button {
+      margin-top: 10px;
+      width: 100%;
+    }
+    
+    .fula-staking-options {
+      flex-direction: column;
+    }
+    
+    .fula-staking-option {
+      width: 100%;
+    }
+    
+    .fula-stats-container {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .fula-referrer-stats-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .fula-tabs {
+      flex-wrap: wrap;
+    }
+    
+    .fula-tab {
+      flex: 1;
+      min-width: 80px;
+      padding: 10px 5px;
+      font-size: 14px;
+    }
+    
+    .fula-button-group {
+      flex-direction: column;
+      gap: 5px;
+    }
+    
+    .fula-stake-item .unstake-button, .fula-stake-item .claim-button {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+  
+  .fula-hint-message { min-height: 18px; transition: color 0.2s; }
+  
+  /* Stylish blockchain time display */
+  #fula-blocktime {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 12px;
+    color: #888;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 2px 8px;
+    border-radius: 8px;
+    z-index: 1000;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    font-family: monospace;
+  }
+</style>
+
+<!-- HTML Structure -->
+<div id="fula-staking-widget">
+  <div id="fula-blocktime"></div>
+  <div class="fula-header">
+    <h2>$FULA Token Staking v2</h2>
+    <p>Stake your $FULA tokens on Functionland Network and earn rewards</p>
+  </div>
+  
+  <!-- Stats boxes -->
+  <div class="fula-stats-container">
+    <div class="fula-stats-box">
+      <div class="fula-stats-title">Total FULA Staked</div>
+      <div class="fula-stats-value" id="fula-total-staked">Loading...</div>
+    </div>
+    <div class="fula-stats-box">
+      <div class="fula-stats-title">Total Stakers</div>
+      <div class="fula-stats-value" id="fula-total-stakers">Loading...</div>
+    </div>
+    <div class="fula-stats-box">
+      <div class="fula-stats-title">Total Referrers</div>
+      <div class="fula-stats-value" id="fula-total-referrers">Loading...</div>
+    </div>
+    <div class="fula-stats-box">
+      <div class="fula-stats-title">Total Staked on mining</div>
+      <div class="fula-stats-value" id="fula-total-staked-mining">3M FULA</div>
+    </div>
+    <div class="fula-stats-box">
+      <div class="fula-stats-title">Total Stakers on mining</div>
+      <div class="fula-stats-value" id="fula-total-stakers-mining">100</div>
+    </div>
+    <div class="fula-stats-box">
+      <div class="fula-stats-title">Your Total Staked</div>
+      <div class="fula-stats-value" id="fula-user-staked">N/A</div>
+    </div>
+  </div>
+
+  <div class="fula-connect-section">
+    <div class="fula-network-selector">
+      <label for="fula-network">Network:</label>
+      <select id="fula-network">
+        <option value="base">Base</option>
+        <option value="iotex">IoTEx</option>
+        <option value="skale">SKALE</option>
+		<option value="ethereum">Ethereum</option>
+      </select>
+      <span id="fula-contract-address" style="margin-left: 16px; font-size: 12px; color: #888;"></span>
+    </div>
+    <button id="fula-connect-wallet" class="fula-connect-button">Connect Wallet</button>
+  </div>
+
+  <div id="fula-wallet-info" class="fula-wallet-info">
+    <div class="fula-wallet-address" id="fula-address"></div>
+    <div class="fula-balance">Balance: <span id="fula-token-balance">0</span> FULA</div>
+    <div class="fula-balance"><span id="fula-gas-label">ETH for Gas:</span> <span id="fula-eth-balance">0</span></div>
+  </div>
+
+  <div class="fula-tabs">
+    <div class="fula-tab active" data-tab="stake">Stake</div>
+    <div class="fula-tab" data-tab="unstake">Unstake</div>
+    <div class="fula-tab" data-tab="referrer">Referrer</div>
+    <div class="fula-tab" data-tab="info">Info</div>
+  </div>
+
+  <div id="fula-stake-tab" class="fula-tab-content active">
+    <div class="fula-staking-options">
+      <div class="fula-staking-option" data-period="90" data-apy="2">
+        <h4>Short Term</h4>
+        <div class="apy">2% APY</div>
+        <div class="period">90 days lock period</div>
+      </div>
+      <div class="fula-staking-option" data-period="180" data-apy="6">
+        <h4>Medium Term</h4>
+        <div class="apy">6% APY</div>
+        <div class="period">180 days lock period</div>
+      </div>
+      <div class="fula-staking-option" data-period="365" data-apy="15">
+        <h4>Long Term</h4>
+        <div class="apy">15% APY</div>
+        <div class="period">365 days lock period</div>
+      </div>
+    </div>
+
+    <div class="fula-input-group">
+      <label for="fula-stake-amount">Amount to Stake</label>
+      <div class="fula-input-wrapper">
+        <input type="number" id="fula-stake-amount" placeholder="0.0" min="0" step="0.01">
+        <button class="fula-max-button" id="fula-max-stake">MAX</button>
+      </div>
+    </div>
+
+    <div class="fula-input-group fula-referral-input">
+      <label for="fula-referrer">Referrer Address (Optional)</label>
+      <div class="fula-input-wrapper">
+        <input type="text" id="fula-referrer" placeholder="0x...">
+      </div>
+    </div>
+
+    <div class="fula-hint-message" id="fula-stake-hint"></div>
+    <button id="fula-stake-button" class="fula-action-button" disabled>Stake FULA</button>
+  </div>
+
+  <div id="fula-unstake-tab" class="fula-tab-content">
+    <div class="fula-stakes-list" id="fula-stakes-container">
+      <p id="fula-no-stakes-message">You don't have any active stakes.</p>
+    </div>
+  </div>
+
+  <div id="fula-referrer-tab" class="fula-tab-content">
+    <div class="fula-referrer-stats">
+      <h3>Your Referrer Stats</h3>
+      <div class="fula-referrer-stats-grid">
+        <div class="fula-referrer-stat-item">
+          <div class="fula-referrer-stat-label">Total Referred</div>
+          <div class="fula-referrer-stat-value" id="fula-total-referred">0 FULA</div>
+        </div>
+        <div class="fula-referrer-stat-item">
+          <div class="fula-referrer-stat-label">Total Rewards</div>
+          <div class="fula-referrer-stat-value" id="fula-total-referrer-rewards">0 FULA</div>
+        </div>
+        <div class="fula-referrer-stat-item">
+          <div class="fula-referrer-stat-label">Unclaimed Rewards</div>
+          <div class="fula-referrer-stat-value" id="fula-unclaimed-rewards">0 FULA</div>
+        </div>
+        <div class="fula-referrer-stat-item">
+          <div class="fula-referrer-stat-label">Referred Stakers</div>
+          <div class="fula-referrer-stat-value" id="fula-referred-stakers-count">0</div>
+        </div>
+        <div class="fula-referrer-stat-item">
+          <div class="fula-referrer-stat-label">Active Referred Stakers</div>
+          <div class="fula-referrer-stat-value" id="fula-active-referred-stakers">0</div>
+        </div>
+        <div class="fula-referrer-stat-item">
+          <div class="fula-referrer-stat-label">Total Active Staked</div>
+          <div class="fula-referrer-stat-value" id="fula-total-active-staked">0 FULA</div>
+        </div>
+      </div>
+      <div id="fula-referrer-rewards-summary-info"></div>
+    </div>
+
+    <h3>Your Referrer Link</h3>
+    <div class="fula-input-group">
+      <div class="fula-input-wrapper">
+        <input type="text" id="fula-referrer-link" readonly>
+        <button class="fula-max-button" id="fula-copy-link">Copy</button>
+      </div>
+    </div>
+
+    <h3>Your Referrer Rewards</h3>
+    <div class="fula-referrer-rewards-list" id="fula-referrer-rewards-container">
+      <p id="fula-no-referrer-rewards-message">You don't have any referrer rewards yet.</p>
+    </div>
+  </div>
+
+  <div id="fula-info-tab" class="fula-tab-content">
+    <div class="fula-info-section">
+      <h3>Staking Rewards</h3>
+      <table class="fula-info-table">
+        <thead>
+          <tr>
+            <th>Staking Period</th>
+            <th>Lock Duration</th>
+            <th>APY</th>
+            <th>Referrer Reward</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Short Term</td>
+            <td>90 days</td>
+            <td>2%</td>
+            <td>0%</td>
+          </tr>
+          <tr>
+            <td>Medium Term</td>
+            <td>180 days</td>
+            <td>6%</td>
+            <td>1%</td>
+          </tr>
+          <tr>
+            <td>Long Term</td>
+            <td>365 days</td>
+            <td>15%</td>
+            <td>4%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Important Notes</h3>
+      <ul>
+        <li>You cannot unstake before the lock period is over</li>
+        <li>You can claim your rewards at any time</li>
+        <li>Referrers can claim their rewards at any time</li>
+        <li>Referrer rewards are distributed linearly over the lock period</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="fula-notification" class="fula-notification"></div>
+</div>
+
+<!-- Web3.js library -->
+<script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+
+<!-- JavaScript Code -->
+<script type="module">
+import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsdelivr.net/npm/@reown/appkit-cdn@1.8.20/dist/appkit.js';
+  // Helper functions
+  function formatAddress(address) {
+    return address.substring(0, 6) + '...' + address.substring(address.length - 4);
+  }
+
+  function formatDate(date) {
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  // Wait for DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    // Check for referrer parameter in URL and auto-fill referrer field
+    const referrerParam = getURLParameter('referrer');
+    if (referrerParam) {
+      const referrerInput = document.getElementById('fula-referrer');
+      if (referrerInput) {
+        referrerInput.value = referrerParam;
+      }
+    }
+
+    // Setup copy button for referrer link
+    setupCopyButton();
+
+    // Minimal ERC20 ABI for token contract
+    const tokenABI = [
+      {
+        "constant":true,
+        "inputs":[{"name":"account","type":"address"}],
+        "name":"balanceOf",
+        "outputs":[{"name":"","type":"uint256"}],
+        "payable":false,
+        "stateMutability":"view",
+        "type":"function"
+      },
+      {
+        "constant":true,
+        "inputs":[],
+        "name":"decimals",
+        "outputs":[{"name":"","type":"uint8"}],
+        "payable":false,
+        "stateMutability":"view",
+        "type":"function"
+      },
+      {
+        "constant":true,
+        "inputs":[{"name":"owner","type":"address"},{"name":"spender","type":"address"}],
+        "name":"allowance",
+        "outputs":[{"name":"","type":"uint256"}],
+        "payable":false,
+        "stateMutability":"view",
+        "type":"function"
+      },
+      {
+        "constant":false,
+        "inputs":[{"name":"spender","type":"address"},{"name":"amount","type":"uint256"}],
+        "name":"approve",
+        "outputs":[{"name":"","type":"bool"}],
+        "payable":false,
+        "stateMutability":"nonpayable",
+        "type":"function"
+      }
+    ];
+    
+    // Contract addresses for different networks
+    const contractAddresses = {
+	  ethereum: '0x60AD202B9700f6099C7044625dAb0715965031E2',
+      base: '0x4E875E0A4fEa97E83f1350b63420c36e38241db4',
+      iotex: '0xfe3574Fc1CC7c389fd916e891A497A4D986a8268',
+      skale: '0xD7eE7fFcD1C2cfc4Ced6CB7462095251e9e57Fa6',
+      hardhat: '0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0' // Hardhat
+    };
+
+    // Token contract addresses for different networks
+    const tokenAddresses = {
+	  ethereum: '0x92217cCaEDBdbc54C76c15feA18823db1558fDc9',
+      base: '0x9e12735d77c72c5C3670636D428f2F3815d8A4cB',
+      iotex: '0x9e12735d77c72c5C3670636D428f2F3815d8A4cB',
+      skale: '0x9e12735d77c72c5C3670636D428f2F3815d8A4cB',
+      hardhat: '0x5FbDB2315678afecb367f032d93F642f64180aa3' // Local Hardhat
+    };
+
+    // Contract ABI (updated to match StakingEngineLinear)
+    const contractABI = [
+      // Read functions
+      {
+        "inputs": [],
+        "name": "getTotalStaked",
+        "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [{"internalType": "address", "name": "user", "type": "address"}],
+        "name": "getUserTotalStaked",
+        "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [{"internalType": "address", "name": "user", "type": "address"}],
+        "name": "getUserStakes",
+        "outputs": [{
+          "components": [
+            {"internalType": "uint256", "name": "amount", "type": "uint256"},
+            {"internalType": "uint256", "name": "rewardDebt", "type": "uint256"},
+            {"internalType": "uint256", "name": "lockPeriod", "type": "uint256"},
+            {"internalType": "uint256", "name": "startTime", "type": "uint256"},
+            {"internalType": "address", "name": "referrer", "type": "address"},
+            {"internalType": "bool", "name": "isActive", "type": "bool"}
+          ],
+          "internalType": "struct StakingEngineLinear.StakeInfo[]",
+          "name": "",
+          "type": "tuple[]"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [{"internalType": "address", "name": "referrer", "type": "address"}],
+        "name": "getReferrerStats",
+        "outputs": [{
+          "components": [
+            {"internalType": "uint256", "name": "totalReferred", "type": "uint256"},
+            {"internalType": "uint256", "name": "totalReferrerRewards", "type": "uint256"},
+            {"internalType": "uint256", "name": "unclaimedRewards", "type": "uint256"},
+            {"internalType": "uint256", "name": "lastClaimTime", "type": "uint256"},
+            {"internalType": "uint256", "name": "referredStakersCount", "type": "uint256"},
+            {"internalType": "uint256", "name": "activeReferredStakersCount", "type": "uint256"},
+            {"internalType": "uint256", "name": "totalActiveStaked", "type": "uint256"},
+            {"internalType": "uint256", "name": "totalUnstaked", "type": "uint256"},
+            {"internalType": "uint256", "name": "totalActiveStaked90Days", "type": "uint256"},
+            {"internalType": "uint256", "name": "totalActiveStaked180Days", "type": "uint256"},
+            {"internalType": "uint256", "name": "totalActiveStaked365Days", "type": "uint256"}
+          ],
+          "internalType": "struct StakingEngineLinear.ReferrerInfo",
+          "name": "",
+          "type": "tuple"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [{"internalType": "address", "name": "referrer", "type": "address"}],
+        "name": "getReferrerRewards",
+        "outputs": [{
+          "components": [
+            {"internalType": "uint256", "name": "stakeId", "type": "uint256"},
+            {"internalType": "uint256", "name": "amount", "type": "uint256"},
+            {"internalType": "uint256", "name": "lockPeriod", "type": "uint256"},
+            {"internalType": "uint256", "name": "startTime", "type": "uint256"},
+            {"internalType": "uint256", "name": "endTime", "type": "uint256"},
+            {"internalType": "uint256", "name": "totalReward", "type": "uint256"},
+            {"internalType": "uint256", "name": "claimedReward", "type": "uint256"},
+            {"internalType": "uint256", "name": "nextClaimTime", "type": "uint256"},
+            {"internalType": "bool", "name": "isActive", "type": "bool"},
+            {"internalType": "address", "name": "referee", "type": "address"}
+          ],
+          "internalType": "struct StakingEngineLinear.ReferrerRewardInfo[]",
+          "name": "",
+          "type": "tuple[]"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [{"internalType": "address", "name": "referrer", "type": "address"}],
+        "name": "getClaimableReferrerRewards",
+        "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "getAllStakerAddresses",
+        "outputs": [{"internalType": "address[]", "name": "", "type": "address[]"}],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "getAllReferrerAddresses",
+        "outputs": [{"internalType": "address[]", "name": "", "type": "address[]"}],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      // Add ABI entry for getReferrerRewardByIndex
+      {
+        "inputs": [
+          {"internalType": "address", "name": "referrer", "type": "address"},
+          {"internalType": "uint256", "name": "index", "type": "uint256"}
+        ],
+        "name": "getReferrerRewardByIndex",
+        "outputs": [
+          {
+            "components": [
+              {"internalType": "uint256", "name": "stakeId", "type": "uint256"},
+              {"internalType": "uint256", "name": "amount", "type": "uint256"},
+              {"internalType": "uint256", "name": "lockPeriod", "type": "uint256"},
+              {"internalType": "uint256", "name": "startTime", "type": "uint256"},
+              {"internalType": "uint256", "name": "endTime", "type": "uint256"},
+              {"internalType": "uint256", "name": "totalReward", "type": "uint256"},
+              {"internalType": "uint256", "name": "claimedReward", "type": "uint256"},
+              {"internalType": "uint256", "name": "nextClaimTime", "type": "uint256"},
+              {"internalType": "bool", "name": "isActive", "type": "bool"},
+              {"internalType": "address", "name": "referee", "type": "address"}
+            ],
+            "internalType": "struct StakingEngineLinear.ReferrerRewardInfo",
+            "name": "",
+            "type": "tuple"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      // ABI entry for getClaimableStakerReward
+      {
+        "inputs": [
+          {"internalType": "address", "name": "staker", "type": "address"},
+          {"internalType": "uint256", "name": "stakeIndex", "type": "uint256"}
+        ],
+        "name": "getClaimableStakerReward",
+        "outputs": [
+          {"internalType": "uint256", "name": "toClaim", "type": "uint256"}
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      // Write functions
+      {
+        "inputs": [
+          {"internalType": "uint256", "name": "amount", "type": "uint256"},
+          {"internalType": "uint256", "name": "lockPeriod", "type": "uint256"}
+        ],
+        "name": "stakeToken",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {"internalType": "uint256", "name": "amount", "type": "uint256"},
+          {"internalType": "uint256", "name": "lockPeriod", "type": "uint256"},
+          {"internalType": "address", "name": "referrer", "type": "address"}
+        ],
+        "name": "stakeTokenWithReferrer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{"internalType": "uint256", "name": "index", "type": "uint256"}],
+        "name": "unstakeToken",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{"internalType": "uint256", "name": "stakeIndex", "type": "uint256"}],
+        "name": "claimStakerReward",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [{"internalType": "uint256", "name": "rewardIndex", "type": "uint256"}],
+        "name": "claimReferrerReward",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      // ERC20
+      {
+        "inputs": [{"internalType": "address", "name": "account", "type": "address"}],
+        "name": "balanceOf",
+        "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {"internalType": "address", "name": "owner", "type": "address"},
+          {"internalType": "address", "name": "spender", "type": "address"}
+        ],
+        "name": "allowance",
+        "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {"internalType": "address", "name": "spender", "type": "address"},
+          {"internalType": "uint256", "name": "amount", "type": "uint256"}
+        ],
+        "name": "approve",
+        "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ];
+
+    // Lock periods in seconds
+    const lockPeriods = {
+      90: 90 * 24 * 60 * 60,  // 90 days in seconds
+      180: 180 * 24 * 60 * 60, // 180 days in seconds
+      365: 365 * 24 * 60 * 60  // 365 days in seconds
+    };
+
+    // State variables
+    let web3;
+    let stakingContract;
+    let tokenContract;
+    let selectedAccount;
+    let selectedNetwork = 'base'; // Default to base network
+    let selectedPeriod = null;
+    // ---- Reown AppKit + read/write split ----
+    const PROJECT_ID = '192a8f5e8d1742ea923be485e60f2612';
+    const APPKIT_NETWORKS = { ethereum: networks.mainnet, base: networks.base, iotex: networks.iotex, skale: networks.skaleEuropa };
+    const CHAIN_IDS = { ethereum: 1, base: 8453, iotex: 4689, skale: 2046399126 };
+    const READ_RPCS = {
+      ethereum: ['https://eth.drpc.org','https://ethereum-rpc.publicnode.com','https://rpc.ankr.com/eth'],
+      base: ['https://base-rpc.publicnode.com','https://1rpc.io/base','https://base-mainnet.public.blastapi.io','https://base.drpc.org','https://mainnet.base.org'],
+      iotex: ['https://babel-api.mainnet.iotex.io','https://iotex-rpc.publicnode.com'],
+      skale: ['https://mainnet.skalenodes.com/v1/elated-tan-skat']
+    };
+    const readRpcIdx = { ethereum: 0, base: 0, iotex: 0, skale: 0 };
+    // Multicall3 (canonical cross-chain address) — batch all per-stake reward reads into ONE request,
+    // which is what stops the public Base RPC from rate-limiting the per-stake reward calls.
+    const MULTICALL3 = '0xcA11bde05977b3631167028862bE2a173976CA11';
+    const MULTICALL3_ABI = [{"inputs":[{"components":[{"name":"target","type":"address"},{"name":"allowFailure","type":"bool"},{"name":"callData","type":"bytes"}],"name":"calls","type":"tuple[]"}],"name":"aggregate3","outputs":[{"components":[{"name":"success","type":"bool"},{"name":"returnData","type":"bytes"}],"name":"returnData","type":"tuple[]"}],"stateMutability":"view","type":"function"}];
+    let multicallContract = null, loadGen = 0;
+    let modal = null, eip155Provider = null, appkitConnected = false;
+    let walletWeb3 = null, walletStaking = null, walletToken = null;
+    let userStakes = [];
+    let referrerRewards = [];
+    let tokenBalance = 0;
+    let tokenDecimals = 18;
+
+    // Native gas token symbol mapping
+    const gasSymbols = {
+	  ethereum: 'ETH',
+      hardhat: 'ETH',
+      base: 'ETH',
+      iotex: 'IOTX',
+      skale: 'SKALE'
+    };
+
+    // Default gas prices for different networks (in Gwei)
+    const defaultGasPrices = {
+	  ethereum: '1.5',
+      base: '1.5',
+      iotex: '1',
+      skale: '0.1',
+      hardhat: '1'
+    };
+
+    // DOM elements
+    const connectButton = document.getElementById('fula-connect-wallet');
+    const networkSelector = document.getElementById('fula-network');
+    const walletInfo = document.getElementById('fula-wallet-info');
+    const addressElement = document.getElementById('fula-address');
+    const balanceElement = document.getElementById('fula-token-balance');
+    const ethBalanceElement = document.getElementById('fula-eth-balance');
+    const totalStakedElement = document.getElementById('fula-total-staked');
+    const totalStakersElement = document.getElementById('fula-total-stakers');
+    const totalReferrersElement = document.getElementById('fula-total-referrers');
+    const userStakedElement = document.getElementById('fula-user-staked');
+    const stakeOptions = document.querySelectorAll('.fula-staking-option');
+    const stakeAmountInput = document.getElementById('fula-stake-amount');
+    const maxStakeButton = document.getElementById('fula-max-stake');
+    const referrerInput = document.getElementById('fula-referrer');
+    const stakeButton = document.getElementById('fula-stake-button');
+    const stakesContainer = document.getElementById('fula-stakes-container');
+    const noStakesMessage = document.getElementById('fula-no-stakes-message');
+    const tabs = document.querySelectorAll('.fula-tab');
+    const tabContents = document.querySelectorAll('.fula-tab-content');
+    const notification = document.getElementById('fula-notification');
+    const contractAddressSpan = document.getElementById('fula-contract-address');
+    const stakeHint = document.getElementById('fula-stake-hint');
+    const gasLabel = document.getElementById('fula-gas-label');
+    const blockTimeElement = document.getElementById('fula-blocktime');
+    
+    // Referrer elements
+    const totalReferredElement = document.getElementById('fula-total-referred');
+    const totalReferrerRewardsElement = document.getElementById('fula-total-referrer-rewards');
+    const unclaimedRewardsElement = document.getElementById('fula-unclaimed-rewards');
+    const referredStakersCountElement = document.getElementById('fula-referred-stakers-count');
+    const activeReferredStakersElement = document.getElementById('fula-active-referred-stakers');
+    const totalActiveStakedElement = document.getElementById('fula-total-active-staked');
+    const referrerRewardsSummaryElement = document.getElementById('fula-referrer-rewards-summary-info');
+    const referrerRewardsContainer = document.getElementById('fula-referrer-rewards-container');
+    const noReferrerRewardsMessage = document.getElementById('fula-no-referrer-rewards-message');
+
+    // Initialize
+    init();
+
+    function init() {
+      // Load saved network from localStorage
+      const savedNetwork = localStorage.getItem('fula-network-selected');
+      if (savedNetwork && Array.from(networkSelector.options).some(opt => opt.value === savedNetwork)) {
+        networkSelector.value = savedNetwork;
+        selectedNetwork = savedNetwork;
+      }
+
+      // Set up event listeners
+      connectButton.addEventListener('click', () => {
+        if (appkitConnected) {
+          modal.disconnect();
+        } else {
+          modal.open();
+        }
+      });
+
+      networkSelector.addEventListener('change', async () => {
+        await changeNetwork(networkSelector.value);
+      });
+      
+      maxStakeButton.addEventListener('click', setMaxAmount);
+      stakeButton.addEventListener('click', handleStake);
+      
+      stakeOptions.forEach(option => {
+        option.addEventListener('click', () => selectStakingOption(option));
+      });
+      
+      // Add tab switching event listeners directly to each tab element
+      document.querySelectorAll('.fula-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          const tabName = this.getAttribute('data-tab');
+          console.log('Tab clicked:', tabName);
+          switchTab(tabName);
+        });
+      });
+      
+      stakeAmountInput.addEventListener('input', validateStakeAmount);
+      
+      // Read provider + global stats, then initialize Reown AppKit (auto-reconnects).
+      buildReadProvider();
+      loadGlobalStats();
+      initAppKit();
+    }
+
+    // Function to extract URL parameters
+    function getURLParameter(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    // Function to update referrer link with connected wallet address
+    function updateReferrerLink() {
+      console.log("updating referral link");
+      const referrerLinkInput = document.getElementById('fula-referrer-link');
+      if (referrerLinkInput && selectedAccount) {
+        referrerLinkInput.value = `https://fx.land/fula-staking?referrer=${selectedAccount}`;
+      }
+    }
+
+    // Function to handle copy button click
+    function setupCopyButton()  {
+      const copyButton = document.getElementById('fula-copy-link');
+      if (copyButton) {
+        copyButton.addEventListener('click', function() {
+          const referrerLinkInput = document.getElementById('fula-referrer-link');
+          if (referrerLinkInput) {
+            referrerLinkInput.select();
+            document.execCommand('copy');
+            showNotification('Referrer link copied to clipboard!', 'success');
+          }
+        });
+      }
+    }
+
+    // ---- Read provider: per-network public RPC (with fallbacks). Used for ALL reads, ----
+    // ---- so balances/stats load reliably regardless of the connected wallet. ----
+    function buildReadProvider() {
+      const list = READ_RPCS[selectedNetwork] || ['https://mainnet.base.org'];
+      const url = list[readRpcIdx[selectedNetwork] % list.length];
+      web3 = new Web3(new Web3.providers.HttpProvider(url));
+      const contractAddress = contractAddresses[selectedNetwork];
+      stakingContract = (contractAddress && contractAddress !== '0x0000000000000000000000000000000000000000') ? new web3.eth.Contract(contractABI, contractAddress) : null;
+      const tokenAddress = tokenAddresses[selectedNetwork];
+      tokenContract = tokenAddress ? new web3.eth.Contract(tokenABI, tokenAddress) : null;
+      multicallContract = new web3.eth.Contract(MULTICALL3_ABI, MULTICALL3);
+    }
+    function rotateReadRpc() {
+      const list = READ_RPCS[selectedNetwork] || [];
+      readRpcIdx[selectedNetwork] = (readRpcIdx[selectedNetwork] + 1) % Math.max(1, list.length);
+      buildReadProvider();
+    }
+
+    // Run a read; on failure, rotate through the selected network's RPC fallbacks and retry. Throws only if all fail.
+    // fn must reference the CURRENT global contract so it picks up the rebuilt instance after a rotate.
+    async function callRead(fn) {
+      const list = READ_RPCS[selectedNetwork] || [];
+      const n = Math.max(1, list.length);
+      let lastErr;
+      for (let attempt = 0; attempt < n; attempt++) {
+        try { return await fn(); }
+        catch (e) { lastErr = e; console.warn('[read] failed, rotating RPC:', e && e.message); rotateReadRpc(); }
+      }
+      throw lastErr;
+    }
+    // Probe the active RPC before relying on it; rotate past dead/wrong-chain endpoints. Starts each load from the best RPC.
+    async function ensureHealthyRpc() {
+      const list = READ_RPCS[selectedNetwork] || [];
+      readRpcIdx[selectedNetwork] = 0; buildReadProvider();
+      const expected = CHAIN_IDS[selectedNetwork];
+      for (let i = 0; i < Math.max(1, list.length); i++) {
+        try { if (Number(await web3.eth.getChainId()) === expected) return true; } catch (e) {}
+        rotateReadRpc();
+      }
+      return false;
+    }
+    // Decode one Multicall3 result -> claimable in ether (string), or null on failure/empty.
+    // CRITICAL: success-but-empty/short data => null (unknown -> show Refresh), NEVER 0 (that was the silent-0 bug).
+    // A genuine zero reward is a full 32-byte word (66 hex chars) and decodes to "0" correctly.
+    function decodeClaimable(item) {
+      const ok = (item && item.success !== undefined) ? item.success : (item ? item[0] : false);
+      const data = (item && item.returnData !== undefined) ? item.returnData : (item ? item[1] : null);
+      if (!(ok === true || ok === 'true')) return null;
+      if (!data || data === '0x' || data.length < 66) return null;
+      try { return web3.utils.fromWei(String(web3.eth.abi.decodeParameter('uint256', data)), 'ether'); }
+      catch (e) { return null; }
+    }
+    // Batch getClaimableStakerReward for a list of {stake,index} via Multicall3 (ONE request).
+    // Returns an array aligned 1:1 with `active`; each element a claimable-ether string, or null (=> render Refresh).
+    // Falls back to sequential per-stake reads (each through callRead) if Multicall3 is unavailable on this chain.
+    async function fetchClaimableBatch(active) {
+      if (!active.length) return [];
+      const target = contractAddresses[selectedNetwork];
+      const calldata = active.map(a => stakingContract.methods.getClaimableStakerReward(selectedAccount, a.index).encodeABI());
+      const calls = active.map((a, k) => [target, true, calldata[k]]); // POSITIONAL tuple input (robust across web3 v1/v4)
+      try {
+        const res = await callRead(() => multicallContract.methods.aggregate3(calls).call());
+        if (Array.isArray(res) && res.length === active.length) return res.map(decodeClaimable);
+        console.warn('[multicall] length mismatch, sequential fallback');
+      } catch (e) { console.warn('[multicall] failed, sequential fallback:', e && e.message); }
+      const out = [];
+      for (const a of active) {
+        try { out.push(web3.utils.fromWei(String(await callRead(() => stakingContract.methods.getClaimableStakerReward(selectedAccount, a.index).call())), 'ether')); }
+        catch (e) { out.push(null); }
+      }
+      return out;
+    }
+
+    async function loadGlobalStats() {
+      if (!web3) buildReadProvider();
+      const run = async () => {
+        const contractAddress = contractAddresses[selectedNetwork];
+        if (!contractAddress || contractAddress === '0x0000000000000000000000000000000000000000') {
+          totalStakedElement.textContent = 'Contract not deployed';
+          totalStakersElement.textContent = 'N/A';
+          totalReferrersElement.textContent = 'N/A';
+          return;
+        }
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+        const totalStaked = await contract.methods.getTotalStaked().call();
+        totalStakedElement.textContent = parseFloat(web3.utils.fromWei(totalStaked, 'ether')).toLocaleString() + ' FULA';
+        try { const allStakers = await contract.methods.getAllStakerAddresses().call(); totalStakersElement.textContent = allStakers.length.toLocaleString(); }
+        catch (e) { console.error('Error loading total stakers:', e); totalStakersElement.textContent = 'N/A'; }
+        try { const allReferrers = await contract.methods.getAllReferrerAddresses().call(); totalReferrersElement.textContent = allReferrers.length.toLocaleString(); }
+        catch (e) { console.error('Error loading total referrers:', e); totalReferrersElement.textContent = 'N/A'; }
+        updateContractAddressDisplay();
+      };
+      try { await run(); }
+      catch (error) {
+        console.error('Error loading global stats:', error);
+        const list = READ_RPCS[selectedNetwork] || [];
+        let ok = false;
+        for (let i = 0; i < list.length - 1; i++) { rotateReadRpc(); try { await run(); ok = true; break; } catch (e2) { console.error('Fallback RPC failed:', e2); } }
+        if (!ok) { totalStakedElement.textContent = 'Error loading data'; totalStakersElement.textContent = 'Error loading data'; totalReferrersElement.textContent = 'Error loading data'; }
+      }
+    }
+
+    // ---- Reown AppKit: wallet connection (modal, WalletConnect/QR, mobile, injected) ----
+    function initAppKit() {
+      const appkitNets = [networks.mainnet, networks.base, networks.iotex, networks.skaleEuropa];
+      const wagmiAdapter = new WagmiAdapter({ networks: appkitNets, projectId: PROJECT_ID });
+      modal = createAppKit({
+        adapters: [wagmiAdapter],
+        networks: appkitNets,
+        defaultNetwork: APPKIT_NETWORKS[selectedNetwork] || networks.base,
+        projectId: PROJECT_ID,
+        metadata: {
+          name: 'FULA Staking',
+          description: 'Stake FULA tokens across Base, Ethereum, IoTeX and SKALE',
+          url: 'https://fx.land',
+          icons: ['https://fx.land/assets/images/logo/fula-icon-green.png']
+        },
+        themeMode: 'dark',
+        features: { analytics: false, email: false, socials: false }
+      });
+
+      modal.subscribeAccount(state => {
+        if (state && state.isConnected && state.address) {
+          const changed = state.address !== selectedAccount;
+          onAccountConnected(state.address, changed);
+        } else if (appkitConnected || selectedAccount) {
+          handleDisconnect();
+        }
+      });
+      // EIP-1193 provider for signing/sending; reads go through the read provider (web3).
+      modal.subscribeProviders(state => { eip155Provider = (state && state['eip155']) || null; });
+      // Restore a previous session on reload (vanilla wagmi does not auto-reconnect on its own).
+      try { WagmiCore.reconnect(wagmiAdapter.wagmiConfig); } catch (e) {}
+    }
+
+    function onAccountConnected(address, changed) {
+      selectedAccount = address;
+      appkitConnected = true;
+      addressElement.textContent = formatAddress(selectedAccount);
+      walletInfo.style.display = 'block';
+      connectButton.textContent = 'Disconnect Wallet';
+      connectButton.disabled = false;
+      connectButton.classList.add('connected');
+      updateBlockTime();
+      updateReferrerLink();
+      if (changed) loadUserData();
+    }
+
+    function handleDisconnect() {
+      selectedAccount = null;
+      appkitConnected = false;
+      eip155Provider = null;
+      walletWeb3 = null; walletStaking = null; walletToken = null;
+      walletInfo.style.display = 'none';
+      connectButton.textContent = 'Connect Wallet';
+      connectButton.disabled = false;
+      connectButton.classList.remove('connected');
+      stakeButton.disabled = true;
+      userStakedElement.textContent = 'N/A';
+    }
+
+    // Build wallet (write) contracts and enforce the SELECTED network's chain before any send.
+    async function ensureWalletReady() {
+      if (!appkitConnected || !selectedAccount) throw new Error('Please connect your wallet first');
+      if (!eip155Provider) throw new Error('Wallet provider not ready, please try again');
+      const targetId = CHAIN_IDS[selectedNetwork];
+      let cid = parseInt(await eip155Provider.request({ method: 'eth_chainId' }), 16);
+      if (cid !== targetId) {
+        try { await modal.switchNetwork(APPKIT_NETWORKS[selectedNetwork]); } catch (e) {}
+        cid = parseInt(await eip155Provider.request({ method: 'eth_chainId' }), 16);
+        if (cid !== targetId) throw new Error('Please switch your wallet to the ' + selectedNetwork + ' network');
+      }
+      walletWeb3 = new Web3(eip155Provider);
+      walletStaking = new walletWeb3.eth.Contract(contractABI, contractAddresses[selectedNetwork]);
+      walletToken = new walletWeb3.eth.Contract(tokenABI, tokenAddresses[selectedNetwork]);
+    }
+
+    // Dropdown is the source of truth for which network is displayed.
+    async function changeNetwork(net) {
+      selectedNetwork = net;
+      localStorage.setItem('fula-network-selected', net);
+      readRpcIdx[net] = 0;
+      buildReadProvider();
+      gasLabel.textContent = (gasSymbols[selectedNetwork] || 'ETH') + ' for Gas:';
+      await loadGlobalStats();
+      if (appkitConnected && selectedAccount) {
+        try { await modal.switchNetwork(APPKIT_NETWORKS[net]); } catch (e) {}
+        await loadUserData();
+      }
+      updateBlockTime();
+    }
+    async function loadUserData() {
+      // Ensure network is switched before loading user data
+      if (!selectedAccount || !stakingContract) return;
+      const acct = selectedAccount; // capture: AppKit can clear/switch the account during the async reads below
+
+      try {
+        await ensureHealthyRpc();
+        if (selectedAccount !== acct || !selectedAccount) return; // account changed/cleared mid-probe; a newer load will handle it
+        // Get token balance from correct token contract
+        const tokenAddress = tokenAddresses[selectedNetwork];
+        if (!tokenAddress) {
+          balanceElement.textContent = 'Token address not set';
+        } else {
+          const tokenContractInstance = new web3.eth.Contract(tokenABI, tokenAddress);
+          // Try to get decimals dynamically (fallback to 18)
+          let decimals = 18;
+          try {
+            decimals = await tokenContractInstance.methods.decimals().call();
+          } catch (e) {
+            console.error('Error getting token decimals:', e);
+          }
+          
+          const balance = await tokenContractInstance.methods.balanceOf(acct).call();
+          tokenBalance = balance / (10 ** decimals);
+          balanceElement.textContent = parseFloat(tokenBalance).toFixed(4);
+        }
+        
+        // Update gas label for current network
+        gasLabel.textContent = (gasSymbols[selectedNetwork] || 'ETH') + ' for Gas:';
+        
+        // Get ETH/native balance for gas
+        const ethBalanceWei = await web3.eth.getBalance(acct);
+        const ethBalance = web3.utils.fromWei(ethBalanceWei, 'ether');
+        ethBalanceElement.textContent = parseFloat(ethBalance).toFixed(4);
+        
+        // Get user's total staked amount
+        try {
+          const userTotalStaked = await stakingContract.methods.getUserTotalStaked(acct).call();
+          const userTotalStakedFormatted = web3.utils.fromWei(userTotalStaked, 'ether');
+          userStakedElement.textContent = parseFloat(userTotalStakedFormatted).toFixed(4) + ' FULA';
+        } catch (error) {
+          console.error('Error getting user total staked:', error);
+          userStakedElement.textContent = 'Error loading data';
+        }
+        
+        // Get user's stakes
+        await loadUserStakes();
+        
+        // Get referrer stats
+        await loadReferrerStats();
+        
+        // Validate stake amount in case balance changed
+        validateStakeAmount();
+      } catch (error) {
+        console.error('Error loading user data:', error);
+        showNotification('Failed to load user data: ' + (error.message || 'Unknown error'), 'error');
+      }
+    }
+
+    async function loadUserStakes() {
+      const gen = ++loadGen; // discard results if a newer load (account/network switch) starts while we're in flight
+      try {
+        const stakes = await callRead(() => stakingContract.methods.getUserStakes(selectedAccount).call());
+        if (gen !== loadGen) return;
+        userStakes = stakes;
+
+        // Clear stakes container
+        stakesContainer.innerHTML = '';
+
+        // Build the active list ONCE, preserving each stake's ON-CHAIN index (rewards are mapped back by this index).
+        const active = [];
+        for (let i = 0; i < stakes.length; i++) { if (stakes[i].isActive) active.push({ stake: stakes[i], index: i }); }
+
+        if (!active.length) {
+          stakesContainer.appendChild(noStakesMessage);
+          noStakesMessage.style.display = 'block';
+          return;
+        }
+        noStakesMessage.style.display = 'none';
+
+        const block = await callRead(() => web3.eth.getBlock('latest'));
+        if (gen !== loadGen) return;
+        const blockTimestamp = block.timestamp;
+
+        // ONE Multicall3 request for every active stake's claimable reward; rewards[k] aligns with active[k].
+        const rewards = await fetchClaimableBatch(active);
+        if (gen !== loadGen) return;
+
+        active.forEach((a, k) => {
+          const elem = createFulaStakeElement(a.stake, a.index, (rewards[k] !== undefined ? rewards[k] : null), blockTimestamp);
+          stakesContainer.appendChild(elem);
+        });
+      } catch (error) {
+        if (gen !== loadGen) return;
+        console.error('Error loading user stakes:', error);
+        stakesContainer.innerHTML = '<p>Error loading stakes. Please try again.</p>';
+      }
+    }
+
+    // `claimable` is a claimable-ether string on success, or null when the reward read failed
+    // (=> show a per-stake Refresh button + "—" placeholder instead of a misleading "0").
+    function createFulaStakeElement(stake, index, claimable, blockTimestamp) {
+      const stakeAmount = web3.utils.fromWei(stake.amount, 'ether');
+      const startTime = new Date(stake.startTime * 1000);
+      const endTime = new Date((parseInt(stake.startTime) + parseInt(stake.lockPeriod)) * 1000);
+      const isLocked = blockTimestamp < ((parseInt(stake.startTime) + parseInt(stake.lockPeriod)));
+
+      let periodLabel = '';
+      let apyRate = '';
+      if (stake.lockPeriod == lockPeriods[90]) {
+        periodLabel = 'Short Term (90 days)';
+        apyRate = '2%';
+      } else if (stake.lockPeriod == lockPeriods[180]) {
+        periodLabel = 'Medium Term (180 days)';
+        apyRate = '6%';
+      } else if (stake.lockPeriod == lockPeriods[365]) {
+        periodLabel = 'Long Term (365 days)';
+        apyRate = '15%';
+      }
+
+      const rewardFailed = (claimable === null || claimable === undefined);
+      const hasUnclaimed = !rewardFailed && parseFloat(claimable) > 0.000001;
+      const valueText = rewardFailed ? '—' : (parseFloat(claimable).toFixed(6) + ' FULA');
+      const refreshBtnHTML = rewardFailed
+        ? `<button class="fula-stake-refresh" data-index="${index}" title="Reward couldn't load — tap to retry" style="margin-left:8px;padding:3px 9px;font-size:12px;border:1px solid #81c784;background:#f1f8e9;color:#2e7d32;border-radius:4px;cursor:pointer;white-space:nowrap;">⟳ Refresh</button>`
+        : '';
+
+      const stakeElement = document.createElement('div');
+      stakeElement.className = 'fula-stake-item';
+      stakeElement.innerHTML = `
+        <div class="stake-header">
+          <div class="stake-amount">${parseFloat(stakeAmount).toFixed(4)} FULA</div>
+          <div class="stake-period">${periodLabel} - ${apyRate} APY</div>
+        </div>
+        <div class="stake-details">
+          <div>Start: ${formatDate(startTime)}</div>
+          <div>End: ${formatDate(endTime)}</div>
+        </div>
+        <div class="stake-details">
+          <div>Status: ${isLocked ? 'Locked' : 'Unlocked'}</div>
+          <div>${isLocked ? 'Cannot unstake yet' : 'Ready to unstake'}</div>
+        </div>
+        <div class="stake-rewards">
+          <div>Claimable Rewards:</div>
+          <div><span class="fula-claimable-rewards">${valueText}</span>${refreshBtnHTML}</div>
+        </div>
+        <div class="fula-button-group">
+          <button class="claim-button" data-index="${index}" ${hasUnclaimed ? '' : 'disabled'}>Claim Rewards</button>
+          <button class="unstake-button" data-index="${index}" ${(isLocked || rewardFailed) ? 'disabled' : ''}>Unstake</button>
+        </div>
+      `;
+
+      const refreshBtn = stakeElement.querySelector('.fula-stake-refresh');
+      if (refreshBtn) refreshBtn.addEventListener('click', () => refreshFulaStakeReward(index, stakeElement));
+
+      const unstakeButton = stakeElement.querySelector('.unstake-button');
+      unstakeButton.addEventListener('click', async () => {
+        // Fetch the latest claimable rewards (through RPC fallbacks). If we CANNOT confirm the amount,
+        // abort instead of unstaking — unstaking with unclaimed rewards would forfeit them.
+        let latestClaimable;
+        try {
+          latestClaimable = await callRead(() => stakingContract.methods.getClaimableStakerReward(selectedAccount, index).call());
+        } catch (e) {
+          console.error('Error fetching claimableRewards before unstake:', e);
+          showNotification('Could not verify rewards — please retry before unstaking', 'warning');
+          return;
+        }
+        if (parseFloat(web3.utils.fromWei(String(latestClaimable), 'ether')) > 0) {
+          await handleClaimStakerReward(index);
+        }
+        handleUnstake(index);
+      });
+
+      const claimButton = stakeElement.querySelector('.claim-button');
+      claimButton.addEventListener('click', () => handleClaimStakerReward(index));
+
+      return stakeElement;
+    }
+
+    // Per-stake failsafe: re-fetch just this stake's claimable reward (through the RPC fallbacks) and repaint the card.
+    async function refreshFulaStakeReward(index, el) {
+      const btn = el.querySelector('.fula-stake-refresh');
+      if (btn) { btn.disabled = true; btn.textContent = '…'; }
+      try {
+        const wei = await callRead(() => stakingContract.methods.getClaimableStakerReward(selectedAccount, index).call());
+        const val = web3.utils.fromWei(String(wei), 'ether');
+        const valEl = el.querySelector('.fula-claimable-rewards');
+        if (valEl) valEl.textContent = parseFloat(val).toFixed(6) + ' FULA';
+        if (btn) btn.remove();
+        const claimBtn = el.querySelector('.claim-button');
+        if (claimBtn) claimBtn.disabled = !(parseFloat(val) > 0.000001);
+      } catch (e) {
+        if (btn) { btn.disabled = false; btn.textContent = '⟳ Retry'; }
+        showNotification('Still busy — please tap Retry again', 'warning');
+      }
+    }
+
+    async function loadReferrerStats() {
+      try {
+        // Get referrer stats
+        const referrerStats = await stakingContract.methods.getReferrerStats(selectedAccount).call();
+        
+        // Update UI with referrer stats
+        totalReferredElement.textContent = parseFloat(web3.utils.fromWei(referrerStats.totalReferred, 'ether')).toFixed(4) + ' FULA';
+        totalReferrerRewardsElement.textContent = parseFloat(web3.utils.fromWei(referrerStats.totalReferrerRewards, 'ether')).toFixed(4) + ' FULA';
+        unclaimedRewardsElement.textContent = parseFloat(web3.utils.fromWei(referrerStats.unclaimedRewards, 'ether')).toFixed(4) + ' FULA';
+        referredStakersCountElement.textContent = referrerStats.referredStakersCount;
+        activeReferredStakersElement.textContent = referrerStats.activeReferredStakersCount;
+        totalActiveStakedElement.textContent = parseFloat(web3.utils.fromWei(referrerStats.totalActiveStaked, 'ether')).toFixed(4) + ' FULA';
+        
+        // Get referrer rewards
+        await loadReferrerRewards();
+      } catch (error) {
+        console.error('Error loading referrer stats:', error);
+        // Set default values for referrer stats
+        totalReferredElement.textContent = '0 FULA';
+        totalReferrerRewardsElement.textContent = '0 FULA';
+        unclaimedRewardsElement.textContent = '0 FULA';
+        referredStakersCountElement.textContent = '0';
+        activeReferredStakersElement.textContent = '0';
+        totalActiveStakedElement.textContent = '0 FULA';
+      }
+    }
+
+    async function loadReferrerRewards() {
+      try {
+        const rewards = await stakingContract.methods.getReferrerRewards(selectedAccount).call();
+        referrerRewards = rewards;
+        referrerRewardsContainer.innerHTML = '';
+        if (rewards.length === 0 || !rewards.some(reward => reward.isActive)) {
+          referrerRewardsContainer.appendChild(noReferrerRewardsMessage);
+          return;
+        }
+        noReferrerRewardsMessage.style.display = 'none';
+
+        // Show total rewards summary
+        let totalClaimable = 0;
+        let totalUnclaimed = 0;
+        let totalRewards = 0;
+        // We'll fetch accurate claimable per index from the contract
+        const block = await web3.eth.getBlock('latest');
+        const blockTimestamp = block.timestamp;
+
+        for (let i = 0; i < rewards.length; i++) {
+          if (!rewards[i].isActive) continue;
+          const rewardInfo = await stakingContract.methods.getReferrerRewardByIndex(selectedAccount, i).call();
+          const rewardAmount = web3.utils.fromWei(rewardInfo.totalReward, 'ether');
+          const claimedAmount = web3.utils.fromWei(rewardInfo.claimedReward, 'ether');
+          const startTime = new Date(rewardInfo.startTime * 1000);
+          const endTime = new Date(rewardInfo.endTime * 1000);
+          const nextClaimTime = new Date(rewardInfo.nextClaimTime * 1000);
+          const total = parseFloat(rewardAmount);
+          const claimed = parseFloat(claimedAmount);
+          const remaining = total - claimed;
+          // Calculate claimable using contract logic
+          const lockEnd = rewardInfo.startTime + rewardInfo.lockPeriod;
+          const nowOrEnd = blockTimestamp < lockEnd ? blockTimestamp : lockEnd;
+          const timeElapsed = nowOrEnd - rewardInfo.startTime;
+          
+          // Use BN for proper calculation without floating point issues
+          const totalRewardBN = web3.utils.toBN(rewardInfo.totalReward);
+          const timeElapsedBN = web3.utils.toBN(timeElapsed);
+          const lockPeriodBN = web3.utils.toBN(rewardInfo.lockPeriod);
+          const claimedRewardBN = web3.utils.toBN(rewardInfo.claimedReward);
+          
+          // Calculate: (totalReward * timeElapsed / lockPeriod) - claimedReward
+          let claimableBN;
+          try {
+            const rewardToDateBN = totalRewardBN.mul(timeElapsedBN).div(lockPeriodBN);
+            claimableBN = rewardToDateBN.sub(claimedRewardBN);
+            if (claimableBN.isNeg()) {
+              claimableBN = web3.utils.toBN(0);
+            }
+          } catch (calcError) {
+            console.error('Error in BN calculation:', calcError);
+            claimableBN = web3.utils.toBN(0);
+          }
+          
+          const claimableFula = web3.utils.fromWei(claimableBN, 'ether');
+          totalClaimable += parseFloat(claimableFula);
+          totalUnclaimed += remaining;
+          totalRewards += total;
+
+          const rewardElement = document.createElement('div');
+          rewardElement.className = 'fula-referrer-reward-item';
+          rewardElement.innerHTML = `
+            <div class="fula-referrer-reward-header">
+              <div class="fula-referrer-reward-referee">${formatAddress(rewardInfo.referee)}</div>
+              <div class="fula-referrer-reward-amount">${total.toFixed(6)} FULA</div>
+            </div>
+            <div class="fula-referrer-reward-details">
+              <div>Claimed: ${claimed.toFixed(6)} FULA</div>
+              <div>Remaining: ${remaining.toFixed(6)} FULA</div>
+            </div>
+            <div class="fula-referrer-reward-details">
+              <div>Start: ${formatDate(startTime)}</div>
+              <div>End: ${formatDate(endTime)}</div>
+            </div>
+            <div class="fula-referrer-reward-details">
+              <div>Next Claim: ${formatDate(nextClaimTime)}</div>
+              <div>Claimable: ${parseFloat(claimableFula).toFixed(6)} FULA</div>
+            </div>
+            <div class="fula-referrer-reward-progress">
+              <div class="fula-referrer-reward-progress-bar" style="width: ${(timeElapsed / rewardInfo.lockPeriod) * 100}%"></div>
+            </div>
+            <button class="fula-action-button" data-index="${i}" ${claimableBN.isZero() ? 'disabled' : ''}>
+              Claim Reward
+            </button>
+          `;
+          const claimButton = rewardElement.querySelector('.fula-action-button');
+          claimButton.addEventListener('click', () => handleClaimReferrerReward(i));
+          referrerRewardsContainer.appendChild(rewardElement);
+        }
+        // Optionally show a summary at the top
+        referrerRewardsSummaryElement.innerHTML = `
+          <div>Total Referrer Rewards: ${totalRewards.toFixed(6)} FULA</div>
+          <div>Total Unclaimed: ${totalUnclaimed.toFixed(6)} FULA</div>
+          <div>Total Claimable: ${totalClaimable.toFixed(6)} FULA</div>
+        `;
+      } catch (error) {
+        console.error('Error loading referrer rewards:', error);
+        referrerRewardsContainer.innerHTML = '<p>Error loading referrer rewards. Please try again.</p>';
+      }
+    }
+
+    // Helper function to estimate gas for a transaction with method-specific fallbacks
+  async function estimateGasWithFallback(method, params) {
+    try {
+      // Try to estimate gas using the contract method
+      const gasEstimate = await method.estimateGas(params);
+      // Add a buffer to the gas estimate (20% more)
+      return Math.ceil(gasEstimate * 1.2);
+    } catch (error) {
+      console.warn('Gas estimation failed, using fallback gas limit:', error);
+      
+      // Get method name from the method object
+      const methodName = method._method ? method._method.name : '';
+      
+      // Use specific gas limits from Hardhat gas report for each method
+      const gasLimits = {
+        // Values from the Hardhat gas report with 20% buffer
+        stakeToken: 458245,             // 381,871 * 1.2
+        stakeTokenWithReferrer: 896182, // 746,818 * 1.2
+        unstakeToken: 181097,           // 150,914 * 1.2
+        claimStakerReward: 140437,      // 117,031 * 1.2
+        claimReferrerReward: 136006,    // 113,338 * 1.2
+        addRewardsToPool: 81320,        // 67,767 * 1.2
+        emergencyPauseRewardDistribution: 59683,  // 49,736 * 1.2
+        emergencyUnpauseRewardDistribution: 33365 // 27,804 * 1.2
+      };
+      
+      // Return the specific gas limit for the method if available, otherwise use default
+      return gasLimits[methodName] || 300000; // Default fallback gas limit if method not found
+    }
+  }
+
+    // Helper function to get gas price with fallback
+    async function getGasPriceWithFallback() {
+      try {
+        // Try to get current gas price from the network
+        const gasPrice = await web3.eth.getGasPrice();
+        // Convert to Gwei for readability
+        const gasPriceGwei = web3.utils.fromWei(gasPrice, 'gwei');
+        console.log('Current gas price:', gasPriceGwei, 'Gwei');
+        return gasPrice;
+      } catch (error) {
+        console.warn('Gas price fetch failed, using fallback gas price:', error);
+        // Use a fallback gas price based on the network
+        const fallbackGasPriceGwei = defaultGasPrices[selectedNetwork] || '1.5';
+        const fallbackGasPrice = web3.utils.toWei(fallbackGasPriceGwei, 'gwei');
+        console.log('Using fallback gas price:', fallbackGasPriceGwei, 'Gwei');
+        return fallbackGasPrice;
+      }
+    }
+
+    async function handleStake() {
+      if (!selectedAccount || !stakingContract || !tokenContract) return;
+      
+      const amount = parseFloat(stakeAmountInput.value);
+      if (!amount || amount <= 0 || !selectedPeriod) {
+        showNotification('Please enter a valid amount and select a staking period.', 'error');
+        return;
+      }
+      
+      const amountWei = web3.utils.toWei(amount.toString(), 'ether');
+      const referrer = referrerInput.value.trim();
+      
+      try {
+        stakeButton.disabled = true;
+        stakeButton.innerHTML = '<span class="fula-loading"></span> Processing...';
+        await ensureWalletReady();
+
+        // Check allowance
+        const allowance = await tokenContract.methods.allowance(selectedAccount, stakingContract.options.address).call();
+        
+        if (BigInt(allowance) < BigInt(amountWei)) {
+          // Prepare approve transaction with explicit gas parameters
+          const approveMethod = walletToken.methods.approve(stakingContract.options.address, amountWei);
+          const gasLimit = await estimateGasWithFallback(approveMethod, { from: selectedAccount });
+          const gasPrice = await getGasPriceWithFallback();
+          
+          // Approve token transfer with explicit gas parameters
+          await approveMethod.send({
+            from: selectedAccount,
+            gas: gasLimit,
+            gasPrice: gasPrice
+          });
+        }
+        
+        // Prepare stake transaction
+        let stakeMethod;
+        let stakeParams = { from: selectedAccount };
+        
+        if (referrer && web3.utils.isAddress(referrer) && referrer !== selectedAccount) {
+          stakeMethod = walletStaking.methods.stakeTokenWithReferrer(amountWei, lockPeriods[selectedPeriod], referrer);
+        } else {
+          stakeMethod = walletStaking.methods.stakeToken(amountWei, lockPeriods[selectedPeriod]);
+        }
+        
+        // Estimate gas with fallback and get current gas price
+        const gasLimit = await estimateGasWithFallback(stakeMethod, stakeParams);
+        const gasPrice = await getGasPriceWithFallback();
+        
+        // Add explicit gas parameters to transaction
+        stakeParams.gas = gasLimit;
+        stakeParams.gasPrice = gasPrice;
+        
+        // Execute stake transaction with explicit gas parameters
+        await stakeMethod.send(stakeParams);
+        
+        showNotification('Successfully staked ' + amount + ' FULA!', 'success');
+        
+        // Reset form
+        stakeAmountInput.value = '';
+        referrerInput.value = '';
+        stakeOptions.forEach(opt => opt.classList.remove('selected'));
+        selectedPeriod = null;
+        stakeButton.disabled = true;
+        
+        // Reload user data
+        await loadUserData();
+        await loadGlobalStats();
+      } catch (error) {
+        console.error('Error staking tokens:', error);
+        showNotification('Failed to stake tokens: ' + (error.message || 'Unknown error'), 'error');
+      } finally {
+        stakeButton.disabled = false;
+        stakeButton.textContent = 'Stake FULA';
+      }
+    }
+
+    async function handleUnstake(index) {
+      if (!selectedAccount || !stakingContract) return;
+      
+      try {
+        const unstakeButton = document.querySelector(`.unstake-button[data-index="${index}"]`);
+        unstakeButton.disabled = true;
+        unstakeButton.innerHTML = '<span class="fula-loading"></span> Processing...';
+        
+        await ensureWalletReady();
+        // Prepare unstake transaction
+        const unstakeMethod = walletStaking.methods.unstakeToken(index);
+        
+        // Estimate gas with fallback and get current gas price
+        const gasLimit = await estimateGasWithFallback(unstakeMethod, { from: selectedAccount });
+        const gasPrice = await getGasPriceWithFallback();
+        
+        // Execute unstake transaction with explicit gas parameters
+        await unstakeMethod.send({
+          from: selectedAccount,
+          gas: gasLimit,
+          gasPrice: gasPrice
+        });
+        
+        showNotification('Successfully unstaked FULA!', 'success');
+        
+        // Reload user data
+        await loadUserData();
+        await loadGlobalStats();
+      } catch (error) {
+        console.error('Error unstaking tokens:', error);
+        showNotification('Failed to unstake tokens: ' + (error.message || 'Unknown error'), 'error');
+        
+        const unstakeButton = document.querySelector(`.unstake-button[data-index="${index}"]`);
+        if (unstakeButton) {
+          unstakeButton.disabled = false;
+          unstakeButton.textContent = 'Unstake';
+        }
+      }
+    }
+
+    async function handleClaimStakerReward(index) {
+      if (!selectedAccount || !stakingContract) return;
+      
+      try {
+        const claimButton = document.querySelector(`.claim-button[data-index="${index}"]`);
+        claimButton.disabled = true;
+        claimButton.innerHTML = '<span class="fula-loading"></span> Processing...';
+        
+        await ensureWalletReady();
+        // Prepare claim transaction
+        const claimMethod = walletStaking.methods.claimStakerReward(index);
+        
+        // Estimate gas with fallback and get current gas price
+        const gasLimit = await estimateGasWithFallback(claimMethod, { from: selectedAccount });
+        const gasPrice = await getGasPriceWithFallback();
+        
+        // Execute claim transaction with explicit gas parameters
+        await claimMethod.send({
+          from: selectedAccount,
+          gas: gasLimit,
+          gasPrice: gasPrice
+        });
+        
+        showNotification('Successfully claimed staker rewards!', 'success');
+        
+        // Reload user data
+        await loadUserData();
+      } catch (error) {
+        console.error('Error claiming staker rewards:', error);
+        showNotification('Failed to claim staker rewards: ' + (error.message || 'Unknown error'), 'error');
+        
+        const claimButton = document.querySelector(`.claim-button[data-index="${index}"]`);
+        if (claimButton) {
+          claimButton.disabled = false;
+          claimButton.textContent = 'Claim Rewards';
+        }
+      }
+    }
+
+    async function handleClaimReferrerReward(index) {
+      if (!selectedAccount || !stakingContract) return;
+      
+      try {
+        const claimButton = document.querySelector(`.fula-referrer-reward-item:nth-child(${index + 1}) .fula-action-button`);
+        if (claimButton) {
+          claimButton.disabled = true;
+          claimButton.innerHTML = '<span class="fula-loading"></span> Processing...';
+        }
+        
+        await ensureWalletReady();
+        // Prepare claim transaction
+        const claimMethod = walletStaking.methods.claimReferrerReward(index);
+        
+        // Estimate gas with fallback and get current gas price
+        const gasLimit = await estimateGasWithFallback(claimMethod, { from: selectedAccount });
+        const gasPrice = await getGasPriceWithFallback();
+        
+        // Execute claim transaction with explicit gas parameters
+        await claimMethod.send({
+          from: selectedAccount,
+          gas: gasLimit,
+          gasPrice: gasPrice
+        });
+        
+        showNotification('Successfully claimed referrer reward!', 'success');
+        
+        // Reload referrer stats
+        await loadReferrerStats();
+      } catch (error) {
+        console.error('Error claiming referrer reward:', error);
+        showNotification('Failed to claim referrer reward: ' + (error.message || 'Unknown error'), 'error');
+        
+        const claimButton = document.querySelector(`.fula-referrer-reward-item:nth-child(${index + 1}) .fula-action-button`);
+        if (claimButton) {
+          claimButton.disabled = false;
+          claimButton.textContent = 'Claim Reward';
+        }
+      }
+    }
+
+    function selectStakingOption(option) {
+      // Remove selected class from all options
+      stakeOptions.forEach(opt => opt.classList.remove('selected'));
+      
+      // Add selected class to clicked option
+      option.classList.add('selected');
+      
+      // Store selected period
+      selectedPeriod = option.dataset.period;
+      
+      // Validate stake amount
+      validateStakeAmount();
+    }
+
+    function validateStakeAmount() {
+      const amount = parseFloat(stakeAmountInput.value);
+      const hint = stakeHint;
+      hint.textContent = '';
+      if (amount > 0 && selectedPeriod && amount <= parseFloat(tokenBalance)) {
+        stakeButton.disabled = false;
+        hint.textContent = '';
+      } else {
+        stakeButton.disabled = true;
+        if (!selectedPeriod) {
+          hint.textContent = 'You need to select a staking period.';
+        } else if (!amount || amount <= 0) {
+          hint.textContent = 'Please enter an amount greater than 0.';
+        } else if (amount > parseFloat(tokenBalance)) {
+          hint.textContent = 'Amount exceeds your FULA balance.';
+        }
+      }
+    }
+
+    function setMaxAmount() {
+      stakeAmountInput.value = parseFloat(tokenBalance).toFixed(4);
+      validateStakeAmount();
+    }
+
+    function switchTab(tabName) {
+      // Remove active class from all tabs and tab contents
+      tabs.forEach(tab => tab.classList.remove('active'));
+      tabContents.forEach(content => content.classList.remove('active'));
+      
+      // Add active class to selected tab and tab content
+      document.querySelector(`.fula-tab[data-tab="${tabName}"]`).classList.add('active');
+      document.getElementById(`fula-${tabName}-tab`).classList.add('active');
+      // Update referrer link when switching to referrer tab
+      if (tabName === 'referrer') {
+        updateReferrerLink();
+      }
+    }
+
+    async function updateBlockTime() {
+      try {
+        if (!web3) return;
+        const latestBlock = await web3.eth.getBlock('latest');
+        if (latestBlock && latestBlock.timestamp) {
+          const date = new Date(latestBlock.timestamp * 1000);
+          blockTimeElement.textContent = 'Block Time: ' + date.toLocaleString();
+        } else {
+          blockTimeElement.textContent = '';
+        }
+      } catch (err) {
+        blockTimeElement.textContent = '';
+      }
+    }
+
+    setInterval(updateBlockTime, 15000);
+    updateBlockTime();
+
+    function showNotification(message, type) {
+      notification.textContent = message;
+      notification.className = 'fula-notification ' + type;
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 5000);
+    }
+
+    function updateContractAddressDisplay() {
+      const addr = contractAddresses[networkSelector.value];
+      contractAddressSpan.innerHTML = addr ? `Contract: ${addr}<br>Token: ${tokenAddresses[networkSelector.value]}` : '';
+    }
+
+    networkSelector.addEventListener('change', updateContractAddressDisplay);
+    updateContractAddressDisplay();
+
+    // Load global stats on page load
+    loadGlobalStats();
+  });
+</script>      </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <section class="section" id="disclaimer-banner">
+      <div class="container">
+        <div class="disclaimer">
+          <h3 class="disclaimer__title">Important Notice</h3>
+          <p class="disclaimer__text">This website is owned by Fula Governance Association and not Functionland Inc. Functionland is the name of the decentralized network that is created by Fula Governance Association DAO. Functionland Inc (Canada) is a community member of Fula Governance Association (Switzerland) and a grantee (receiver of grants) that works on adding value to the Functionland network, and does not involve in sales of token or token treasury management or token distribution or NFTs. Functionland Inc is a separate and independent entity and acts independently. Functionland Inc receives grants to work on the marketing, development and maintenance of the Fula network and blockchain and is not liable for token related matters. Fula Governance Association is a separate entity and the relationship between Functionland and Fula Governance Association is that of a community member and grantee. Functionland acts independently and has no authority to bind Fula Governance Association. You must do your own DD separately for the Fula Governance Association. For more information on available grants, contact Fula Governance members if you have something that adds value to the network.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img src="../assets/images/logo/fula-lockup-green.png" alt="Fula Network" class="footer__logo" width="360" height="36">
+          <p class="footer__tagline">Decentralized storage, governed by its community.</p>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Network</h4>
+          <div class="footer__links">
+            <a href="../index.html" class="footer__link">Home</a>
+            <a href="../about/" class="footer__link">About Fula</a>
+            <a href="../token/" class="footer__link">Token</a>
+            <a href="../ecosystem/" class="footer__link">Ecosystem</a>
+            <a href="../fec-nfts/" class="footer__link">FEC NFTs</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Participate</h4>
+          <div class="footer__links">
+            <a href="../fula-staking/" class="footer__link">FULA Staking</a>
+            <a href="../fula-vip-staking/" class="footer__link">FULA VIP Staking</a>
+            <a href="../grants/" class="footer__link">Grants</a>
+            <a href="../supporters/" class="footer__link">Supporters</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Additional</h4>
+          <div class="footer__links">
+            <a href="https://fx.land/FulaWP" class="footer__link" target="_blank" rel="noopener">Whitepaper</a>
+            <a href="https://simulation.fx.land" class="footer__link" target="_blank" rel="noopener">Mining Simulation</a>
+            <a href="https://coinmarketcap.com/currencies/functionland/" class="footer__link" target="_blank" rel="noopener">CoinMarketCap</a>
+            <a href="https://fx.land" class="footer__link" target="_blank" rel="noopener">Functionland Inc</a>
+            <a href="../privacy-policy/" class="footer__link">Privacy Policy</a>
+            <a href="../terms/" class="footer__link">Terms of Use</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="footer__disclaimer">This website is owned and operated by Fula Governance Association (Switzerland), the association that governs the Fula network. Fula Governance Association is responsible for the FULA token, including its issuance, distribution and treasury management, and for FEC NFTs. Functionland Inc (Canada) is a separate and independent entity and a grantee (receiver of grants) of Fula Governance Association that works on adding value to the Fula network; it acts independently, has no authority to bind Fula Governance Association, and is not liable for token related matters. For more information on available grants, contact Fula Governance members if you have something that adds value to the network.</p>
+
+      <p class="footer__copyright">&copy; 2026 Fula Governance Association. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../js/nav.js"></script>
+  <script src="../js/analytics.js"></script>
+  <script src="../js/scroll-reveal.js" defer></script>
+</body>
+</html>
