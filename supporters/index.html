@@ -17,6 +17,12 @@
   <link rel="stylesheet" href="../css/header.css?v=2">
   <link rel="stylesheet" href="../css/footer.css">
   <link rel="stylesheet" href="../css/about.css">
+  <style>
+    /* Supporters logos at 2x (was height:50px, grid minmax 140px) */
+    .investor-logo { height: 100px; max-width: 100%; }
+    .investors__grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    @media (max-width: 768px) { .investors__grid { grid-template-columns: repeat(2, 1fr); } }
+  </style>
 </head>
 <body>
 
@@ -44,7 +50,7 @@
               <a href="../fula-staking/" class="nav__dropdown-link">FULA Staking</a>
               <a href="../fula-vip-staking/" class="nav__dropdown-link">FULA VIP Staking</a>
               <a href="../fec-nfts/" class="nav__dropdown-link">FEC NFTs</a>
-              <a href="https://fx.land/FulaWP" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">Whitepaper</a>
+              <a href="https://fulanetwork.github.io/assets/FulaWP.pdf" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">Whitepaper</a>
               <a href="https://simulation.fx.land" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">Mining Simulation</a>
               <a href="https://coinmarketcap.com/currencies/functionland/" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">CoinMarketCap</a>
             </div>
@@ -127,7 +133,7 @@
         <div>
           <h4 class="footer__col-title">Additional</h4>
           <div class="footer__links">
-            <a href="https://fx.land/FulaWP" class="footer__link" target="_blank" rel="noopener">Whitepaper</a>
+            <a href="https://fulanetwork.github.io/assets/FulaWP.pdf" class="footer__link" target="_blank" rel="noopener">Whitepaper</a>
             <a href="https://simulation.fx.land" class="footer__link" target="_blank" rel="noopener">Mining Simulation</a>
             <a href="https://coinmarketcap.com/currencies/functionland/" class="footer__link" target="_blank" rel="noopener">CoinMarketCap</a>
             <a href="https://fx.land" class="footer__link" target="_blank" rel="noopener">Functionland Inc</a>
