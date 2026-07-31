@@ -416,7 +416,8 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   ];
   const MULTICALL3_ABI = [
     {"inputs":[{"components":[{"name":"target","type":"address"},{"name":"allowFailure","type":"bool"},{"name":"callData","type":"bytes"}],"name":"calls","type":"tuple[]"}],"name":"aggregate3","outputs":[{"components":[{"name":"success","type":"bool"},{"name":"returnData","type":"bytes"}],"name":"returnData","type":"tuple[]"}],"stateMutability":"payable","type":"function"},
-    {"inputs":[{"name":"addr","type":"address"}],"name":"getEthBalance","outputs":[{"name":"balance","type":"uint256"}],"stateMutability":"view","type":"function"}
+    {"inputs":[{"name":"addr","type":"address"}],"name":"getEthBalance","outputs":[{"name":"balance","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[],"name":"getBasefee","outputs":[{"name":"basefee","type":"uint256"}],"stateMutability":"view","type":"function"}
   ];
   const ENDPOINT_ABI = [
     {"inputs":[{"components":[{"name":"srcEid","type":"uint32"},{"name":"sender","type":"bytes32"},{"name":"nonce","type":"uint64"}],"name":"_origin","type":"tuple"},{"name":"_receiver","type":"address"},{"name":"_guid","type":"bytes32"},{"name":"_message","type":"bytes"},{"name":"_extraData","type":"bytes"}],"name":"lzReceive","outputs":[],"stateMutability":"payable","type":"function"}
@@ -438,7 +439,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   let wrongNetworkNotified = false;
 
   // limits: null = unknown (never treat unknown as 0)
-  let limits = { balance: null, ethBalance: null, allowance: null, liquidity: null, canSend: null, canReceive: null };
+  let limits = { balance: null, ethBalance: null, allowance: null, liquidity: null, canSend: null, canReceive: null, baseFee: null };
   let maxSendable = null, binderLabel = '';
   let quotedFee = null;   // BigInt native fee for the CURRENT amount+route, or null
   let quoteTimer = null;
@@ -590,6 +591,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       srcCalls.push([sc.token, true, reads[s].token.methods.allowance(who, sc.adapter).encodeABI()]);
       srcCalls.push([sc.adapter, true, reads[s].adapter.methods.getAmountCanBeSent(dc.eid).encodeABI()]);
       srcCalls.push([CONFIG.MULTICALL3, true, reads[s].mc.methods.getEthBalance(who).encodeABI()]);
+      srcCalls.push([CONFIG.MULTICALL3, true, reads[s].mc.methods.getBasefee().encodeABI()]);
       const srcRes = await callRead(s, () => reads[s].mc.methods.aggregate3(srcCalls).call());
       if (gen !== loadGen) return;
 
@@ -602,6 +604,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
 
       const bal = decodeWords(s, srcRes[0], 1), allow = decodeWords(s, srcRes[1], 1);
       const canSend = decodeWords(s, srcRes[2], 2), ethBal = decodeWords(s, srcRes[3], 1);
+      const baseFee = decodeWords(s, srcRes[4], 1);
       const liq = decodeWords(d, dstRes[0], 1), canRecv = decodeWords(d, dstRes[1], 2);
 
       limits = {
@@ -610,7 +613,8 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
         ethBalance: acct ? (ethBal ? ethBal[0] : null) : null,
         canSend: canSend ? canSend[1] : null,
         liquidity: liq ? liq[0] : null,
-        canReceive: canRecv ? canRecv[1] : null
+        canReceive: canRecv ? canRecv[1] : null,
+        baseFee: baseFee ? baseFee[0] : null
       };
       renderLimits();
       validate();
@@ -720,8 +724,14 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     if (quotedFee === null) { setHint('Waiting for the fee quote…'); btn.disabled = true; return; }
     if (limits.ethBalance !== null) {
       const padded = quotedFee + (quotedFee * CONFIG.FEE_PAD_BPS) / 10000n;
-      // rough gas allowance on top of the LayerZero fee: 400k gas at a conservative price
-      const gasBudget = srcKey === 'ethereum' ? 400000n * 30n * 10n ** 9n : 400000n * 10n ** 8n;
+      // Gas allowance on top of the LayerZero fee, sized from the LIVE base fee (read in the same
+      // Multicall batch as the balances): ~450k gas covers approve + send with headroom, priced at
+      // 2x the current base fee plus tip. A hardcoded gas price is wrong in both directions — an
+      // earlier revision reserved 30 gwei flat and demanded ~0.012 ETH while real cost was ~0.0004.
+      const priority = srcKey === 'ethereum' ? 10n ** 9n : 5000000n; // 1 gwei / 0.005 gwei tip
+      const gasPrice = limits.baseFee !== null ? limits.baseFee * 2n + priority
+                                               : (srcKey === 'ethereum' ? 3n * 10n ** 9n : 10n ** 8n); // fallback if base fee unreadable
+      const gasBudget = 450000n * gasPrice;
       if (limits.ethBalance < padded + gasBudget) {
         setHint('Not enough ETH on ' + CONFIG.CHAINS[srcKey].name + ' for the bridge fee (~' + fmtWei(padded + gasBudget, 6) + ' ETH needed)', 'error');
         btn.disabled = true; return;
