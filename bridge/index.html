@@ -420,10 +420,14 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     {"inputs":[],"name":"getBasefee","outputs":[{"name":"basefee","type":"uint256"}],"stateMutability":"view","type":"function"}
   ];
   const ENDPOINT_ABI = [
-    {"inputs":[{"components":[{"name":"srcEid","type":"uint32"},{"name":"sender","type":"bytes32"},{"name":"nonce","type":"uint64"}],"name":"_origin","type":"tuple"},{"name":"_receiver","type":"address"},{"name":"_guid","type":"bytes32"},{"name":"_message","type":"bytes"},{"name":"_extraData","type":"bytes"}],"name":"lzReceive","outputs":[],"stateMutability":"payable","type":"function"}
+    {"inputs":[{"components":[{"name":"srcEid","type":"uint32"},{"name":"sender","type":"bytes32"},{"name":"nonce","type":"uint64"}],"name":"_origin","type":"tuple"},{"name":"_receiver","type":"address"},{"name":"_guid","type":"bytes32"},{"name":"_message","type":"bytes"},{"name":"_extraData","type":"bytes"}],"name":"lzReceive","outputs":[],"stateMutability":"payable","type":"function"},
+    {"inputs":[{"name":"","type":"address"},{"name":"","type":"uint32"},{"name":"","type":"bytes32"}],"name":"lazyInboundNonce","outputs":[{"name":"","type":"uint64"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"name":"","type":"address"},{"name":"","type":"uint32"},{"name":"","type":"bytes32"},{"name":"","type":"uint64"}],"name":"inboundPayloadHash","outputs":[{"name":"","type":"bytes32"}],"stateMutability":"view","type":"function"}
   ];
   const OFTSENT_TOPIC = Web3.utils.sha3('OFTSent(bytes32,uint32,address,uint256,uint256)');
   const OFTRECEIVED_TOPIC = Web3.utils.sha3('OFTReceived(bytes32,uint32,address,uint256)');
+  // PacketSent carries the LayerZero packet header, from which we read OUR message's nonce.
+  const PACKETSENT_TOPIC = Web3.utils.sha3('PacketSent(bytes,bytes,address)');
 
   // ============================== STATE ==============================
   // Per-chain READ layer (reads NEVER go through the wallet — mobile WalletConnect can't serve them).
@@ -1061,18 +1065,52 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       }
     }
 
-    // --- on-chain OFTReceived fallback (ground truth for delivery; CORS-independent) ---
-    // every 3rd cycle, or immediately if the scan API is unreachable
-    if (entry.guid && (ps.tick % 3 === 0 || ps.scanFails > 0)) {
+    // --- ON-CHAIN CHECK — THIS IS THE AUTHORITY, NOT THE SCAN API ---
+    //
+    // WHY IT OUTRANKS THE INDEXER. On 2026-07-31 a real transfer was delivered on Base (tokens in
+    // the user's wallet, escrow debited, nonce executed) while scan.layerzero-api.com reported
+    // INFLIGHT with both DVNs WAITING and never updated the record. An indexer stall is invisible
+    // and indistinguishable from a genuine delay, so a UI that trusts it tells the user "still
+    // verifying" about money that already arrived — the exact panic this page exists to prevent.
+    //
+    // The check is two cheap eth_calls and needs no log scan: the endpoint has executed our nonce
+    // when its payload hash has been cleared AND lazyInboundNonce has advanced past it.
+    if (entry.nonce) {
       try {
-        const found = await findOFTReceived(dK, entry);
-        if (found) { finishDelivered(entry, found.transactionHash, scanMsg); return; }
-      } catch (e) { /* tolerated; scan API remains primary */ }
+        const done = await isExecutedOnChain(dK, entry);
+        if (done) {
+          // Best-effort: find the destination tx hash for the explorer link. Public RPCs often
+          // refuse wide getLogs ranges, so treat failure here as cosmetic — NEVER as "not delivered".
+          let dstTx = entry.dstTx || null;
+          if (!dstTx) {
+            try { const f = await findOFTReceived(dK, entry); if (f) dstTx = f.transactionHash; } catch (e) {}
+          }
+          if (!dstTx && scanMsg && scanMsg.destination && scanMsg.destination.tx) dstTx = scanMsg.destination.tx.txHash;
+          finishDelivered(entry, dstTx, scanMsg);
+          return;
+        }
+      } catch (e) { /* chain unreachable this cycle; try again next tick */ }
     }
 
     if (shownTx === srcTx) renderStepperState(entry, scanMsg);
     renderHistory();
   }
+
+  // True once the destination endpoint has EXECUTED our nonce.
+  // `inboundPayloadHash == 0` alone is ambiguous (also true before verification), so it is paired
+  // with `lazyInboundNonce >= ours`, which only advances when a nonce is executed (or skipped by
+  // the owner — a rare emergency action that would show up as a queued transfer, not a silent one).
+  async function isExecutedOnChain(dK, entry) {
+    const sK = EID_TO_KEY[entry.srcEid];
+    const peer = padAddress32(CONFIG.CHAINS[sK].adapter);
+    const dstAdapter = CONFIG.CHAINS[dK].adapter;
+    const n = BigInt(entry.nonce);
+    const lazy = BigInt(await callRead(dK, () => reads[dK].endpoint.methods.lazyInboundNonce(dstAdapter, CONFIG.CHAINS[sK].eid, peer).call()));
+    if (lazy < n) return false;
+    const h = await callRead(dK, () => reads[dK].endpoint.methods.inboundPayloadHash(dstAdapter, CONFIG.CHAINS[sK].eid, peer, entry.nonce).call());
+    return !h || h === ethersZeroHash;
+  }
+  const ethersZeroHash = '0x' + '0'.repeat(64);
 
   async function findOFTReceived(dK, entry) {
     const latest = Number(await callRead(dK, () => reads[dK].web3.eth.getBlockNumber()));
@@ -1225,8 +1263,24 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
         if (log.address && log.address.toLowerCase() === sc.adapter.toLowerCase() &&
             log.topics && log.topics[0] === OFTSENT_TOPIC) { guid = log.topics[1]; break; }
       }
+      // Pull OUR message's nonce out of the PacketSent packet header. This is what makes delivery
+      // detectable from the chain alone, without depending on the LayerZero indexer. Header layout
+      // (PacketV1Codec): version(1) ‖ nonce(8) ‖ srcEid(4) ‖ sender(32) ‖ dstEid(4) ‖ receiver(32)
+      // ‖ guid(32) ‖ message — so the nonce is bytes 1..9, i.e. hex chars 4..20 of the payload.
+      let nonce = null;
+      try {
+        for (const log of (receipt.logs || [])) {
+          if (log.topics && log.topics[0] === PACKETSENT_TOPIC) {
+            const dec = writeWeb3.eth.abi.decodeParameters(['bytes', 'bytes', 'address'], log.data);
+            const payload = dec[0];
+            if (payload && payload.length > 20) nonce = BigInt('0x' + payload.slice(4, 20)).toString();
+            break;
+          }
+        }
+      } catch (e) { console.warn('could not read packet nonce', e && e.message); }
+
       const entry = upsertEntry({
-        srcTx: srcTxHash, guid: guid, phase: 'sent',
+        srcTx: srcTxHash, guid: guid, nonce: nonce, phase: 'sent',
         dstBlockAtSend: dstBlockAtSend, status: 'pending'
       });
       renderStepperState(entry, null);
