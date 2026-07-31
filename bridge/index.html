@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bridge FULA | Fula Network</title>
+  <meta name="description" content="Bridge FULA tokens between Ethereum and Base securely with the official Fula Network bridge.">
+  <meta property="og:title" content="Bridge FULA | Fula Network">
+  <meta property="og:description" content="Bridge FULA tokens between Ethereum and Base securely with the official Fula Network bridge.">
+  <meta property="og:url" content="https://fulanetwork.github.io/bridge/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://fulanetwork.github.io/assets/images/logo/fula-icon-green.png">
+  <link rel="canonical" href="https://fulanetwork.github.io/bridge/">
+  <link rel="icon" type="image/png" href="../assets/images/logo/fula-icon-green.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://scan.layerzero-api.com" crossorigin>
+  <link rel="preconnect" href="https://base-rpc.publicnode.com">
+  <link rel="preconnect" href="https://ethereum-rpc.publicnode.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <style>
+    .bridge-wrapper { padding-top: 5rem; }
+  </style>
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Fula Governance Association","url":"https://fulanetwork.github.io","logo":"https://fulanetwork.github.io/assets/images/logo/fula-lockup-green.png","description":"Swiss association and DAO governing the Fula decentralized storage network and the FULA token"}
+  </script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="site-header__logo">
+        <img src="../assets/images/logo/fula-lockup-green.png" alt="Fula Network" width="140" height="36">
+      </a>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+      </button>
+      <nav class="nav">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="../index.html" class="nav__link">Home</a></li>
+          <li class="nav__item"><a href="../about/" class="nav__link">About</a></li>
+          <li class="nav__item"><a href="../token/" class="nav__link">Token</a></li>
+          <li class="nav__item"><a href="../ecosystem/" class="nav__link">Ecosystem</a></li>
+          <li class="nav__item nav__item--has-dropdown">
+            <a href="#" class="nav__link">Participate <span class="nav__arrow">&#9662;</span></a>
+            <div class="nav__dropdown">
+              <a href="../fula-staking/" class="nav__dropdown-link">FULA Staking</a>
+              <a href="../fula-vip-staking/" class="nav__dropdown-link">FULA VIP Staking</a>
+              <a href="../bridge/" class="nav__dropdown-link">Bridge FULA</a>
+              <a href="../fec-nfts/" class="nav__dropdown-link">FEC NFTs</a>
+              <a href="https://fulanetwork.github.io/assets/FulaWP.pdf" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">Whitepaper</a>
+              <a href="https://simulation.fx.land" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">Mining Simulation</a>
+              <a href="https://coinmarketcap.com/currencies/functionland/" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">CoinMarketCap</a>
+            </div>
+          </li>
+          <li class="nav__item"><a href="../grants/" class="nav__link">Grants</a></li>
+          <li class="nav__item"><a href="../supporters/" class="nav__link">Supporters</a></li>
+        </ul>
+        <a id="nav-cta" href="../grants/" class="btn btn--primary btn--sm nav__cta">Apply for a Grant</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="bridge-wrapper">
+<style>
+    div#bridgemain {
+      --primary: #00D4AA;
+      --primary-dark: #00B894;
+      --primary-light: #55EFC4;
+      --secondary: #6C5CE7;
+      --bg-dark: #0F0F1A;
+      --bg-card: #1A1A2E;
+      --bg-card-hover: #252542;
+      --text-primary: #FFFFFF;
+      --text-secondary: #A0A0B8;
+      --text-muted: #6B6B80;
+      --border: #2D2D44;
+      --success: #00D4AA;
+      --error: #FF6B6B;
+      --warning: #FDCB6E;
+      --eth-blue: #627EEA;
+      --base-blue: #0052FF;
+      --gradient-primary: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+      --gradient-card: linear-gradient(145deg, #1A1A2E 0%, #16162A 100%);
+      --shadow-glow: 0 0 30px rgba(0, 212, 170, 0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      border-radius: 10px;
+    }
+    #fula-bridge { max-width: 520px; margin: 0 auto; padding: 20px; min-height: 100vh; }
+    .fula-header { text-align: center; padding: 30px 0 30px; }
+    .fula-logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px; }
+    .fula-logo-icon { width: 48px; height: 48px; background: #ffc60d; border-radius: 48px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 20px; color: var(--bg-dark); box-shadow: var(--shadow-glow); }
+    .fula-header h1 { font-size: 28px; font-weight: 700; color: #ffc60d; }
+    .fula-header p { color: var(--text-secondary); font-size: 15px; margin-top: 4px; }
+
+    .fula-connect-section { margin-bottom: 20px; }
+    .fula-connect-btn { width: 100%; padding: 16px 24px; border: none; border-radius: var(--radius-lg); font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .fula-connect-btn.disconnected { background: var(--gradient-primary); color: var(--bg-dark); box-shadow: var(--shadow-glow); }
+    .fula-connect-btn.disconnected:hover { transform: translateY(-2px); }
+    .fula-connect-btn.connected { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
+    .fula-connect-btn.connected:hover { background: var(--bg-card-hover); border-color: var(--error); }
+    .fula-connect-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .fula-wallet-icon { width: 20px; height: 20px; }
+
+    /* Route selector */
+    .fula-route-card { background: var(--gradient-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; }
+    .fula-route-row { display: flex; align-items: flex-end; gap: 10px; }
+    .fula-route-col { flex: 1; min-width: 0; }
+    .fula-route-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: block; }
+    .fula-chain-select { width: 100%; padding: 13px 12px; background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; outline: none; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'10'%20height%3D'6'%20viewBox%3D'0%200%2010%206'%20xmlns%3D'http%3A//www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M0%200l5%206%205-6z'%20fill%3D'%23A0A0B8'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+    .fula-chain-select:focus { border-color: var(--primary); }
+    .fula-swap-btn { width: 46px; height: 46px; min-width: 46px; border: 1px solid var(--border); background: var(--bg-card); color: var(--primary); border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.25s ease; }
+    .fula-swap-btn:hover { border-color: var(--primary); transform: rotate(180deg); }
+    .fula-route-balances { display: flex; justify-content: space-between; margin-top: 14px; font-size: 13px; color: var(--text-secondary); flex-wrap: wrap; gap: 6px; }
+    .fula-route-balances b { color: var(--text-primary); font-weight: 600; }
+
+    /* Amount */
+    .fula-amount-card { background: var(--gradient-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; }
+    .fula-input-wrapper { display: flex; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; transition: border-color 0.3s ease; }
+    .fula-input-wrapper:focus-within { border-color: var(--primary); }
+    .fula-input { flex: 1; min-width: 0; padding: 14px 16px; border: none; background: transparent; color: var(--text-primary); font-size: 18px; font-weight: 600; outline: none; }
+    .fula-input::placeholder { color: var(--text-muted); }
+    .fula-input-btn { padding: 14px 20px; border: none; background: rgba(0, 212, 170, 0.15); color: var(--primary); font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.3s ease; }
+    .fula-input-btn:hover { background: rgba(0, 212, 170, 0.25); }
+    .fula-limit-line { margin-top: 10px; font-size: 13px; color: var(--text-secondary); min-height: 18px; }
+    .fula-limit-line b { color: var(--primary); font-weight: 600; }
+    .fula-dust-note { margin-top: 6px; font-size: 12px; color: var(--text-muted); display: none; }
+    .fula-fee-row { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); flex-wrap: wrap; gap: 4px; }
+    .fula-fee-value { color: var(--text-primary); font-weight: 600; }
+    .fula-notice { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.5; }
+
+    .fula-hint { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; min-height: 20px; }
+    .fula-hint.error { color: var(--error); }
+    .fula-hint.warning { color: var(--warning); }
+    .fula-action-btn { width: 100%; padding: 16px 24px; border: none; border-radius: var(--radius-lg); background: var(--gradient-primary); color: var(--bg-dark); font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .fula-action-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+    .fula-action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .fula-two-tx-note { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 8px; display: none; }
+
+    /* Progress stepper */
+    .fula-progress-card { background: var(--gradient-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px 20px; margin-top: 20px; display: none; }
+    .fula-progress-card.visible { display: block; animation: slideDown 0.3s ease; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .fula-progress-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .fula-progress-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 18px; }
+    .fula-steps { list-style: none; margin: 0; padding: 0; }
+    .fula-step { display: flex; gap: 14px; position: relative; padding-bottom: 22px; }
+    .fula-step:last-child { padding-bottom: 0; }
+    .fula-step::before { content: ""; position: absolute; left: 13px; top: 28px; bottom: 0; width: 2px; background: var(--border); }
+    .fula-step:last-child::before { display: none; }
+    .fula-step-dot { width: 28px; height: 28px; min-width: 28px; border-radius: 50%; background: var(--bg-card); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--text-muted); z-index: 1; transition: all 0.3s ease; }
+    .fula-step.active .fula-step-dot { border-color: var(--primary); color: var(--primary); }
+    .fula-step.done .fula-step-dot { background: var(--primary); border-color: var(--primary); color: var(--bg-dark); font-weight: 700; }
+    .fula-step-body { flex: 1; min-width: 0; padding-top: 3px; }
+    .fula-step-label { font-size: 14px; font-weight: 600; color: var(--text-muted); transition: color 0.3s ease; }
+    .fula-step.active .fula-step-label, .fula-step.done .fula-step-label { color: var(--text-primary); }
+    .fula-step-detail { font-size: 12px; color: var(--text-muted); margin-top: 2px; word-break: break-all; }
+    .fula-step-detail a { color: var(--primary); text-decoration: none; }
+    .fula-step-detail a:hover { text-decoration: underline; }
+    .fula-step-spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid transparent; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: -2px; margin-right: 5px; }
+    .fula-progress-banner { margin-top: 16px; padding: 14px 16px; border-radius: var(--radius-md); font-size: 13px; line-height: 1.5; display: none; }
+    .fula-progress-banner.visible { display: block; }
+    .fula-progress-banner.calm { background: rgba(253, 203, 110, 0.1); border: 1px solid rgba(253, 203, 110, 0.3); color: var(--warning); }
+    .fula-progress-banner.bad { background: rgba(255, 107, 107, 0.08); border: 1px solid rgba(255, 107, 107, 0.3); color: var(--error); }
+    .fula-progress-banner a { color: inherit; text-decoration: underline; }
+    .fula-banner-actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .fula-banner-btn { padding: 8px 14px; border-radius: var(--radius-sm); border: 1px solid currentColor; background: transparent; color: inherit; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .fula-banner-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .fula-progress-close { margin-top: 16px; width: 100%; padding: 10px; background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-secondary); font-family: inherit; font-size: 13px; cursor: pointer; display: none; }
+    .fula-progress-close.visible { display: block; }
+
+    /* History */
+    .fula-history { margin-top: 24px; }
+    .fula-history-title { font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .fula-history-list { display: flex; flex-direction: column; gap: 10px; }
+    .fula-history-item { background: var(--gradient-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px; font-size: 13px; }
+    .fula-history-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .fula-history-amount { font-weight: 700; color: var(--text-primary); }
+    .fula-history-route { color: var(--text-secondary); }
+    .fula-pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+    .fula-pill.pending { background: rgba(0, 212, 170, 0.12); color: var(--primary); }
+    .fula-pill.delivered { background: rgba(0, 212, 170, 0.2); color: var(--primary); }
+    .fula-pill.parked { background: rgba(253, 203, 110, 0.15); color: var(--warning); }
+    .fula-pill.wedged { background: rgba(255, 107, 107, 0.15); color: var(--error); }
+    .fula-pill.unknown { background: var(--bg-card-hover); color: var(--text-muted); }
+    .fula-history-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; gap: 8px; flex-wrap: wrap; }
+    .fula-history-links { display: flex; gap: 12px; }
+    .fula-history-links a { color: var(--primary); text-decoration: none; font-size: 12px; }
+    .fula-history-links a:hover { text-decoration: underline; }
+    .fula-history-time { color: var(--text-muted); font-size: 12px; }
+    .fula-history-retry { padding: 5px 12px; font-size: 12px; border: 1px solid var(--warning); background: transparent; color: var(--warning); border-radius: var(--radius-sm); cursor: pointer; }
+    .fula-history-retry:disabled { opacity: 0.5; cursor: not-allowed; }
+    .fula-empty-state { text-align: center; padding: 24px 20px; color: var(--text-muted); font-size: 13px; }
+
+    /* Info */
+    .fula-info-section { background: var(--gradient-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; margin-top: 24px; }
+    .fula-info-title { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+    .fula-info-section ul { list-style: none; padding: 0; margin: 0; }
+    .fula-info-section li { font-size: 13px; color: var(--text-secondary); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--border); }
+    .fula-info-section li:last-child { border-bottom: none; }
+    .fula-info-section li::before { content: "\2022"; color: var(--primary); position: absolute; left: 0; font-weight: 700; }
+
+    .fula-notification { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 16px 24px; border-radius: var(--radius-lg); font-size: 14px; font-weight: 500; opacity: 0; transition: all 0.3s ease; z-index: 10000; max-width: 90%; text-align: center; }
+    .fula-notification.success { background: var(--success); color: var(--bg-dark); }
+    .fula-notification.error { background: var(--error); color: var(--text-primary); }
+    .fula-notification.warning { background: var(--warning); color: var(--bg-dark); }
+    .fula-notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .fula-spinner { width: 18px; height: 18px; border: 2px solid transparent; border-top-color: currentColor; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 480px) {
+      #fula-bridge { padding: 14px; }
+      .fula-header h1 { font-size: 24px; }
+      .fula-route-row { flex-wrap: wrap; }
+      .fula-swap-btn { order: 3; margin: 0 auto; }
+    }
+</style>
+
+<div id="bridgemain">
+  <div id="fula-bridge">
+    <div class="fula-header">
+      <div class="fula-logo">
+        <div class="fula-logo-icon">F</div>
+        <h1>FULA Bridge</h1>
+      </div>
+      <p>Move your FULA between Ethereum and Base</p>
+    </div>
+
+    <div class="fula-connect-section">
+      <button id="fula-connect-btn" class="fula-connect-btn disconnected">
+        <svg class="fula-wallet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1v-3"/>
+          <path d="M21 12a2 2 0 0 0-2-2h-4a2 2 0 0 0 0 4h4a2 2 0 0 0 2-2z"/>
+        </svg>
+        Connect Wallet
+      </button>
+    </div>
+
+    <div class="fula-route-card">
+      <div class="fula-route-row">
+        <div class="fula-route-col">
+          <label class="fula-route-label" for="fula-src-select">From</label>
+          <select id="fula-src-select" class="fula-chain-select">
+            <option value="ethereum">Ethereum</option>
+            <option value="base">Base</option>
+          </select>
+        </div>
+        <button id="fula-swap-btn" class="fula-swap-btn" title="Swap direction" aria-label="Swap direction">&#8646;</button>
+        <div class="fula-route-col">
+          <label class="fula-route-label" for="fula-dst-select">To</label>
+          <select id="fula-dst-select" class="fula-chain-select">
+            <option value="base">Base</option>
+            <option value="ethereum">Ethereum</option>
+          </select>
+        </div>
+      </div>
+      <div class="fula-route-balances">
+        <span>FULA on <span id="fula-src-name">Ethereum</span>: <b id="fula-src-balance">&mdash;</b></span>
+        <span>ETH for fees: <b id="fula-eth-balance">&mdash;</b></span>
+      </div>
+    </div>
+
+    <div class="fula-amount-card">
+      <label class="fula-route-label" for="fula-amount">Amount to bridge</label>
+      <div class="fula-input-wrapper">
+        <input type="text" id="fula-amount" class="fula-input" placeholder="0.0" inputmode="decimal" autocomplete="off" spellcheck="false">
+        <button id="fula-max-btn" class="fula-input-btn">MAX</button>
+      </div>
+      <div class="fula-limit-line" id="fula-limit-line">Loading limits&hellip;</div>
+      <div class="fula-dust-note" id="fula-dust-note"></div>
+      <div class="fula-fee-row">
+        <span>Bridge fee (paid in ETH on <span id="fula-fee-chain">Ethereum</span>)</span>
+        <span class="fula-fee-value" id="fula-fee-value">&mdash;</span>
+      </div>
+      <div class="fula-notice">
+        Transfers usually take <b>1&ndash;10 minutes</b>. Your tokens are locked in the bridge on the source
+        chain and released from the bridge on the destination chain &mdash; they are never at risk of being lost,
+        even if a transfer is delayed.
+      </div>
+    </div>
+
+    <div class="fula-hint" id="fula-hint"></div>
+    <button id="fula-bridge-btn" class="fula-action-btn" disabled>Bridge FULA</button>
+    <div class="fula-two-tx-note" id="fula-two-tx-note">This needs 2 wallet confirmations: first <b>Approve</b>, then <b>Bridge</b>.</div>
+
+    <div class="fula-progress-card" id="fula-progress-card">
+      <div class="fula-progress-title" id="fula-progress-title">Bridging&hellip;</div>
+      <div class="fula-progress-sub" id="fula-progress-sub">Keep this page open to watch progress &mdash; the transfer completes on-chain either way.</div>
+      <ul class="fula-steps">
+        <li class="fula-step" id="fula-step-1">
+          <div class="fula-step-dot">1</div>
+          <div class="fula-step-body">
+            <div class="fula-step-label" id="fula-step-1-label">Locking FULA into the bridge</div>
+            <div class="fula-step-detail" id="fula-step-1-detail"></div>
+          </div>
+        </li>
+        <li class="fula-step" id="fula-step-2">
+          <div class="fula-step-dot">2</div>
+          <div class="fula-step-body">
+            <div class="fula-step-label" id="fula-step-2-label">LayerZero verification</div>
+            <div class="fula-step-detail" id="fula-step-2-detail"></div>
+          </div>
+        </li>
+        <li class="fula-step" id="fula-step-3">
+          <div class="fula-step-dot">3</div>
+          <div class="fula-step-body">
+            <div class="fula-step-label" id="fula-step-3-label">Confirming on destination</div>
+            <div class="fula-step-detail" id="fula-step-3-detail"></div>
+          </div>
+        </li>
+        <li class="fula-step" id="fula-step-4">
+          <div class="fula-step-dot">4</div>
+          <div class="fula-step-body">
+            <div class="fula-step-label" id="fula-step-4-label">Releasing FULA to your wallet</div>
+            <div class="fula-step-detail" id="fula-step-4-detail"></div>
+          </div>
+        </li>
+      </ul>
+      <div class="fula-progress-banner" id="fula-progress-banner"></div>
+      <button class="fula-progress-close" id="fula-progress-close">Close</button>
+    </div>
+
+    <div class="fula-history" id="fula-history" style="display:none;">
+      <div class="fula-history-title">Your recent transfers</div>
+      <div class="fula-history-list" id="fula-history-list"></div>
+    </div>
+
+    <div class="fula-info-section">
+      <div class="fula-info-title">How the bridge works</div>
+      <ul>
+        <li>This is the official lock &amp; release bridge for FULA. Tokens are held by the bridge contract on one chain and released on the other &mdash; nothing is minted or burned, so total supply never changes.</li>
+        <li>You pay one small fee in ETH on the source chain. Delivery on the destination is automatic &mdash; you don't need ETH there.</li>
+        <li>Amounts are precise to 6 decimals (0.000001 FULA). Anything smaller stays in your wallet.</li>
+        <li>If a transfer is delayed, it is queued &mdash; not lost. It can always be completed later, and this page will show you a Retry option when that applies.</li>
+        <li>Bridging on Ethereum needs 2 wallet confirmations (Approve, then Bridge). Repeat transfers may need only 1.</li>
+      </ul>
+    </div>
+
+    <div id="fula-notification" class="fula-notification"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/web3@4.16.0/dist/web3.min.js"></script>
+<script type="module">
+import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsdelivr.net/npm/@reown/appkit-cdn@1.8.20/dist/appkit.js';
+(function() {
+  'use strict';
+
+  // ============================== CONFIG ==============================
+  const ONE = 10n ** 18n;
+  const CONFIG = {
+    PROJECT_ID: '192a8f5e8d1742ea923be485e60f2612',
+    ENDPOINT: '0x1a44076050125825900e736c501f859c50fE728c', // LayerZero EndpointV2 (same address on both chains)
+    MULTICALL3: '0xcA11bde05977b3631167028862bE2a173976CA11',
+    UI_MAX: 5000000n * ONE,          // 5,000,000 FULA per-transfer UI cap
+    DUST: 10n ** 12n,                // bridge granularity: 6 shared decimals
+    FEE_PAD_BPS: 500n,               // pad the quoted LayerZero fee +5%; the endpoint refunds the excess
+    SCAN_API: 'https://scan.layerzero-api.com/v1',
+    SCAN_UI: 'https://layerzeroscan.com/tx/',
+    HISTORY_MAX: 20,
+    RESUME_MAX_AGE_S: 7 * 24 * 3600, // stop auto-polling entries older than 7 days
+    CHAINS: {
+      ethereum: {
+        key: 'ethereum', name: 'Ethereum', chainId: 1, chainIdHex: '0x1', eid: 30101,
+        token: '0x92217cCaEDBdbc54C76c15feA18823db1558fDc9',
+        adapter: '0x170c553e662d9dbc0d2abd8dcba36bd48b7c15e1',
+        rpcs: ['https://ethereum-rpc.publicnode.com', 'https://eth.drpc.org', 'https://eth.meowrpc.com', 'https://1rpc.io/eth', 'https://eth.llamarpc.com'],
+        explorer: 'https://etherscan.io'
+      },
+      base: {
+        key: 'base', name: 'Base', chainId: 8453, chainIdHex: '0x2105', eid: 30184,
+        token: '0x9e12735d77c72c5C3670636D428f2F3815d8A4cB',
+        adapter: '0x154b9654c58BCE82745A3D2f1EEb228cBa7E327a',
+        rpcs: ['https://base-rpc.publicnode.com', 'https://1rpc.io/base', 'https://base-mainnet.public.blastapi.io', 'https://base.drpc.org', 'https://mainnet.base.org'],
+        explorer: 'https://basescan.org'
+      }
+    }
+  };
+  const EID_TO_KEY = { 30101: 'ethereum', 30184: 'base' };
+
+  const TOKEN_ABI = [
+    {"inputs":[{"name":"account","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"name":"owner","type":"address"},{"name":"spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"name":"spender","type":"address"},{"name":"amount","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}
+  ];
+  const SEND_PARAM_COMPONENTS = [
+    {"name":"dstEid","type":"uint32"},{"name":"to","type":"bytes32"},{"name":"amountLD","type":"uint256"},
+    {"name":"minAmountLD","type":"uint256"},{"name":"extraOptions","type":"bytes"},
+    {"name":"composeMsg","type":"bytes"},{"name":"oftCmd","type":"bytes"}
+  ];
+  const FEE_COMPONENTS = [{"name":"nativeFee","type":"uint256"},{"name":"lzTokenFee","type":"uint256"}];
+  const ADAPTER_ABI = [
+    {"inputs":[{"components":SEND_PARAM_COMPONENTS,"name":"_sendParam","type":"tuple"},{"name":"_payInLzToken","type":"bool"}],"name":"quoteSend","outputs":[{"components":FEE_COMPONENTS,"name":"msgFee","type":"tuple"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"components":SEND_PARAM_COMPONENTS,"name":"_sendParam","type":"tuple"},{"components":FEE_COMPONENTS,"name":"_fee","type":"tuple"},{"name":"_refundAddress","type":"address"}],"name":"send","outputs":[],"stateMutability":"payable","type":"function"},
+    {"inputs":[{"name":"_dstEid","type":"uint32"}],"name":"getAmountCanBeSent","outputs":[{"name":"currentAmountInFlight","type":"uint256"},{"name":"amountCanBeSent","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"name":"_srcEid","type":"uint32"}],"name":"getAmountCanBeReceived","outputs":[{"name":"currentAmountInFlight","type":"uint256"},{"name":"amountCanBeReceived","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[],"name":"availableLiquidity","outputs":[{"name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
+  ];
+  const MULTICALL3_ABI = [
+    {"inputs":[{"components":[{"name":"target","type":"address"},{"name":"allowFailure","type":"bool"},{"name":"callData","type":"bytes"}],"name":"calls","type":"tuple[]"}],"name":"aggregate3","outputs":[{"components":[{"name":"success","type":"bool"},{"name":"returnData","type":"bytes"}],"name":"returnData","type":"tuple[]"}],"stateMutability":"payable","type":"function"},
+    {"inputs":[{"name":"addr","type":"address"}],"name":"getEthBalance","outputs":[{"name":"balance","type":"uint256"}],"stateMutability":"view","type":"function"}
+  ];
+  const ENDPOINT_ABI = [
+    {"inputs":[{"components":[{"name":"srcEid","type":"uint32"},{"name":"sender","type":"bytes32"},{"name":"nonce","type":"uint64"}],"name":"_origin","type":"tuple"},{"name":"_receiver","type":"address"},{"name":"_guid","type":"bytes32"},{"name":"_message","type":"bytes"},{"name":"_extraData","type":"bytes"}],"name":"lzReceive","outputs":[],"stateMutability":"payable","type":"function"}
+  ];
+  const OFTSENT_TOPIC = Web3.utils.sha3('OFTSent(bytes32,uint32,address,uint256,uint256)');
+  const OFTRECEIVED_TOPIC = Web3.utils.sha3('OFTReceived(bytes32,uint32,address,uint256)');
+
+  // ============================== STATE ==============================
+  // Per-chain READ layer (reads NEVER go through the wallet — mobile WalletConnect can't serve them).
+  const reads = {}; // key -> { rpcIndex, web3, token, adapter, mc, endpoint }
+
+  let modal = null, eip155Provider = null, appkitConnected = false, selectedAccount = null, currentChainId = null;
+  let writeWeb3 = null;
+  let srcKey = 'ethereum', dstKey = 'base';
+  let loadGen = 0;   // discards stale limit loads
+  let quoteGen = 0;  // discards stale fee quotes
+  let txGen = 0;     // discards continuations of an abandoned transfer
+  let isBridging = false;
+  let wrongNetworkNotified = false;
+
+  // limits: null = unknown (never treat unknown as 0)
+  let limits = { balance: null, ethBalance: null, allowance: null, liquidity: null, canSend: null, canReceive: null };
+  let maxSendable = null, binderLabel = '';
+  let quotedFee = null;   // BigInt native fee for the CURRENT amount+route, or null
+  let quoteTimer = null;
+  const pollTimers = {};  // srcTx -> interval id
+  const pollState = {};   // srcTx -> { tick, scanFails }
+
+  const el = {
+    connectBtn: document.getElementById('fula-connect-btn'),
+    srcSelect: document.getElementById('fula-src-select'),
+    dstSelect: document.getElementById('fula-dst-select'),
+    swapBtn: document.getElementById('fula-swap-btn'),
+    srcName: document.getElementById('fula-src-name'),
+    srcBalance: document.getElementById('fula-src-balance'),
+    ethBalance: document.getElementById('fula-eth-balance'),
+    amount: document.getElementById('fula-amount'),
+    maxBtn: document.getElementById('fula-max-btn'),
+    limitLine: document.getElementById('fula-limit-line'),
+    dustNote: document.getElementById('fula-dust-note'),
+    feeChain: document.getElementById('fula-fee-chain'),
+    feeValue: document.getElementById('fula-fee-value'),
+    hint: document.getElementById('fula-hint'),
+    bridgeBtn: document.getElementById('fula-bridge-btn'),
+    twoTxNote: document.getElementById('fula-two-tx-note'),
+    progressCard: document.getElementById('fula-progress-card'),
+    progressTitle: document.getElementById('fula-progress-title'),
+    progressSub: document.getElementById('fula-progress-sub'),
+    progressBanner: document.getElementById('fula-progress-banner'),
+    progressClose: document.getElementById('fula-progress-close'),
+    history: document.getElementById('fula-history'),
+    historyList: document.getElementById('fula-history-list'),
+    notification: document.getElementById('fula-notification'),
+    steps: [1, 2, 3, 4].map(i => ({
+      root: document.getElementById('fula-step-' + i),
+      label: document.getElementById('fula-step-' + i + '-label'),
+      detail: document.getElementById('fula-step-' + i + '-detail')
+    }))
+  };
+
+  // ============================== HELPERS ==============================
+  const bigMin = (...vals) => vals.reduce((a, b) => (a < b ? a : b));
+  const formatAddress = a => a ? a.substring(0, 6) + '...' + a.substring(a.length - 4) : '';
+  const shortHash = h => h ? h.substring(0, 10) + '...' + h.substring(h.length - 6) : '';
+  const padAddress32 = a => '0x' + '0'.repeat(24) + a.slice(2).toLowerCase();
+
+  // BigInt wei -> display string. NEVER goes through Number for the integer part.
+  function fmtWei(bi, dp) {
+    if (bi === null || bi === undefined) return '—';
+    if (dp === undefined) dp = 4;
+    const neg = bi < 0n; const a = neg ? -bi : bi;
+    const whole = a / ONE, frac = a % ONE;
+    let s = whole.toLocaleString('en-US');
+    if (dp > 0 && frac > 0n) {
+      const fs = (ONE + frac).toString().slice(1, 1 + dp).replace(/0+$/, '');
+      if (fs) s += '.' + fs;
+    }
+    return (neg ? '-' : '') + s;
+  }
+  // Input string -> BigInt wei, or null if unparseable. toWei avoids float drift.
+  function parseAmount(str) {
+    if (!str) return null;
+    str = str.trim().replace(/,/g, '');
+    if (!/^\d*\.?\d*$/.test(str) || str === '' || str === '.') return null;
+    try { return BigInt(Web3.utils.toWei(str, 'ether')); } catch (e) { return null; }
+  }
+  function decimalsTyped(str) {
+    const i = (str || '').indexOf('.');
+    return i < 0 ? 0 : (str.trim().length - i - 1);
+  }
+  function timeAgo(ts) {
+    const s = Math.max(0, Math.floor(Date.now() / 1000) - ts);
+    if (s < 60) return 'just now';
+    if (s < 3600) return Math.floor(s / 60) + 'm ago';
+    if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+    return Math.floor(s / 86400) + 'd ago';
+  }
+  function showNotification(msg, type) {
+    el.notification.textContent = msg;
+    el.notification.className = 'fula-notification ' + (type || 'success') + ' show';
+    setTimeout(() => el.notification.classList.remove('show'), 5000);
+  }
+  function setButtonLoading(btn, loading, text) {
+    if (loading) { btn.disabled = true; btn.innerHTML = '<span class="fula-spinner"></span> ' + (text || 'Processing...'); }
+    else { btn.disabled = false; btn.textContent = text || 'Bridge FULA'; }
+  }
+
+  // ============================== READ LAYER ==============================
+  function buildRead(key) {
+    const c = CONFIG.CHAINS[key];
+    const w = new Web3(c.rpcs[reads[key] ? reads[key].rpcIndex : 0]);
+    reads[key] = {
+      rpcIndex: reads[key] ? reads[key].rpcIndex : 0,
+      web3: w,
+      token: new w.eth.Contract(TOKEN_ABI, c.token),
+      adapter: new w.eth.Contract(ADAPTER_ABI, c.adapter),
+      mc: new w.eth.Contract(MULTICALL3_ABI, CONFIG.MULTICALL3),
+      endpoint: new w.eth.Contract(ENDPOINT_ABI, CONFIG.ENDPOINT)
+    };
+  }
+  function rotateRead(key) {
+    reads[key].rpcIndex = (reads[key].rpcIndex + 1) % CONFIG.CHAINS[key].rpcs.length;
+    buildRead(key);
+  }
+  // Run a read; rotate through the chain's RPC fallbacks on failure. fn must re-reference reads[key]
+  // each call so it picks up the rebuilt contract instances after a rotation.
+  async function callRead(key, fn) {
+    let lastErr;
+    for (let i = 0; i < CONFIG.CHAINS[key].rpcs.length; i++) {
+      try { return await fn(); }
+      catch (e) { lastErr = e; console.warn('[read:' + key + '] failed on ' + CONFIG.CHAINS[key].rpcs[reads[key].rpcIndex] + ':', e && e.message); rotateRead(key); }
+    }
+    throw lastErr;
+  }
+  async function waitForReadSync(key, blockNumber) {
+    if (!blockNumber) return;
+    const target = Number(blockNumber);
+    for (let i = 0; i < 12; i++) {
+      try { if (Number(await reads[key].web3.eth.getBlockNumber()) >= target) return; } catch (e) {}
+      await new Promise(r => setTimeout(r, 800));
+    }
+  }
+
+  // ============================== LIMITS ==============================
+  // One Multicall3 aggregate3 per chain. Decodes defensively: a failed sub-call yields null
+  // (unknown -> shown as "—" and blocks bridging), never a silent zero.
+  function decodeWords(key, item, n) {
+    const ok = (item && item.success !== undefined) ? item.success : (item ? item[0] : false);
+    const data = (item && item.returnData !== undefined) ? item.returnData : (item ? item[1] : null);
+    if (!(ok === true || ok === 'true')) return null;
+    if (!data || data === '0x' || data.length < 2 + 64 * n) return null;
+    try {
+      const out = [];
+      for (let i = 0; i < n; i++) out.push(BigInt('0x' + data.slice(2 + 64 * i, 2 + 64 * (i + 1))));
+      return out;
+    } catch (e) { return null; }
+  }
+
+  async function loadLimits() {
+    const gen = ++loadGen;
+    const s = srcKey, d = dstKey, acct = selectedAccount;
+    const sc = CONFIG.CHAINS[s], dc = CONFIG.CHAINS[d];
+    el.limitLine.textContent = 'Loading limits…';
+
+    try {
+      // ----- source chain batch -----
+      const srcCalls = [];
+      const zero = '0x' + '0'.repeat(40);
+      const who = acct || zero; // without a wallet we still load the bridge-wide limits
+      srcCalls.push([sc.token, true, reads[s].token.methods.balanceOf(who).encodeABI()]);
+      srcCalls.push([sc.token, true, reads[s].token.methods.allowance(who, sc.adapter).encodeABI()]);
+      srcCalls.push([sc.adapter, true, reads[s].adapter.methods.getAmountCanBeSent(dc.eid).encodeABI()]);
+      srcCalls.push([CONFIG.MULTICALL3, true, reads[s].mc.methods.getEthBalance(who).encodeABI()]);
+      const srcRes = await callRead(s, () => reads[s].mc.methods.aggregate3(srcCalls).call());
+      if (gen !== loadGen) return;
+
+      // ----- destination chain batch -----
+      const dstCalls = [];
+      dstCalls.push([dc.adapter, true, reads[d].adapter.methods.availableLiquidity().encodeABI()]);
+      dstCalls.push([dc.adapter, true, reads[d].adapter.methods.getAmountCanBeReceived(sc.eid).encodeABI()]);
+      const dstRes = await callRead(d, () => reads[d].mc.methods.aggregate3(dstCalls).call());
+      if (gen !== loadGen) return;
+
+      const bal = decodeWords(s, srcRes[0], 1), allow = decodeWords(s, srcRes[1], 1);
+      const canSend = decodeWords(s, srcRes[2], 2), ethBal = decodeWords(s, srcRes[3], 1);
+      const liq = decodeWords(d, dstRes[0], 1), canRecv = decodeWords(d, dstRes[1], 2);
+
+      limits = {
+        balance: acct ? (bal ? bal[0] : null) : null,
+        allowance: acct ? (allow ? allow[0] : null) : null,
+        ethBalance: acct ? (ethBal ? ethBal[0] : null) : null,
+        canSend: canSend ? canSend[1] : null,
+        liquidity: liq ? liq[0] : null,
+        canReceive: canRecv ? canRecv[1] : null
+      };
+      renderLimits();
+      validate();
+    } catch (e) {
+      if (gen !== loadGen) return;
+      console.error('loadLimits', e);
+      limits = { balance: null, ethBalance: null, allowance: null, liquidity: null, canSend: null, canReceive: null };
+      maxSendable = null;
+      el.limitLine.innerHTML = 'Could not load bridge limits — <a href="#" id="fula-limits-retry" style="color:var(--primary)">tap to retry</a>';
+      const retry = document.getElementById('fula-limits-retry');
+      if (retry) retry.addEventListener('click', ev => { ev.preventDefault(); loadLimits(); });
+      validate();
+    }
+  }
+
+  function renderLimits() {
+    el.srcName.textContent = CONFIG.CHAINS[srcKey].name;
+    el.feeChain.textContent = CONFIG.CHAINS[srcKey].name;
+    el.srcBalance.textContent = selectedAccount ? fmtWei(limits.balance) : 'connect wallet';
+    el.ethBalance.textContent = selectedAccount ? fmtWei(limits.ethBalance, 5) : 'connect wallet';
+
+    // The binding constraint = min of everything we know. Unknown components (null) are excluded
+    // from the min but bridging stays blocked until the user-relevant ones are known.
+    const candidates = [];
+    if (selectedAccount && limits.balance !== null) candidates.push({ v: limits.balance, label: 'your balance' });
+    candidates.push({ v: CONFIG.UI_MAX, label: 'per-transfer limit' });
+    if (limits.liquidity !== null) candidates.push({ v: limits.liquidity, label: 'bridge liquidity on ' + CONFIG.CHAINS[dstKey].name });
+    if (limits.canSend !== null) candidates.push({ v: limits.canSend, label: 'bridge daily limit' });
+    if (limits.canReceive !== null) candidates.push({ v: limits.canReceive, label: 'bridge daily limit' });
+
+    if (!candidates.length) { maxSendable = null; binderLabel = ''; el.limitLine.textContent = ''; return; }
+    let min = candidates[0];
+    for (const c of candidates) if (c.v < min.v) min = c;
+    maxSendable = min.v - (min.v % CONFIG.DUST); // floor to bridge granularity
+    binderLabel = min.label;
+
+    if (maxSendable <= 0n) {
+      el.limitLine.innerHTML = 'Nothing can be bridged right now (' + binderLabel + '). ' +
+        (min.label.indexOf('liquidity') >= 0 || min.label.indexOf('daily') >= 0
+          ? 'This frees up over time — check back soon.'
+          : '');
+    } else {
+      el.limitLine.innerHTML = 'Max: <b>' + fmtWei(maxSendable) + ' FULA</b> <span style="color:var(--text-muted)">(' + binderLabel + ')</span>';
+    }
+  }
+
+  // ============================== FEE QUOTE ==============================
+  function scheduleQuote() {
+    if (quoteTimer) clearTimeout(quoteTimer);
+    quoteTimer = setTimeout(refreshQuote, 500);
+  }
+  async function refreshQuote() {
+    const gen = ++quoteGen;
+    quotedFee = null;
+    const amt = quantized(parseAmount(el.amount.value));
+    if (!amt || amt <= 0n) { el.feeValue.textContent = '—'; validate(); return; }
+    el.feeValue.innerHTML = '<span class="fula-spinner" style="width:12px;height:12px;"></span>';
+    const s = srcKey, d = dstKey;
+    // Without a wallet we quote for a placeholder recipient — the fee doesn't depend on it.
+    const recipient = selectedAccount ? padAddress32(selectedAccount) : ('0x' + '11'.repeat(32));
+    const param = [CONFIG.CHAINS[d].eid, recipient, amt.toString(), amt.toString(), '0x', '0x', '0x'];
+    try {
+      const res = await callRead(s, () => reads[s].adapter.methods.quoteSend(param, false).call());
+      if (gen !== quoteGen || s !== srcKey || d !== dstKey) return;
+      const raw = (res && res.nativeFee !== undefined) ? res.nativeFee : (res && res.msgFee && res.msgFee.nativeFee !== undefined) ? res.msgFee.nativeFee : (res ? res[0] : null);
+      if (raw === null || raw === undefined) throw new Error('quote shape');
+      quotedFee = BigInt(raw);
+      el.feeValue.textContent = '~' + fmtWei(quotedFee, 6) + ' ETH + gas';
+    } catch (e) {
+      if (gen !== quoteGen) return;
+      console.warn('quoteSend failed', e && e.message);
+      quotedFee = null;
+      el.feeValue.textContent = 'unavailable — edit amount to retry';
+    }
+    validate();
+  }
+  function quantized(amt) { return (amt === null || amt === undefined) ? null : amt - (amt % CONFIG.DUST); }
+
+  // ============================== VALIDATION ==============================
+  function setHint(text, cls) { el.hint.textContent = text || ''; el.hint.className = 'fula-hint' + (cls ? ' ' + cls : ''); }
+
+  function validate() {
+    const btn = el.bridgeBtn;
+    el.twoTxNote.style.display = 'none';
+    el.dustNote.style.display = 'none';
+    if (isBridging) { btn.disabled = true; return; }
+
+    if (!selectedAccount) { setHint('Connect your wallet to bridge'); btn.disabled = true; return; }
+
+    const raw = el.amount.value;
+    const parsed = parseAmount(raw);
+    if (raw && parsed === null) { setHint('Enter a valid number', 'error'); btn.disabled = true; return; }
+    const amt = quantized(parsed);
+    if (!raw || parsed === null) { setHint('Enter an amount'); btn.disabled = true; return; }
+    if (parsed > 0n && amt <= 0n) { setHint('Minimum is 0.000001 FULA', 'error'); btn.disabled = true; return; }
+
+    if (decimalsTyped(raw) > 6 && parsed !== null && amt !== null && parsed - amt > 0n) {
+      el.dustNote.style.display = 'block';
+      el.dustNote.textContent = 'You’ll send ' + fmtWei(amt, 6) + ' FULA — amounts finer than 0.000001 stay in your wallet.';
+    }
+
+    if (maxSendable === null) { setHint('Bridge limits are still loading…', 'warning'); btn.disabled = true; return; }
+    if (amt > maxSendable) {
+      setHint('Amount exceeds the current max of ' + fmtWei(maxSendable) + ' FULA (' + binderLabel + ')', 'error');
+      btn.disabled = true; return;
+    }
+    if (quotedFee === null) { setHint('Waiting for the fee quote…'); btn.disabled = true; return; }
+    if (limits.ethBalance !== null) {
+      const padded = quotedFee + (quotedFee * CONFIG.FEE_PAD_BPS) / 10000n;
+      // rough gas allowance on top of the LayerZero fee: 400k gas at a conservative price
+      const gasBudget = srcKey === 'ethereum' ? 400000n * 30n * 10n ** 9n : 400000n * 10n ** 8n;
+      if (limits.ethBalance < padded + gasBudget) {
+        setHint('Not enough ETH on ' + CONFIG.CHAINS[srcKey].name + ' for the bridge fee (~' + fmtWei(padded + gasBudget, 6) + ' ETH needed)', 'error');
+        btn.disabled = true; return;
+      }
+    }
+
+    if (limits.allowance !== null && limits.allowance < amt) el.twoTxNote.style.display = 'block';
+    setHint('');
+    btn.disabled = false;
+  }
+
+  // ============================== WALLET ==============================
+  function initAppKit() {
+    const nets = [networks.mainnet, networks.base];
+    const wagmiAdapter = new WagmiAdapter({ networks: nets, projectId: CONFIG.PROJECT_ID });
+    modal = createAppKit({
+      adapters: [wagmiAdapter],
+      networks: nets,
+      defaultNetwork: networks.mainnet,
+      projectId: CONFIG.PROJECT_ID,
+      metadata: {
+        name: 'FULA Bridge',
+        description: 'Bridge FULA tokens between Ethereum and Base',
+        url: 'https://fulanetwork.github.io',
+        icons: ['https://fulanetwork.github.io/assets/images/logo/fula-icon-green.png']
+      },
+      themeMode: 'dark',
+      features: { analytics: false, email: false, socials: false }
+    });
+
+    modal.subscribeAccount(state => {
+      if (state && state.isConnected && state.address) {
+        const changed = state.address !== selectedAccount;
+        selectedAccount = state.address;
+        appkitConnected = true;
+        updateConnectedUI();
+        if (changed) { loadLimits(); refreshQuote(); renderHistory(); resumePending(); }
+      } else if (appkitConnected || selectedAccount) {
+        handleDisconnect();
+      }
+    });
+    modal.subscribeProviders(state => { eip155Provider = (state && state['eip155']) || null; });
+    modal.subscribeNetwork(state => {
+      currentChainId = state && state.chainId != null ? Number(state.chainId) : null;
+      if (appkitConnected && currentChainId && currentChainId !== CONFIG.CHAINS[srcKey].chainId && !wrongNetworkNotified && !isBridging) {
+        wrongNetworkNotified = true; // informational only; sends auto-switch
+      }
+    });
+    try { WagmiCore.reconnect(wagmiAdapter.wagmiConfig); } catch (e) {}
+  }
+
+  function handleDisconnect() {
+    selectedAccount = null; appkitConnected = false; eip155Provider = null; writeWeb3 = null;
+    limits.balance = null; limits.ethBalance = null; limits.allowance = null;
+    stopAllPolling();
+    updateDisconnectedUI();
+    renderLimits(); validate(); renderHistory();
+  }
+  function updateConnectedUI() {
+    el.connectBtn.classList.remove('disconnected'); el.connectBtn.classList.add('connected');
+    el.connectBtn.innerHTML = '<svg class="fula-wallet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1v-3"/><path d="M21 12a2 2 0 0 0-2-2h-4a2 2 0 0 0 0 4h4a2 2 0 0 0 2-2z"/></svg>' + formatAddress(selectedAccount) + ' - Disconnect';
+  }
+  function updateDisconnectedUI() {
+    el.connectBtn.classList.remove('connected'); el.connectBtn.classList.add('disconnected');
+    el.connectBtn.innerHTML = '<svg class="fula-wallet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1v-3"/><path d="M21 12a2 2 0 0 0-2-2h-4a2 2 0 0 0 0 4h4a2 2 0 0 0 2-2z"/></svg>Connect Wallet';
+    el.srcBalance.textContent = 'connect wallet';
+    el.ethBalance.textContent = 'connect wallet';
+  }
+
+  // Get the wallet onto `key`'s chain. Multi-chain WalletConnect wallets update chainId
+  // asynchronously AFTER switchNetwork resolves, so poll rather than trusting one read.
+  async function ensureWalletReady(key) {
+    if (!appkitConnected || !selectedAccount) throw { code: 'NOT_CONNECTED' };
+    if (!eip155Provider) throw { code: 'NO_PROVIDER' };
+    const c = CONFIG.CHAINS[key];
+    const net = key === 'base' ? networks.base : networks.mainnet;
+    const readChain = async () => parseInt(await eip155Provider.request({ method: 'eth_chainId' }), 16);
+    let onChain = false;
+    try { onChain = (await readChain()) === c.chainId; } catch (e) {}
+    if (!onChain) {
+      try { await modal.switchNetwork(net); } catch (e) { console.warn('switchNetwork failed', e); }
+      try {
+        await eip155Provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: c.chainIdHex }] });
+      } catch (e) {
+        if (e && e.code === 4902) {
+          try { await eip155Provider.request({ method: 'wallet_addEthereumChain', params: [{ chainId: c.chainIdHex, chainName: c.name, rpcUrls: [c.rpcs[0]], nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, blockExplorerUrls: [c.explorer] }] }); } catch (_) {}
+        }
+      }
+      for (let i = 0; i < 8; i++) {
+        try { if ((await readChain()) === c.chainId) { onChain = true; break; } } catch (e) {}
+        if (currentChainId === c.chainId) { onChain = true; break; }
+        await new Promise(r => setTimeout(r, 350));
+      }
+      if (!onChain) throw { code: 'WRONG_NETWORK', chain: c.name };
+    }
+    writeWeb3 = new Web3(eip155Provider);
+    return writeWeb3;
+  }
+
+  async function estimateGasSafe(key, tx, fallback) {
+    try {
+      const g = await reads[key].web3.eth.estimateGas(tx);
+      return Math.ceil(Number(g) * 1.4);
+    } catch (e) { console.warn('estimateGas fallback', e && e.message); return fallback; }
+  }
+  // Chain-appropriate EIP-1559 fees from the public RPC (wallets often over-tip on Base).
+  async function getFeeParams(key) {
+    try {
+      const blk = await reads[key].web3.eth.getBlock('latest');
+      const base = BigInt(blk.baseFeePerGas);
+      const priority = key === 'base' ? 5000000n : 1000000000n; // 0.005 gwei on Base, 1 gwei on Ethereum
+      const maxFee = base * 2n + priority + (key === 'base' ? 50000000n : 0n);
+      return { maxFeePerGas: maxFee.toString(), maxPriorityFeePerGas: priority.toString() };
+    } catch (e) { return {}; }
+  }
+  function txErrMsg(e) {
+    if (!e) return 'Transaction failed';
+    if (e.code === 4001 || e.code === 'ACTION_REJECTED' || /reject|denied|cancell/i.test(e.message || '')) return 'Transaction cancelled';
+    if (e.code === 'WRONG_NETWORK') return 'Please switch your wallet to ' + (e.chain || 'the right network');
+    if (e.code === 'NOT_CONNECTED' || e.code === 'NO_PROVIDER') return 'Connect your wallet first';
+    if (/RateLimit/i.test(e.message || '')) return 'The bridge’s shared daily limit was just used up — nothing was sent and nothing was lost. It refills continuously; try again shortly.';
+    return 'Transaction failed — nothing was sent';
+  }
+
+  // ============================== HISTORY ==============================
+  function historyKey() { return 'fulaBridge.v1.' + (selectedAccount || '').toLowerCase(); }
+  function loadHistory() {
+    if (!selectedAccount) return [];
+    try { return JSON.parse(localStorage.getItem(historyKey()) || '[]'); } catch (e) { return []; }
+  }
+  function saveHistory(list) {
+    if (!selectedAccount) return;
+    try { localStorage.setItem(historyKey(), JSON.stringify(list.slice(0, CONFIG.HISTORY_MAX))); } catch (e) {}
+  }
+  function upsertEntry(entry) {
+    const list = loadHistory();
+    const i = list.findIndex(x => x.srcTx === entry.srcTx);
+    if (i >= 0) list[i] = Object.assign(list[i], entry); else list.unshift(entry);
+    saveHistory(list);
+    renderHistory();
+    return list.find(x => x.srcTx === entry.srcTx);
+  }
+
+  function renderHistory() {
+    const list = selectedAccount ? loadHistory() : [];
+    if (!list.length) { el.history.style.display = 'none'; return; }
+    el.history.style.display = 'block';
+    el.historyList.innerHTML = '';
+    for (const e of list) {
+      const sK = EID_TO_KEY[e.srcEid], dK = EID_TO_KEY[e.dstEid];
+      if (!sK || !dK) continue;
+      const div = document.createElement('div');
+      div.className = 'fula-history-item';
+      const pill = e.status === 'delivered' ? 'delivered' : e.status === 'parked' ? 'parked' : e.status === 'wedged' ? 'wedged' : 'pending';
+      const pillText = e.status === 'delivered' ? 'Completed' : e.status === 'parked' ? 'Queued — retryable' : e.status === 'wedged' ? 'Needs attention' : 'In progress';
+      let links = '<a href="' + CONFIG.CHAINS[sK].explorer + '/tx/' + e.srcTx + '" target="_blank" rel="noopener">' + CONFIG.CHAINS[sK].name + ' tx</a>';
+      if (e.dstTx) links += '<a href="' + CONFIG.CHAINS[dK].explorer + '/tx/' + e.dstTx + '" target="_blank" rel="noopener">' + CONFIG.CHAINS[dK].name + ' tx</a>';
+      links += '<a href="' + CONFIG.SCAN_UI + e.srcTx + '" target="_blank" rel="noopener">LayerZero</a>';
+      div.innerHTML =
+        '<div class="fula-history-top">' +
+          '<span><span class="fula-history-amount">' + fmtWei(BigInt(e.amountLD)) + ' FULA</span> ' +
+          '<span class="fula-history-route">' + CONFIG.CHAINS[sK].name + ' → ' + CONFIG.CHAINS[dK].name + '</span></span>' +
+          '<span class="fula-pill ' + pill + '">' + pillText + '</span>' +
+        '</div>' +
+        '<div class="fula-history-bottom">' +
+          '<span class="fula-history-links">' + links + '</span>' +
+          '<span style="display:flex;gap:8px;align-items:center;">' +
+            (e.status === 'parked' ? '<button class="fula-history-retry" data-tx="' + e.srcTx + '">Retry</button>' : '') +
+            '<span class="fula-history-time">' + timeAgo(e.ts) + '</span>' +
+          '</span>' +
+        '</div>';
+      const rbtn = div.querySelector('.fula-history-retry');
+      if (rbtn) rbtn.addEventListener('click', () => handleRetry(e.srcTx, rbtn));
+      el.historyList.appendChild(div);
+    }
+  }
+
+  // ============================== STEPPER ==============================
+  let shownTx = null; // the srcTx currently displayed in the stepper
+
+  function setStep(i, state, detailHTML) { // i: 1..4, state: '', 'active', 'done'
+    const s = el.steps[i - 1];
+    s.root.className = 'fula-step' + (state ? ' ' + state : '');
+    if (state === 'done') s.root.querySelector('.fula-step-dot').innerHTML = '✓';
+    else s.root.querySelector('.fula-step-dot').textContent = String(i);
+    if (detailHTML !== undefined) s.detail.innerHTML = detailHTML;
+  }
+  function txLink(key, hash) {
+    return '<a href="' + CONFIG.CHAINS[key].explorer + '/tx/' + hash + '" target="_blank" rel="noopener">' + shortHash(hash) + '</a>';
+  }
+  function spinnerHTML(text) { return '<span class="fula-step-spinner"></span>' + text; }
+
+  function openStepper(entry) {
+    shownTx = entry.srcTx || 'pre';
+    const sK = EID_TO_KEY[entry.srcEid], dK = EID_TO_KEY[entry.dstEid];
+    el.progressCard.classList.add('visible');
+    el.progressTitle.textContent = 'Bridging ' + fmtWei(BigInt(entry.amountLD)) + ' FULA: ' + CONFIG.CHAINS[sK].name + ' → ' + CONFIG.CHAINS[dK].name;
+    el.steps[0].label.textContent = 'Locking FULA into the ' + CONFIG.CHAINS[sK].name + ' bridge';
+    el.steps[2].label.textContent = 'Confirming on ' + CONFIG.CHAINS[dK].name;
+    el.steps[3].label.textContent = 'Releasing FULA to your wallet on ' + CONFIG.CHAINS[dK].name;
+    el.progressBanner.className = 'fula-progress-banner';
+    el.progressBanner.innerHTML = '';
+    el.progressClose.classList.remove('visible');
+    renderStepperState(entry, null);
+  }
+
+  function renderStepperState(entry, scanMsg) {
+    const sK = EID_TO_KEY[entry.srcEid], dK = EID_TO_KEY[entry.dstEid];
+    const st = entry.status, phase = entry.phase || '';
+    // Step 1
+    if (!entry.srcTx) setStep(1, 'active', spinnerHTML('waiting for your wallet…'));
+    else if (phase === 'mining') setStep(1, 'active', spinnerHTML('confirming ') + txLink(sK, entry.srcTx));
+    else setStep(1, 'done', txLink(sK, entry.srcTx));
+    // Steps 2-4
+    if (st === 'delivered') {
+      setStep(2, 'done', '');
+      setStep(3, 'done', '');
+      setStep(4, 'done', entry.dstTx ? txLink(dK, entry.dstTx) : '');
+      el.progressTitle.textContent = '✅ Bridged ' + fmtWei(BigInt(entry.amountLD)) + ' FULA to ' + CONFIG.CHAINS[dK].name;
+      el.progressSub.textContent = 'The tokens are in your wallet on ' + CONFIG.CHAINS[dK].name + '.';
+      el.progressClose.classList.add('visible');
+      return;
+    }
+    if (!entry.srcTx || phase === 'mining') { setStep(2, '', ''); setStep(3, '', ''); setStep(4, '', ''); return; }
+
+    let dvnDetail = '';
+    if (scanMsg && scanMsg.verification && scanMsg.verification.dvn && scanMsg.verification.dvn.dvns) {
+      const dvns = Object.values(scanMsg.verification.dvn.dvns);
+      const okCount = dvns.filter(x => x && x.status === 'SUCCEEDED').length;
+      dvnDetail = okCount + ' of ' + dvns.length + ' verifiers signed';
+    }
+    const scanStatus = scanMsg && scanMsg.status && scanMsg.status.name;
+
+    if (st === 'parked') {
+      setStep(2, 'done', dvnDetail);
+      setStep(3, 'done', '');
+      setStep(4, 'active', 'queued — see below');
+      showBanner('calm',
+        'Your transfer is <b>queued on ' + CONFIG.CHAINS[dK].name + '</b>. The tokens are safe and this will complete — ' +
+        'the bridge’s capacity frees up continuously, and the transfer can be retried at any time.',
+        entry, true);
+      return;
+    }
+    if (st === 'wedged') {
+      setStep(2, 'active', 'verification is delayed');
+      setStep(3, '', ''); setStep(4, '', '');
+      showBanner('bad',
+        'This transfer needs operator attention. Your tokens are locked safely on ' + CONFIG.CHAINS[sK].name + ' and are not lost. ' +
+        'Please check the transfer on LayerZero Scan or contact the team.',
+        entry, false);
+      return;
+    }
+    // pending in-flight
+    if (scanStatus === 'CONFIRMING') {
+      setStep(2, 'done', dvnDetail);
+      setStep(3, 'active', spinnerHTML('committing on ' + CONFIG.CHAINS[dK].name + '…'));
+      setStep(4, '', '');
+    } else { // INFLIGHT or unknown/lagging
+      setStep(2, 'active', spinnerHTML(dvnDetail || 'independent verifiers are signing…'));
+      setStep(3, '', ''); setStep(4, '', '');
+    }
+  }
+
+  function showBanner(kind, html, entry, withRetry) {
+    el.progressBanner.className = 'fula-progress-banner visible ' + kind;
+    let actions = '<div class="fula-banner-actions">';
+    if (withRetry) actions += '<button class="fula-banner-btn" id="fula-banner-retry">Retry now</button>';
+    actions += '<a class="fula-banner-btn" style="text-decoration:none;display:inline-block;" href="' + CONFIG.SCAN_UI + entry.srcTx + '" target="_blank" rel="noopener">View on LayerZero Scan</a></div>';
+    el.progressBanner.innerHTML = html + actions;
+    const rb = document.getElementById('fula-banner-retry');
+    if (rb) rb.addEventListener('click', () => handleRetry(entry.srcTx, rb));
+  }
+
+  // ============================== TRACKING ==============================
+  function stopPolling(srcTx) {
+    if (pollTimers[srcTx]) { clearInterval(pollTimers[srcTx]); delete pollTimers[srcTx]; delete pollState[srcTx]; }
+  }
+  function stopAllPolling() { for (const k of Object.keys(pollTimers)) stopPolling(k); }
+
+  function startTracking(srcTx) {
+    if (pollTimers[srcTx]) return;
+    pollState[srcTx] = { tick: 0, scanFails: 0, startedAt: Date.now() };
+    const run = () => pollOnce(srcTx).catch(e => console.warn('poll', e && e.message));
+    run();
+    pollTimers[srcTx] = setInterval(() => {
+      if (document.hidden) return; // pause while the tab is hidden; resumes on visibility
+      const ps = pollState[srcTx];
+      if (!ps) return;
+      const ageMs = Date.now() - ps.startedAt;
+      // cadence: every 5s for 2 min, then every ~12s until 15 min, then every ~30s
+      ps.tick++;
+      const interval = ageMs < 120000 ? 1 : ageMs < 900000 ? 2 : 6; // in 5s units (base timer is 5s)
+      if (ps.tick % interval !== 0) return;
+      run();
+    }, 5000);
+  }
+
+  async function pollOnce(srcTx) {
+    const list = loadHistory();
+    const entry = list.find(x => x.srcTx === srcTx);
+    if (!entry || entry.status === 'delivered' || entry.status === 'wedged') { stopPolling(srcTx); return; }
+    const ps = pollState[srcTx] || { tick: 0, scanFails: 0 };
+    const dK = EID_TO_KEY[entry.dstEid];
+    let scanMsg = null;
+
+    // --- LayerZero Scan API (primary) ---
+    try {
+      const r = await fetch(CONFIG.SCAN_API + '/messages/tx/' + srcTx, { headers: { accept: 'application/json' } });
+      if (r.ok) {
+        const j = await r.json();
+        scanMsg = (j && j.data && j.data[0]) || null;
+        ps.scanFails = 0;
+      } else { ps.scanFails++; }
+    } catch (e) { ps.scanFails++; }
+
+    if (scanMsg) {
+      const name = scanMsg.status && scanMsg.status.name;
+      if (name === 'DELIVERED') {
+        const dstTx = scanMsg.destination && scanMsg.destination.tx && scanMsg.destination.tx.txHash;
+        finishDelivered(entry, dstTx || entry.dstTx || null, scanMsg);
+        return;
+      }
+      if (name === 'PAYLOAD_STORED' || name === 'FAILED') {
+        if (entry.status !== 'parked') { entry.status = 'parked'; upsertEntry(entry); showNotification('Transfer is queued on ' + CONFIG.CHAINS[dK].name + ' — tokens are safe, retry available.', 'warning'); }
+      } else if (name === 'BLOCKED') {
+        entry.status = 'wedged'; upsertEntry(entry);
+      }
+    }
+
+    // --- on-chain OFTReceived fallback (ground truth for delivery; CORS-independent) ---
+    // every 3rd cycle, or immediately if the scan API is unreachable
+    if (entry.guid && (ps.tick % 3 === 0 || ps.scanFails > 0)) {
+      try {
+        const found = await findOFTReceived(dK, entry);
+        if (found) { finishDelivered(entry, found.transactionHash, scanMsg); return; }
+      } catch (e) { /* tolerated; scan API remains primary */ }
+    }
+
+    if (shownTx === srcTx) renderStepperState(entry, scanMsg);
+    renderHistory();
+  }
+
+  async function findOFTReceived(dK, entry) {
+    const latest = Number(await callRead(dK, () => reads[dK].web3.eth.getBlockNumber()));
+    let from = entry.dstBlockAtSend ? Number(entry.dstBlockAtSend) : Math.max(0, latest - 5000);
+    // public RPCs cap getLogs ranges; walk in chunks, newest first, bounded effort per poll
+    const CHUNK = 4500;
+    let to = latest, tries = 0;
+    while (to >= from && tries < 4) {
+      const lo = Math.max(from, to - CHUNK + 1);
+      try {
+        const logs = await callRead(dK, () => reads[dK].web3.eth.getPastLogs({
+          address: CONFIG.CHAINS[dK].adapter,
+          topics: [OFTRECEIVED_TOPIC, entry.guid],
+          fromBlock: '0x' + lo.toString(16),
+          toBlock: '0x' + to.toString(16)
+        }));
+        if (logs && logs.length) return logs[0];
+      } catch (e) { /* try the next chunk anyway */ }
+      to = lo - 1; tries++;
+    }
+    return null;
+  }
+
+  function finishDelivered(entry, dstTx, scanMsg) {
+    entry.status = 'delivered';
+    if (dstTx) entry.dstTx = dstTx;
+    upsertEntry(entry);
+    stopPolling(entry.srcTx);
+    if (shownTx === entry.srcTx) renderStepperState(entry, scanMsg);
+    renderHistory();
+    showNotification('Bridge complete — ' + fmtWei(BigInt(entry.amountLD)) + ' FULA arrived!', 'success');
+    loadLimits(); // balances and limits changed
+  }
+
+  function resumePending() {
+    // Resume polling for this wallet's unfinished transfers; auto-open the stepper for a fresh one.
+    const now = Math.floor(Date.now() / 1000);
+    const list = loadHistory();
+    let opened = false;
+    for (const e of list) {
+      if ((e.status === 'pending' || e.status === 'parked') && now - e.ts < CONFIG.RESUME_MAX_AGE_S) {
+        startTracking(e.srcTx);
+        if (!opened && e.status === 'pending' && now - e.ts < 3600) { openStepper(e); opened = true; }
+      }
+    }
+  }
+
+  // ============================== BRIDGE FLOW ==============================
+  async function handleBridge() {
+    if (isBridging || !selectedAccount) return;
+    const gen = ++txGen;
+    const s = srcKey, d = dstKey, acct = selectedAccount;
+    const sc = CONFIG.CHAINS[s], dc = CONFIG.CHAINS[d];
+    const amt = quantized(parseAmount(el.amount.value));
+    if (!amt || amt <= 0n) return;
+
+    isBridging = true;
+    try {
+      setButtonLoading(el.bridgeBtn, true, 'Checking…');
+
+      // fresh reads immediately before sending — limits are shared and move under us
+      await loadLimits();
+      if (gen !== txGen) return;
+      if (maxSendable === null || amt > maxSendable) {
+        showNotification('The available limit changed — max is now ' + fmtWei(maxSendable || 0n) + ' FULA. Nothing was sent.', 'warning');
+        return;
+      }
+
+      const w3 = await ensureWalletReady(s);
+      if (gen !== txGen) return;
+      const tokenWrite = new w3.eth.Contract(TOKEN_ABI, sc.token);
+      const adapterWrite = new w3.eth.Contract(ADAPTER_ABI, sc.adapter);
+
+      // ---- approve if needed ----
+      const allowance = BigInt(await callRead(s, () => reads[s].token.methods.allowance(acct, sc.adapter).call()));
+      if (allowance < amt) {
+        setButtonLoading(el.bridgeBtn, true, 'Approve in wallet…');
+        const m = tokenWrite.methods.approve(sc.adapter, amt.toString());
+        const gas = await estimateGasSafe(s, { from: acct, to: sc.token, data: m.encodeABI() }, 120000);
+        const rc = await m.send(Object.assign({ from: acct, gas: gas }, await getFeeParams(s)));
+        if (gen !== txGen) return;
+        setButtonLoading(el.bridgeBtn, true, 'Approval confirming…');
+        await waitForReadSync(s, rc && rc.blockNumber);
+      }
+
+      // ---- fresh quote, then send ----
+      setButtonLoading(el.bridgeBtn, true, 'Quoting fee…');
+      const recipient = padAddress32(acct);
+      const param = [dc.eid, recipient, amt.toString(), amt.toString(), '0x', '0x', '0x'];
+      const q = await callRead(s, () => reads[s].adapter.methods.quoteSend(param, false).call());
+      const rawFee = (q && q.nativeFee !== undefined) ? q.nativeFee : (q && q.msgFee && q.msgFee.nativeFee !== undefined) ? q.msgFee.nativeFee : q[0];
+      const fee = BigInt(rawFee);
+      const padded = fee + (fee * CONFIG.FEE_PAD_BPS) / 10000n;
+
+      // record the destination block BEFORE sending, so delivery-log scans have a floor
+      let dstBlockAtSend = null;
+      try { dstBlockAtSend = String(await callRead(d, () => reads[d].web3.eth.getBlockNumber())); } catch (e) {}
+
+      setButtonLoading(el.bridgeBtn, true, 'Confirm in wallet…');
+      const sendMethod = adapterWrite.methods.send(param, [padded.toString(), '0'], acct);
+      const gas = await estimateGasSafe(s, { from: acct, to: sc.adapter, data: sendMethod.encodeABI(), value: padded.toString() }, 500000);
+
+      let srcTxHash = null;
+      const provisional = {
+        srcTx: null, dstTx: null, guid: null,
+        srcEid: sc.eid, dstEid: dc.eid,
+        amountLD: amt.toString(), dstBlockAtSend: dstBlockAtSend,
+        ts: Math.floor(Date.now() / 1000), status: 'pending', phase: 'mining'
+      };
+
+      const receiptPromise = new Promise((resolve, reject) => {
+        sendMethod.send(Object.assign({ from: acct, value: padded.toString(), gas: gas }, {}))
+          .on('transactionHash', h => {
+            srcTxHash = h;
+            provisional.srcTx = h;
+            upsertEntry(provisional);
+            openStepper(provisional);
+            setButtonLoading(el.bridgeBtn, true, 'Bridging…');
+          })
+          .on('receipt', resolve)
+          .on('error', reject);
+      });
+
+      // Prefer our own receipt poll on the read RPC once the hash is known — wallet RPCs
+      // (especially mobile WalletConnect) are unreliable at reporting receipts.
+      const receipt = await Promise.race([
+        receiptPromise.catch(e => { if (!srcTxHash) throw e; return waitReceiptOnRead(s, () => srcTxHash); }),
+        (async () => { return waitReceiptOnRead(s, () => srcTxHash); })()
+      ]);
+      if (gen !== txGen) return;
+      if (!receipt) {
+        if (srcTxHash) {
+          // Hash exists but no receipt after ~3 min — possibly replaced/sped-up in the wallet.
+          // Don't alarm; keep tracking (the scan API is hash-keyed, so a replaced hash simply
+          // never updates — the explorer link is the user's source of truth in that case).
+          startTracking(srcTxHash);
+          showNotification('Still waiting for confirmation — if you sped up or replaced the transaction in your wallet, check the explorer link in Recent transfers.', 'warning');
+          return;
+        }
+        throw new Error('Transaction was not confirmed — nothing was sent.');
+      }
+      if (receipt.status === false || receipt.status === 0n || receipt.status === '0x0') {
+        upsertEntry({ srcTx: srcTxHash, status: 'wedged' });
+        throw new Error('The bridge transaction reverted on ' + sc.name + '. Nothing left your wallet except gas.');
+      }
+
+      // parse the OFTSent log for the guid (the cross-chain message id)
+      let guid = null;
+      for (const log of (receipt.logs || [])) {
+        if (log.address && log.address.toLowerCase() === sc.adapter.toLowerCase() &&
+            log.topics && log.topics[0] === OFTSENT_TOPIC) { guid = log.topics[1]; break; }
+      }
+      const entry = upsertEntry({
+        srcTx: srcTxHash, guid: guid, phase: 'sent',
+        dstBlockAtSend: dstBlockAtSend, status: 'pending'
+      });
+      renderStepperState(entry, null);
+      startTracking(srcTxHash);
+      el.amount.value = '';
+      quotedFee = null; el.feeValue.textContent = '—';
+    } catch (e) {
+      if (gen !== txGen) return;
+      console.error('bridge', e);
+      showNotification(txErrMsg(e), /cancelled/i.test(txErrMsg(e)) ? 'warning' : 'error');
+      await loadLimits().catch(() => {});
+    } finally {
+      if (gen === txGen) { isBridging = false; setButtonLoading(el.bridgeBtn, false, 'Bridge FULA'); validate(); }
+    }
+  }
+
+  async function waitReceiptOnRead(key, getHash) {
+    // ~3 minutes of polling on the read RPC
+    for (let i = 0; i < 60; i++) {
+      const h = getHash();
+      if (h) {
+        try {
+          const rc = await reads[key].web3.eth.getTransactionReceipt(h);
+          if (rc && rc.blockNumber) return rc;
+        } catch (e) {}
+      }
+      await new Promise(r => setTimeout(r, 3000));
+    }
+    return null;
+  }
+
+  // ============================== RETRY ==============================
+  // A queued (parked) message is permissionlessly executable: anyone may call
+  // EndpointV2.lzReceive with the verified packet. We reconstruct it from the scan API and
+  // GATE ON A DRY-RUN eth_call — if the reconstruction is wrong or the queue condition still
+  // holds, the dry-run fails and we fall back to the LayerZero Scan page (which has its own
+  // retry button). This makes a bad in-page transaction impossible.
+  async function handleRetry(srcTx, btn) {
+    const entry = loadHistory().find(x => x.srcTx === srcTx);
+    if (!entry) return;
+    const dK = EID_TO_KEY[entry.dstEid], sK = EID_TO_KEY[entry.srcEid];
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Checking…';
+    try {
+      const r = await fetch(CONFIG.SCAN_API + '/messages/tx/' + srcTx, { headers: { accept: 'application/json' } });
+      if (!r.ok) throw new Error('scan unavailable');
+      const m = ((await r.json()).data || [])[0];
+      if (!m) throw new Error('not indexed');
+      const name = m.status && m.status.name;
+      if (name === 'DELIVERED') { // it healed on its own
+        finishDelivered(entry, m.destination && m.destination.tx && m.destination.tx.txHash, m);
+        return;
+      }
+
+      const call = buildLzReceiveCandidates(m, entry, sK, dK);
+      let working = null;
+      for (const cand of call.candidates) {
+        try {
+          await reads[dK].web3.eth.call({ from: selectedAccount || undefined, to: CONFIG.ENDPOINT, data: cand });
+          working = cand; break;
+        } catch (e) { /* try next candidate */ }
+      }
+      if (!working) {
+        // conditions not ready or reconstruction failed — hand over to LayerZero Scan
+        window.open(CONFIG.SCAN_UI + srcTx, '_blank', 'noopener');
+        showNotification('Retry isn’t ready here yet — opened LayerZero Scan, which can retry when conditions allow. Your tokens are safe.', 'warning');
+        return;
+      }
+
+      btn.textContent = 'Confirm in wallet…';
+      const w3 = await ensureWalletReady(dK); // retry executes ON THE DESTINATION chain
+      const gas = await estimateGasSafe(dK, { from: selectedAccount, to: CONFIG.ENDPOINT, data: working }, 400000);
+      await w3.eth.sendTransaction(Object.assign({ from: selectedAccount, to: CONFIG.ENDPOINT, data: working, gas: gas }, await getFeeParams(dK)));
+      showNotification('Retry submitted — delivery should complete shortly.', 'success');
+      entry.status = 'pending'; upsertEntry(entry);
+      startTracking(srcTx);
+    } catch (e) {
+      console.warn('retry', e);
+      if (e && (e.code === 4001 || /reject|denied/i.test(e.message || ''))) showNotification('Retry cancelled', 'warning');
+      else {
+        window.open(CONFIG.SCAN_UI + srcTx, '_blank', 'noopener');
+        showNotification('Could not retry from here — opened LayerZero Scan instead. Your tokens are safe.', 'warning');
+      }
+    } finally { btn.disabled = false; btn.textContent = orig; }
+  }
+
+  function buildLzReceiveCandidates(m, entry, sK, dK) {
+    const endpointIface = reads[dK].endpoint;
+    const srcAdapter32 = padAddress32(CONFIG.CHAINS[sK].adapter);
+    const guid = entry.guid || m.guid;
+    // VERIFIED against a live delivered message (2026-07-31): the nonce lives at pathway.nonce and
+    // source.tx.payload is the BARE 40-byte OFT message (to‖amountSD) — no packet header, no guid.
+    const nonce = String((m.pathway && m.pathway.nonce !== undefined) ? m.pathway.nonce : (m.nonce !== undefined ? m.nonce : ''));
+    // the payload may be exposed whole (header‖guid‖message), as guid‖message, or as the bare message
+    const payloadCands = [];
+    const raw = (m.source && m.source.tx && m.source.tx.payload) || m.payload || (m.packet && (m.packet.payload || m.packet.message)) || null;
+    if (raw && typeof raw === 'string' && raw.startsWith('0x')) {
+      payloadCands.push(raw);                                   // bare message
+      if (raw.length > 2 + 64) payloadCands.push('0x' + raw.slice(2 + 64));        // strip 32-byte guid
+      if (raw.length > 2 + 226) payloadCands.push('0x' + raw.slice(2 + 226));      // strip 81-byte header + guid
+    }
+    const candidates = [];
+    if (guid && nonce) {
+      for (const msg of payloadCands) {
+        try {
+          candidates.push(endpointIface.methods.lzReceive(
+            [CONFIG.CHAINS[sK].eid, srcAdapter32, nonce],
+            CONFIG.CHAINS[dK].adapter, guid, msg, '0x'
+          ).encodeABI());
+        } catch (e) {}
+      }
+    }
+    return { candidates: candidates };
+  }
+
+  // ============================== ROUTE / INIT ==============================
+  function setRoute(newSrc, newDst) {
+    srcKey = newSrc; dstKey = newDst;
+    el.srcSelect.value = srcKey; el.dstSelect.value = dstKey;
+    try { localStorage.setItem('fulaBridge.route', srcKey); } catch (e) {}
+    limits = { balance: null, ethBalance: null, allowance: null, liquidity: null, canSend: null, canReceive: null };
+    maxSendable = null; quotedFee = null;
+    el.feeValue.textContent = '—';
+    renderLimits();
+    loadLimits();
+    scheduleQuote();
+    validate();
+  }
+
+  function init() {
+    buildRead('ethereum'); buildRead('base');
+    try { const saved = localStorage.getItem('fulaBridge.route'); if (saved === 'base') { srcKey = 'base'; dstKey = 'ethereum'; } } catch (e) {}
+    el.srcSelect.value = srcKey; el.dstSelect.value = dstKey;
+
+    initAppKit();
+    el.connectBtn.addEventListener('click', () => { if (appkitConnected) modal.disconnect(); else modal.open(); });
+    el.srcSelect.addEventListener('change', () => { const v = el.srcSelect.value; setRoute(v, v === 'ethereum' ? 'base' : 'ethereum'); });
+    el.dstSelect.addEventListener('change', () => { const v = el.dstSelect.value; setRoute(v === 'ethereum' ? 'base' : 'ethereum', v); });
+    el.swapBtn.addEventListener('click', () => setRoute(dstKey, srcKey));
+    el.maxBtn.addEventListener('click', () => {
+      if (maxSendable === null || maxSendable <= 0n) return;
+      // full precision, no thousands separators, so re-parsing is exact
+      el.amount.value = Web3.utils.fromWei(maxSendable.toString(), 'ether');
+      scheduleQuote(); validate();
+    });
+    el.amount.addEventListener('input', () => { scheduleQuote(); validate(); });
+    el.bridgeBtn.addEventListener('click', handleBridge);
+    el.progressClose.addEventListener('click', () => { el.progressCard.classList.remove('visible'); shownTx = null; });
+
+    renderLimits();
+    loadLimits();
+    // keep limits and fee honest while the page is open
+    setInterval(() => { if (!document.hidden && !isBridging) loadLimits(); }, 60000);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>    </section>
+
+    <!-- Important Information -->
+    <div id="disclaimer-banner" style="background:#fff4e5;border-bottom:2px solid #ffcc80;padding:15px;font-family:sans-serif;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <strong style="color:#b34700;">&#9888;&#65039; Important Information</strong>
+      </div>
+      <p id="disclaimer-text" style="margin-top:10px;line-height:1.5;font-size:14px;color:#333;">
+        FULA Token is a utility token intended solely for use within the Fula network ecosystem.
+        It does not represent an investment, security, or share in any company, and it does not provide any ownership, voting rights, or entitlement to profits.<br><br>
+        The bridge moves your own FULA tokens between the Ethereum and Base networks; it does not buy, sell, or exchange tokens.
+        Cross-chain transfers depend on third-party infrastructure (LayerZero) and public blockchains, and delivery times can vary.
+        The value of FULA may fluctuate significantly and may become worthless. Participation is entirely at your own risk.<br><br>
+        Always do your own research and seek independent legal, tax, and financial advice before using blockchain applications.
+      </p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img src="../assets/images/logo/fula-lockup-green.png" alt="Fula Network" class="footer__logo" width="360" height="36">
+          <p class="footer__tagline">Decentralized storage, governed by its community.</p>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Network</h4>
+          <div class="footer__links">
+            <a href="../index.html" class="footer__link">Home</a>
+            <a href="../about/" class="footer__link">About Fula</a>
+            <a href="../token/" class="footer__link">Token</a>
+            <a href="../ecosystem/" class="footer__link">Ecosystem</a>
+            <a href="../fec-nfts/" class="footer__link">FEC NFTs</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Participate</h4>
+          <div class="footer__links">
+            <a href="../fula-staking/" class="footer__link">FULA Staking</a>
+            <a href="../fula-vip-staking/" class="footer__link">FULA VIP Staking</a>
+            <a href="../bridge/" class="footer__link">Bridge FULA</a>
+            <a href="../grants/" class="footer__link">Grants</a>
+            <a href="../supporters/" class="footer__link">Supporters</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Additional</h4>
+          <div class="footer__links">
+            <a href="https://fulanetwork.github.io/assets/FulaWP.pdf" class="footer__link" target="_blank" rel="noopener">Whitepaper</a>
+            <a href="https://simulation.fx.land" class="footer__link" target="_blank" rel="noopener">Mining Simulation</a>
+            <a href="https://coinmarketcap.com/currencies/functionland/" class="footer__link" target="_blank" rel="noopener">CoinMarketCap</a>
+            <a href="../privacy-policy/" class="footer__link">Privacy Policy</a>
+            <a href="../terms/" class="footer__link">Terms of Use</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="footer__disclaimer">This website is owned and operated by Fula Governance Association (Switzerland), the association that governs the Fula network. Fula Governance Association is responsible for the FULA token, including its issuance, distribution and treasury management, and for FEC NFTs. Functionland Inc (Canada) is a separate and independent entity and a grantee (receiver of grants) of Fula Governance Association that works on adding value to the Fula network; it acts independently and on its own account. Fula Governance Association is organized under the laws of Switzerland and Functionland Inc is incorporated under the laws of Canada; they are distinct legal entities, and neither has authority to bind the other. Functionland Inc is not liable for token related matters. For more information on available grants, contact Fula Governance members if you have something that adds value to the network.</p>
+
+      <p class="footer__copyright">&copy; 2026 Fula Governance Association. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../js/nav.js"></script>
+  <script src="../js/analytics.js"></script>
+  <script src="../js/scroll-reveal.js" defer></script>
+</body>
+</html>
