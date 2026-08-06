@@ -360,7 +360,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/web3@4.16.0/dist/web3.min.js"></script>
 <script type="module">
-import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsdelivr.net/npm/@reown/appkit-cdn@1.8.20/dist/appkit.js';
+import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsdelivr.net/npm/@reown/appkit-cdn@1.8.23/dist/appkit.js';
 (function() {
   'use strict';
 
@@ -376,6 +376,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     SCAN_API: 'https://scan.layerzero-api.com/v1',
     SCAN_UI: 'https://layerzeroscan.com/tx/',
     HISTORY_MAX: 20,
+    WC_URI_TIMEOUT_MS: 10000,        // how long to wait for a WalletConnect pairing URI before warning
     RESUME_MAX_AGE_S: 7 * 24 * 3600, // stop auto-polling entries older than 7 days
     CHAINS: {
       ethereum: {
@@ -748,6 +749,65 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   }
 
   // ============================== WALLET ==============================
+  // WalletConnect pairing-URI watchdog.
+  //
+  // WHY THIS EXISTS. When the relay refuses the pairing (origin not allow-listed in Reown Cloud,
+  // a blocked wss:// connection, an ad-blocker/VPN/private DNS), AppKit fails completely silently:
+  // it still shows "Continue in <wallet>", but the deep link is only built when a URI exists —
+  //   onConnectMobile(): if (wallet?.mobile_link && wcUri) { open the wallet }   // no else branch
+  // — so nothing opens, the QR never renders, "Copy link" is empty, and the Open / Try again
+  // button is inert. The user sees an indefinite shimmer with no explanation. This surfaces it.
+  let wcWatchTimer = null, wcWatchStart = 0, wcWarned = false;
+
+  // AppKit renders inside nested shadow roots. Collect every mounted connecting element and report
+  // whether any of them is holding a pairing URI.
+  //
+  // Only elements that actually DECLARE a `uri` property count as an answer: the outer router view
+  // <w3m-connecting-wc-view> has no `uri` at all, while the leaf that owns it is
+  // <w3m-connecting-wc-qrcode> on desktop and <w3m-connecting-wc-mobile> on a phone. Reading the
+  // first match instead would see `undefined` even on a perfectly healthy connection and fire a
+  // spurious error on every attempt — so `seen` stays false unless a URI-bearing element is mounted.
+  function probeWc(root, depth, acc) {
+    if (depth > 12) return acc;
+    for (const node of root.querySelectorAll('*')) {
+      if (node.tagName.toLowerCase().indexOf('w3m-connecting') === 0 && ('uri' in node)) {
+        acc.seen = true;
+        if (node.uri) acc.hasUri = true;
+      }
+      if (node.shadowRoot) probeWc(node.shadowRoot, depth + 1, acc);
+    }
+    return acc;
+  }
+
+  function stopWcWatch() { if (wcWatchTimer) { clearInterval(wcWatchTimer); wcWatchTimer = null; } }
+
+  function startWcWatch() {
+    stopWcWatch();
+    wcWatchStart = Date.now();
+    wcWatchTimer = setInterval(() => {
+      let probe;
+      // Reaching into AppKit's internals is version-sensitive, so a failure here must never break
+      // connecting — give up on the watchdog and leave the stock behaviour untouched.
+      try {
+        const host = document.querySelector('w3m-modal');
+        const root = (host && host.shadowRoot) ? host.shadowRoot : (host || document);
+        probe = probeWc(root, 0, { seen: false, hasUri: false });
+      } catch (e) { stopWcWatch(); return; }
+
+      if (!probe.seen) { wcWatchStart = Date.now(); return; }  // still on the wallet list — clock hasn't started
+      if (probe.hasUri) { stopWcWatch(); return; }             // URI arrived; a slow approval is not an error
+      if (Date.now() - wcWatchStart < CONFIG.WC_URI_TIMEOUT_MS) return;
+
+      wcWarned = true;
+      stopWcWatch();
+      // Dismiss the dead modal first — on mobile it is a full-height sheet that would cover the
+      // notification, and leaving a shimmer that can never resolve is the bug we are fixing.
+      try { modal.close(); } catch (e) {}
+      showNotification('Could not create a wallet connection link — the WalletConnect network is ' +
+        'unreachable from this device. Check any VPN, ad blocker or private DNS, or try another browser.', 'error');
+    }, 1000);
+  }
+
   function initAppKit() {
     const nets = [networks.mainnet, networks.base];
     const wagmiAdapter = new WagmiAdapter({ networks: nets, projectId: CONFIG.PROJECT_ID });
@@ -760,10 +820,23 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
         name: 'FULA Bridge',
         description: 'Bridge FULA tokens between Ethereum and Base',
         url: 'https://fulanetwork.github.io',
-        icons: ['https://fulanetwork.github.io/assets/images/logo/fula-icon-green.png']
+        icons: ['https://fulanetwork.github.io/assets/images/logo/fula-icon-green.png'],
+        // Sent to the wallet in the session proposal so it can return the user to this page
+        // after they approve. Without it a mobile wallet has no target to bounce back to and
+        // the user has to find their browser again by hand.
+        // NOTE: no `linkMode: true` — that opts into WalletConnect Link Mode, which requires the
+        // universal link to be verified in Reown Cloud and silently breaks the flow until it is.
+        redirect: { universal: 'https://fulanetwork.github.io/bridge/' }
       },
       themeMode: 'dark',
       features: { analytics: false, email: false, socials: false }
+    });
+
+    // Watch for a pairing URI only while the modal is up; reset once it closes so a later
+    // attempt is judged on its own.
+    modal.subscribeState(state => {
+      if (state && state.open) { if (!wcWatchTimer && !wcWarned) startWcWatch(); }
+      else { stopWcWatch(); wcWarned = false; }
     });
 
     modal.subscribeAccount(state => {
@@ -771,6 +844,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
         const changed = state.address !== selectedAccount;
         selectedAccount = state.address;
         appkitConnected = true;
+        stopWcWatch();
         updateConnectedUI();
         if (changed) { loadLimits(); refreshQuote(); renderHistory(); resumePending(); }
       } else if (appkitConnected || selectedAccount) {
@@ -791,6 +865,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     selectedAccount = null; appkitConnected = false; eip155Provider = null; writeWeb3 = null;
     limits.balance = null; limits.ethBalance = null; limits.allowance = null;
     stopAllPolling();
+    stopWcWatch();
     updateDisconnectedUI();
     renderLimits(); validate(); renderHistory();
   }
