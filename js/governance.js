@@ -30,11 +30,11 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
 
   const CONFIG = {
     PROJECT_ID: '192a8f5e8d1742ea923be485e60f2612',
-    VOTING: '0xD2ae210b415B6b7077DCEcCA680fFc3FE621542A',
+    VOTING: '0xB8FCDb09C3828a4f8F5A0AEb2D7353719CECB013',
     TOKEN: '0x9e12735d77c72c5C3670636D428f2F3815d8A4cB',
     // Block the voting proxy was deployed in. Log queries start here: public RPCs
     // reject a scan from block 0, and everything this page needs postdates it.
-    DEPLOY_BLOCK: 50415014,
+    DEPLOY_BLOCK: 50439299,
     CHAIN_ID: 8453,
     CHAIN_ID_HEX: '0x2105',
     CHAIN_NAME: 'Base',
