@@ -249,7 +249,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
    'gov-title','gov-title-count','gov-cid','gov-cid-hint','gov-options','gov-options-count','gov-options-hint',
    'gov-add-option','gov-duration','gov-duration-label','gov-duration-hint','gov-create-btn','gov-create-error',
    'gov-cost-fee','gov-cost-deposit','gov-cost-total',
-   'gov-admin-queue','gov-param-select','gov-param-info','gov-param-value','gov-param-error','gov-param-btn',
+   'gov-admin-queue','gov-param-select','gov-param-info','gov-param-value','gov-param-error','gov-param-warn','gov-param-btn',
    'gov-integration-select','gov-integration-value','gov-integration-error','gov-integration-btn'
   ].forEach(id => { el[id] = $(id); });
 
@@ -1411,6 +1411,28 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       else if (v === null) msg = 'Enter a number.';
       else if (b && (v < b[0] || v > b[1])) msg = `Must be between ${fmtParam(p, b[0])} and ${fmtParam(p, b[1])}.`;
       el['gov-param-error'].textContent = msg;
+
+      // The three quorum parameters are related, and the contract does not enforce it:
+      // `totalBasis >= voterCount * minVoteBasis` always holds, so a quorumBasis above that
+      // product turns the head-count into a figure that no longer describes the real bar.
+      // This deployment shipped that mistake twice, so warn before a change recreates it.
+      // A warning, not a block — an admin may still have a reason to want it.
+      let warn = '';
+      if (!msg && v !== null) {
+        const voters = p.key === 'quorumVoters' ? v : (params.quorumVoters || 0n);
+        const min = p.key === 'minVoteBasis' ? v : (params.minVoteBasis || 0n);
+        const basis = p.key === 'quorumBasis' ? v : (params.quorumBasis || 0n);
+        if (['quorumVoters', 'minVoteBasis', 'quorumBasis'].includes(p.key) && min > 0n) {
+          const guaranteed = BigInt(voters) * min;
+          if (basis > guaranteed) {
+            const really = Number((basis + min - 1n) / min);
+            warn = `Warning: this would make quorum need about ${really} minimum-sized voters, not ${voters}. ` +
+                   `Keep "Participation needed (FULA)" at or below voters x minimum (${fula(guaranteed)} FULA) ` +
+                   `so the voter count describes the real threshold.`;
+          }
+        }
+      }
+      el['gov-param-warn'].textContent = warn;
       el['gov-param-btn'].disabled = !!msg || v === null;
     };
     el['gov-param-select'].addEventListener('change', refresh);
@@ -1478,6 +1500,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     set('cost-quorum-voters', String(params.quorumVoters ?? ''));
     set('cost-quorum-basis', fula(params.quorumBasis) + ' FULA');
     set('cost-max-open', String(params.maxOpenPerCreator ?? ''));
+    renderQuorumLine();
 
     // The whole clause is substituted, not just the duration: createCooldown may be set
     // to zero (paramBounds allows 0..7 days), and slotting "no" into "there is a ___
@@ -1487,6 +1510,45 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       ? 'you can raise them one after another'
       : `there is a ${humanDuration(cooldown)} wait between raising one and the next`);
     set('cost-duration', `${Number(params.minDuration || 0n) / 86400} to ${Number(params.maxDuration || 0n) / 86400} days`);
+  }
+
+  /**
+   * How many voters, each committing the minimum, quorum really takes.
+   *
+   * Every vote must clear `minVoteBasis` and all of them add to `totalBasis`, so
+   * `totalBasis >= voterCount * minVoteBasis` always holds. The FULA half of quorum is
+   * therefore already implied by the head-count whenever it sits at or below that product,
+   * and is a genuine SECOND hurdle only when it exceeds it. Returns both facts so the page
+   * can describe the threshold the way it actually behaves on the contract it is pointed at.
+   */
+  function quorumShape() {
+    const voters = Number(params.quorumVoters || 0n);
+    const min = params.minVoteBasis || 0n;
+    const basis = params.quorumBasis || 0n;
+    const guaranteed = BigInt(voters) * min;
+    const binds = basis > guaranteed;
+    // Voters needed if everyone commits exactly the minimum, ceil-divided.
+    const effectiveVoters = binds && min > 0n
+      ? Number((basis + min - 1n) / min)
+      : voters;
+    return { voters, min, basis, binds, effectiveVoters };
+  }
+
+  function renderQuorumLine() {
+    const node = $('cost-quorum-line');
+    if (!node || !params.quorumVoters) return;
+    const q = quorumShape();
+
+    node.innerHTML = q.binds
+      ? `&ldquo;Enough participation&rdquo; means <strong>${q.voters} people</strong> must vote
+         <em>and</em> <strong>${esc(fula(q.basis))} FULA</strong> committed between them. Since the least
+         anyone can commit is ${esc(fula(q.min))} FULA, that is really
+         <strong>about ${q.effectiveVoters} people</strong> voting the minimum — or fewer people
+         committing more. Below it, you lose the deposit as well as the fee.`
+      : `&ldquo;Enough participation&rdquo; means at least <strong>${q.voters} people</strong> must vote,
+         each committing the ${esc(fula(q.min))} FULA minimum or more. Below that, you lose the
+         deposit as well as the fee. A handful of large holders cannot stand in for turnout:
+         ${Math.max(1, q.voters - 2)} voters with plenty of FULA still falls short of ${q.voters}.`;
   }
 
   /* ── Tabs ─────────────────────────────────────────────────────────────── */
