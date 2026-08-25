@@ -51,6 +51,54 @@
   border-radius: var(--radius-full);
   background: var(--color-primary);
 }
+/* ── "What it costs" ────────────────────────────────────────────────────── */
+.gov-money {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-md);
+}
+.gov-money__card {
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+.gov-money__head {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--color-text-light);
+  font-weight: 700;
+}
+.gov-money__figure {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-primary-accessible);
+  margin-top: 0.15rem;
+  overflow-wrap: anywhere;
+}
+.gov-money__sub { font-size: var(--font-size-sm); color: var(--color-text-light); }
+.gov-money__list {
+  list-style: none;
+  display: grid;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border);
+}
+.gov-money__list li { position: relative; padding-left: 1.1rem; font-size: var(--font-size-sm); line-height: 1.65; }
+.gov-money__list li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.62em;
+  width: 5px; height: 5px;
+  border-radius: var(--radius-full);
+  background: var(--color-text-muted);
+}
+.gov-money__note { margin-top: var(--spacing-sm); }
+
 .gov-details {
   margin-top: var(--spacing-lg);
   border: 1px solid var(--color-border);
@@ -321,7 +369,10 @@
   .gov-wallet { flex-direction: column; align-items: stretch; }
   .gov-wallet .btn { width: 100%; }
   .gov-card__top { flex-direction: column; }
-  .gov-costs { grid-template-columns: 1fr; }
+  /* Both use auto-fit with a 300px minimum, which overflows a 320px viewport once
+     the 48px of container padding is taken off. Single column below the breakpoint. */
+  .gov-costs,
+  .gov-money { grid-template-columns: 1fr; }
   .gov-actions .btn { width: 100%; }
 }
 

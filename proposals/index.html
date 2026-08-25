@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="../css/base.css?v=2">
   <link rel="stylesheet" href="../css/header.css?v=2">
   <link rel="stylesheet" href="../css/footer.css">
-  <link rel="stylesheet" href="../css/governance.css?v=1">
+  <link rel="stylesheet" href="../css/governance.css?v=3">
 </head>
 <body>
 
@@ -98,6 +98,40 @@
             <li><strong>Anyone can propose.</strong> Posting a question burns a fee and locks a refundable deposit. The deposit comes back if enough people take part; if a proposal draws no real participation, the deposit is burned. That is what keeps the list worth reading.</li>
           </ul>
         </div>
+
+        <!-- Amounts are read from the contract on load, because every one of them can be
+             changed by governance. The values written here are the current ones and act
+             as a fallback if the network cannot be reached. -->
+        <h3 class="gov-subhead">What it costs</h3>
+        <div class="gov-money">
+
+          <div class="gov-money__card">
+            <p class="gov-money__head">To vote on a proposal</p>
+            <p class="gov-money__figure" id="cost-vote-min">10,000 FULA</p>
+            <p class="gov-money__sub">minimum, and you get all of it back</p>
+            <ul class="gov-money__list">
+              <li>Your FULA is <strong>locked, not spent</strong>. It moves to the voting contract and you claim the full amount back once the proposal closes &mdash; whatever the result, and whether or not you voted with the majority.</li>
+              <li>If you already hold a qualifying stake, it counts toward this minimum, so you may be able to vote <strong>without locking anything extra</strong>.</li>
+              <li>Nothing is burned when you vote. Voting costs you only the use of those tokens until the proposal closes.</li>
+            </ul>
+          </div>
+
+          <div class="gov-money__card">
+            <p class="gov-money__head">To raise a proposal</p>
+            <p class="gov-money__figure" id="cost-total">150,000 FULA</p>
+            <p class="gov-money__sub"><span id="cost-burn">50,000 FULA</span> of that is burned whatever happens &mdash; and the other <span id="cost-deposit-2">100,000 FULA</span> too if too few people vote</p>
+            <ul class="gov-money__list">
+              <li><strong><span id="cost-burn-2">50,000 FULA</span> fee &mdash; burned.</strong> Permanently destroyed the moment you post. It never comes back, whatever happens to the proposal.</li>
+              <li><strong><span id="cost-deposit">100,000 FULA</span> deposit &mdash; refundable.</strong> Returned to you if the proposal draws real participation. If it does not, the deposit is burned too.</li>
+              <li>&ldquo;Real participation&rdquo; means at least <strong><span id="cost-quorum-voters">15</span> voters</strong> and <strong><span id="cost-quorum-basis">5,000,000 FULA</span></strong> committed in total. Below either of those, you lose the deposit as well as the fee.</li>
+              <li>Proposals run for <span id="cost-duration">3 to 30 days</span>, you may have <span id="cost-max-open">3</span> open at once, and <span id="cost-cooldown">there is a 1 day wait between raising one and the next</span>.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="gov-hint gov-money__note" id="cost-note">
+          You also need a small amount of ETH on Base to pay network fees &mdash; a few cents per transaction.
+          These amounts are set by governance and can change; the figures above are read from the contract each time this page loads.
+        </p>
 
         <details class="gov-details">
           <summary>An honest limitation worth knowing</summary>
@@ -333,7 +367,7 @@
   <script src="https://cdn.jsdelivr.net/npm/web3@4.16.0/dist/web3.min.js"></script>
   <!-- Versioned like the stylesheets above: without it a returning visitor keeps a
        cached module and silently runs old contract wiring after an update. -->
-  <script type="module" src="../js/governance.js?v=1"></script>
+  <script type="module" src="../js/governance.js?v=3"></script>
   <script src="../js/nav.js"></script>
   <script src="../js/scroll-reveal.js" defer></script>
 </body>

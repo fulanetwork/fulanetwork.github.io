@@ -1443,6 +1443,52 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     validateIntegration();
   }
 
+  /* ── Costs ────────────────────────────────────────────────────────────── */
+
+  /** "1 day", "12 hours" — for the durations quoted in the explainer. */
+  function humanDuration(seconds) {
+    const s = Number(seconds || 0);
+    if (s % 86400 === 0) { const d = s / 86400; return d + (d === 1 ? ' day' : ' days'); }
+    if (s % 3600 === 0) { const h = s / 3600; return h + (h === 1 ? ' hour' : ' hours'); }
+    return Math.round(s / 60) + ' minutes';
+  }
+
+  /**
+   * Fill every place a cost is quoted, from the values just read off the contract.
+   *
+   * The page ships with the current figures written into the HTML so it still reads
+   * correctly with no network, but every one of these is a governable parameter — so
+   * whatever is on chain overwrites the static text here. Quoting a stale fee to
+   * someone about to burn 50,000 FULA is not an acceptable failure mode.
+   */
+  function renderCosts() {
+    const set = (id, text) => { const n = $(id); if (n) n.textContent = text; };
+    const fee = params.burnFee || 0n, dep = params.deposit || 0n;
+
+    set('gov-cost-fee', fula(fee) + ' FULA');
+    set('gov-cost-deposit', fula(dep) + ' FULA');
+    set('gov-cost-total', fula(fee + dep) + ' FULA');
+
+    set('cost-vote-min', fula(params.minVoteBasis) + ' FULA');
+    set('cost-total', fula(fee + dep) + ' FULA');
+    set('cost-burn', fula(fee) + ' FULA');
+    set('cost-burn-2', fula(fee) + ' FULA');
+    set('cost-deposit', fula(dep) + ' FULA');
+    set('cost-deposit-2', fula(dep) + ' FULA');
+    set('cost-quorum-voters', String(params.quorumVoters ?? ''));
+    set('cost-quorum-basis', fula(params.quorumBasis) + ' FULA');
+    set('cost-max-open', String(params.maxOpenPerCreator ?? ''));
+
+    // The whole clause is substituted, not just the duration: createCooldown may be set
+    // to zero (paramBounds allows 0..7 days), and slotting "no" into "there is a ___
+    // wait" would print "there is a no wait".
+    const cooldown = Number(params.createCooldown || 0n);
+    set('cost-cooldown', cooldown === 0
+      ? 'you can raise them one after another'
+      : `there is a ${humanDuration(cooldown)} wait between raising one and the next`);
+    set('cost-duration', `${Number(params.minDuration || 0n) / 86400} to ${Number(params.maxDuration || 0n) / 86400} days`);
+  }
+
   /* ── Tabs ─────────────────────────────────────────────────────────────── */
 
   function switchTab(name) {
@@ -1499,9 +1545,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       // Read at runtime, never hardcoded: both are governable, and a hardcoded copy is
       // exactly how a wrong staking-engine address survives being fixed on-chain.
       engineAddress = await read(() => votingRead.methods.stakingEngine().call());
-      el['gov-cost-fee'].textContent = fula(params.burnFee) + ' FULA';
-      el['gov-cost-deposit'].textContent = fula(params.deposit) + ' FULA';
-      el['gov-cost-total'].textContent = fula((params.burnFee || 0n) + (params.deposit || 0n)) + ' FULA';
+      renderCosts();
       const minD = Number(params.minDuration) / 86400, maxD = Number(params.maxDuration) / 86400;
       el['gov-duration'].min = String(minD); el['gov-duration'].max = String(maxD);
       el['gov-duration'].value = String(Math.min(Math.max(7, minD), maxD));
