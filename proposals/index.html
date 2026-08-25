@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Governance - Fula Network</title>
+  <meta name="description" content="Read proposals, vote with FULA, and take part in how the Fula network is run. Voting power grows with the square root of tokens committed, so influence does not scale one-for-one with holdings.">
+  <meta property="og:title" content="Governance - Fula Network">
+  <meta property="og:description" content="Read proposals, vote with FULA, and take part in how the Fula network is run.">
+  <meta property="og:url" content="https://fulanetwork.github.io/proposals/">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://fulanetwork.github.io/proposals/">
+  <link rel="icon" type="image/png" href="../assets/images/logo/fula-icon-green.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://base-rpc.publicnode.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/base.css?v=2">
+  <link rel="stylesheet" href="../css/header.css?v=2">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="stylesheet" href="../css/governance.css?v=1">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="site-header__logo">
+        <img src="../assets/images/logo/fula-lockup-green.png" alt="Fula Network" width="140" height="36">
+      </a>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+      </button>
+      <nav class="nav">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="../index.html" class="nav__link">Home</a></li>
+          <li class="nav__item"><a href="../about/" class="nav__link">About</a></li>
+          <li class="nav__item"><a href="../token/" class="nav__link">Token</a></li>
+          <li class="nav__item"><a href="../ecosystem/" class="nav__link">Ecosystem</a></li>
+          <li class="nav__item nav__item--has-dropdown">
+            <a href="#" class="nav__link">Participate <span class="nav__arrow">&#9662;</span></a>
+            <div class="nav__dropdown">
+              <a href="../proposals/" class="nav__dropdown-link">Governance</a>
+              <a href="../fula-staking/" class="nav__dropdown-link">FULA Staking</a>
+              <a href="../fula-vip-staking/" class="nav__dropdown-link">FULA VIP Staking</a>
+              <a href="../bridge/" class="nav__dropdown-link">Bridge FULA</a>
+              <a href="../fec-nfts/" class="nav__dropdown-link">FEC NFTs</a>
+              <a href="https://fulanetwork.github.io/assets/FulaWP.pdf" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">Whitepaper</a>
+              <a href="https://simulation.fx.land" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">Mining Simulation</a>
+              <a href="https://coinmarketcap.com/currencies/functionland/" class="nav__dropdown-link nav__dropdown-link--external" target="_blank" rel="noopener">CoinMarketCap</a>
+            </div>
+          </li>
+          <li class="nav__item"><a href="../grants/" class="nav__link">Grants</a></li>
+          <li class="nav__item"><a href="../supporters/" class="nav__link">Supporters</a></li>
+        </ul>
+        <a id="nav-cta" href="../grants/" class="btn btn--primary btn--sm nav__cta">Apply for a Grant</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+    <section class="section gov-hero">
+      <div class="container">
+        <h1 class="section__title">Governance</h1>
+        <p class="section__subtitle">
+          Protocol direction, network parameters and treasury priorities are decided collectively.
+          Anyone holding FULA can put a question to the community and vote on the questions others raise.
+        </p>
+
+        <div class="gov-wallet" id="gov-wallet">
+          <div class="gov-wallet__info">
+            <span class="gov-wallet__status" id="gov-wallet-status">Not connected</span>
+            <span class="gov-wallet__balance" id="gov-wallet-balance"></span>
+          </div>
+          <button class="btn btn--primary" id="gov-connect-btn">Connect Wallet</button>
+        </div>
+        <p class="gov-network-warning" id="gov-network-warning" hidden>
+          You are connected to a different network. Voting happens on <strong>Base</strong>.
+          <button class="gov-link-btn" id="gov-switch-btn">Switch to Base</button>
+        </p>
+      </div>
+    </section>
+
+    <!-- ── How it works ─────────────────────────────────────────────────── -->
+    <section class="section section--light">
+      <div class="container">
+        <h2 class="section__title">How voting works</h2>
+        <div class="gov-info">
+          <ul class="gov-info__list">
+            <li><strong>Your vote is backed by tokens you lock, not tokens you spend.</strong> When you vote you transfer FULA to the voting contract, where it stays until the proposal closes. You then claim it back in full. Voting costs you the use of those tokens for the duration &mdash; nothing more.</li>
+            <li><strong>Influence grows with the square root of what you commit.</strong> Locking four times as much gives you twice the say, not four times. This is called quadratic voting, and it exists so that a large holder cannot simply buy a proportional share of every decision.</li>
+            <li><strong>Long-term stakers can vote without locking anything extra.</strong> If you hold a qualifying stake, its value counts toward your voting power and earns an additional multiplier, because that capital is already committed to the network.</li>
+            <li><strong>Results are advisory.</strong> A vote records what the community wants. It does not execute itself, and it does not move funds or change the protocol on its own.</li>
+            <li><strong>Anyone can propose.</strong> Posting a question burns a fee and locks a refundable deposit. The deposit comes back if enough people take part; if a proposal draws no real participation, the deposit is burned. That is what keeps the list worth reading.</li>
+          </ul>
+        </div>
+
+        <details class="gov-details">
+          <summary>An honest limitation worth knowing</summary>
+          <p>
+            Square-root voting reduces the advantage of size, but it does not eliminate it. Splitting the
+            same tokens across several wallets still produces more total voting power than holding them in
+            one, so this is best understood as friction against concentration rather than immunity to it.
+            Splitting is visible on-chain, and because results are advisory rather than self-executing, the
+            consequences of a manipulated vote are bounded. We would rather say this plainly than let the
+            mechanism be mistaken for something stronger than it is.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ── Tabs ─────────────────────────────────────────────────────────── -->
+    <section class="section">
+      <div class="container">
+        <div class="gov-tabs" role="tablist" aria-label="Governance sections">
+          <button class="gov-tabs__btn active" role="tab" id="tab-btn-proposals" aria-controls="tab-proposals" aria-selected="true" data-tab="proposals">Proposals</button>
+          <button class="gov-tabs__btn" role="tab" id="tab-btn-create" aria-controls="tab-create" aria-selected="false" data-tab="create">Raise a proposal</button>
+          <button class="gov-tabs__btn" role="tab" id="tab-btn-admin" aria-controls="tab-admin" aria-selected="false" data-tab="admin" hidden>Admin</button>
+        </div>
+
+        <!-- ── Tab: proposals ─────────────────────────────────────────── -->
+        <div class="gov-tabs__panel active" role="tabpanel" id="tab-proposals" aria-labelledby="tab-btn-proposals">
+
+          <div class="gov-filters" id="gov-filters">
+            <button class="gov-chip active" data-filter="all">All</button>
+            <button class="gov-chip" data-filter="open">Open</button>
+            <button class="gov-chip" data-filter="closed">Closed</button>
+          </div>
+
+          <div id="gov-list-loading" class="gov-loading">
+            <span class="gov-spinner"></span> Loading proposals from Base&hellip;
+          </div>
+
+          <div id="gov-list" class="gov-list" hidden></div>
+
+          <div id="gov-list-empty" class="gov-empty" hidden>
+            <p class="gov-empty__title">No proposals yet</p>
+            <p class="gov-empty__text">Nothing has been put to the community so far. If you hold FULA, you can raise the first one.</p>
+          </div>
+
+          <div id="gov-list-error" class="gov-empty" hidden>
+            <p class="gov-empty__title">Could not load proposals</p>
+            <p class="gov-empty__text" id="gov-list-error-text"></p>
+          </div>
+        </div>
+
+        <!-- ── Tab: detail (shown in place of the list) ───────────────── -->
+        <div class="gov-tabs__panel" id="tab-detail" hidden>
+          <button class="gov-link-btn gov-back" id="gov-back-btn">&larr; All proposals</button>
+          <div id="gov-detail"></div>
+        </div>
+
+        <!-- ── Tab: create ────────────────────────────────────────────── -->
+        <div class="gov-tabs__panel" role="tabpanel" id="tab-create" aria-labelledby="tab-btn-create" hidden>
+          <div class="gov-form">
+
+            <div class="gov-costs" id="gov-costs">
+              <div class="gov-costs__item">
+                <span class="gov-costs__label">Fee, burned</span>
+                <span class="gov-costs__value" id="gov-cost-fee">&mdash;</span>
+              </div>
+              <div class="gov-costs__item">
+                <span class="gov-costs__label">Deposit, refundable</span>
+                <span class="gov-costs__value" id="gov-cost-deposit">&mdash;</span>
+              </div>
+              <div class="gov-costs__item gov-costs__item--total">
+                <span class="gov-costs__label">You approve</span>
+                <span class="gov-costs__value" id="gov-cost-total">&mdash;</span>
+              </div>
+            </div>
+            <p class="gov-hint" id="gov-costs-note">
+              The fee is destroyed permanently. The deposit returns to you only if the proposal reaches
+              the participation threshold; if almost nobody votes, it is burned.
+            </p>
+
+            <div class="gov-field">
+              <label class="gov-label" for="gov-title">Question <span class="gov-counter" id="gov-title-count"></span></label>
+              <div class="gov-input-wrap">
+                <input type="text" id="gov-title" class="gov-input" placeholder="Which integration should we ship next?" maxlength="256">
+              </div>
+            </div>
+
+            <div class="gov-field">
+              <label class="gov-label" for="gov-cid">Full description &mdash; IPFS link <span class="gov-optional">optional</span></label>
+              <div class="gov-input-wrap">
+                <input type="text" id="gov-cid" class="gov-input" placeholder="Qm... or https://ipfs.io/ipfs/Qm...">
+              </div>
+              <p class="gov-hint" id="gov-cid-hint">
+                Paste an IPFS CID or a gateway link. No account needed &mdash; you can upload a document with
+                <a href="https://files.fx.land/app" target="_blank" rel="noopener">FxFiles</a> and paste the link it gives you.
+              </p>
+            </div>
+
+            <div class="gov-field">
+              <label class="gov-label">Options to choose between <span class="gov-counter" id="gov-options-count"></span></label>
+              <div id="gov-options"></div>
+              <button type="button" class="gov-link-btn" id="gov-add-option">+ Add another option</button>
+              <p class="gov-hint" id="gov-options-hint"></p>
+            </div>
+
+            <div class="gov-field">
+              <label class="gov-label" for="gov-duration">Open for <span id="gov-duration-label"></span></label>
+              <input type="range" id="gov-duration" class="gov-range" min="1" max="30" value="7">
+              <p class="gov-hint" id="gov-duration-hint"></p>
+            </div>
+
+            <p class="gov-hint gov-hint--error" id="gov-create-error"></p>
+            <button class="btn btn--primary btn--lg gov-submit" id="gov-create-btn" disabled>Connect wallet to continue</button>
+          </div>
+        </div>
+
+        <!-- ── Tab: admin ─────────────────────────────────────────────── -->
+        <div class="gov-tabs__panel" role="tabpanel" id="tab-admin" aria-labelledby="tab-btn-admin" hidden>
+          <div class="gov-admin-note">
+            <p><strong>Two admins must agree.</strong> Creating a change records your approval automatically. A second admin approves, and after a 24&#8209;hour delay it can be executed &mdash; but the window closes 48&#8239;hours after creation, and an expired change keeps blocking new ones until it is cleared.</p>
+            <p>Approve as soon as a change appears. The second approval does not have to land inside the window; only the execution does, so approving early turns two timed actions into one.</p>
+          </div>
+
+          <h3 class="gov-subhead">Pending changes</h3>
+          <div id="gov-admin-queue" class="gov-list"></div>
+
+          <h3 class="gov-subhead">Propose a parameter change</h3>
+          <div class="gov-form">
+            <div class="gov-field">
+              <label class="gov-label" for="gov-param-select">Parameter</label>
+              <div class="gov-input-wrap">
+                <select id="gov-param-select" class="gov-input"></select>
+              </div>
+              <p class="gov-hint" id="gov-param-info"></p>
+            </div>
+            <div class="gov-field">
+              <label class="gov-label" for="gov-param-value">New value</label>
+              <div class="gov-input-wrap">
+                <input type="text" id="gov-param-value" class="gov-input" placeholder="0">
+              </div>
+              <p class="gov-hint gov-hint--error" id="gov-param-error"></p>
+            </div>
+            <button class="btn btn--primary" id="gov-param-btn" disabled>Propose change</button>
+          </div>
+
+          <h3 class="gov-subhead">Propose an integration change</h3>
+          <div class="gov-form">
+            <div class="gov-field">
+              <label class="gov-label" for="gov-integration-select">Integration</label>
+              <div class="gov-input-wrap">
+                <select id="gov-integration-select" class="gov-input">
+                  <option value="1">Staking engine</option>
+                  <option value="2">Storage pool</option>
+                </select>
+              </div>
+            </div>
+            <div class="gov-field">
+              <label class="gov-label" for="gov-integration-value">New address</label>
+              <div class="gov-input-wrap">
+                <input type="text" id="gov-integration-value" class="gov-input" placeholder="0x... (or 0x0 to disable)">
+              </div>
+              <p class="gov-hint gov-hint--error" id="gov-integration-error"></p>
+            </div>
+            <button class="btn btn--primary" id="gov-integration-btn" disabled>Propose change</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--light">
+      <div class="container">
+        <div class="disclaimer">
+          <p class="disclaimer__title">Important Notice</p>
+          <p class="disclaimer__text">
+            FULA is a utility token. Participating in a vote does not create ownership, an entitlement to
+            profits, or any right against Fula Governance Association. Votes recorded here are advisory and
+            do not execute themselves. Tokens locked to vote are returned in full after a proposal closes,
+            and can always be claimed regardless of the outcome.
+            <span id="gov-contract-line"></span>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img src="../assets/images/logo/fula-lockup-green.png" alt="Fula Network" class="footer__logo" width="360" height="36">
+          <p class="footer__tagline">Decentralized storage, governed by its community.</p>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Network</h4>
+          <div class="footer__links">
+            <a href="../index.html" class="footer__link">Home</a>
+            <a href="../about/" class="footer__link">About Fula</a>
+            <a href="../token/" class="footer__link">Token</a>
+            <a href="../ecosystem/" class="footer__link">Ecosystem</a>
+            <a href="../fec-nfts/" class="footer__link">FEC NFTs</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Participate</h4>
+          <div class="footer__links">
+            <a href="../proposals/" class="footer__link">Governance</a>
+            <a href="../fula-staking/" class="footer__link">FULA Staking</a>
+            <a href="../fula-vip-staking/" class="footer__link">FULA VIP Staking</a>
+            <a href="../bridge/" class="footer__link">Bridge FULA</a>
+            <a href="../grants/" class="footer__link">Grants</a>
+            <a href="../supporters/" class="footer__link">Supporters</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Additional</h4>
+          <div class="footer__links">
+            <a href="https://fulanetwork.github.io/assets/FulaWP.pdf" class="footer__link" target="_blank" rel="noopener">Whitepaper</a>
+            <a href="https://simulation.fx.land" class="footer__link" target="_blank" rel="noopener">Mining Simulation</a>
+            <a href="https://coinmarketcap.com/currencies/functionland/" class="footer__link" target="_blank" rel="noopener">CoinMarketCap</a>
+            <a href="../privacy-policy/" class="footer__link">Privacy Policy</a>
+            <a href="../terms/" class="footer__link">Terms of Use</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="footer__disclaimer">This website is owned and operated by Fula Governance Association (Switzerland), the association that governs the Fula network. Fula Governance Association is responsible for the FULA token, including its issuance, distribution and treasury management, and for FEC NFTs. Functionland Inc (Canada) is a separate and independent entity and a grantee (receiver of grants) of Fula Governance Association that works on adding value to the Fula network; it acts independently and on its own account. Fula Governance Association is organized under the laws of Switzerland and Functionland Inc is incorporated under the laws of Canada; they are distinct legal entities, and neither has authority to bind the other. Functionland Inc is not liable for token related matters. For more information on available grants, contact Fula Governance members if you have something that adds value to the network.</p>
+
+      <p class="footer__copyright">&copy; 2026 Fula Governance Association. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div class="gov-notification" id="gov-notification"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@4.16.0/dist/web3.min.js"></script>
+  <!-- Versioned like the stylesheets above: without it a returning visitor keeps a
+       cached module and silently runs old contract wiring after an update. -->
+  <script type="module" src="../js/governance.js?v=1"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/scroll-reveal.js" defer></script>
+</body>
+</html>
