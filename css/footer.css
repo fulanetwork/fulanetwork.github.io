@@ -19,9 +19,23 @@
   gap: var(--spacing-sm);
 }
 
+.footer__brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
 .footer__logo {
   height: 36px;
   width: auto;
+}
+
+.footer__logo-name {
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: var(--color-text-white);
 }
 
 .footer__tagline {
