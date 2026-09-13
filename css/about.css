@@ -12,7 +12,6 @@
 .about-hero__bg {
   position: absolute;
   inset: 0;
-  background: url('../assets/images/team/teamhero.webp') center/cover no-repeat;
   opacity: 0.25;
 }
 
