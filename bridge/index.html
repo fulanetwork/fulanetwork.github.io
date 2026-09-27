@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bridge FULA | Fula Network</title>
-  <meta name="description" content="Bridge FULA tokens between Ethereum and Base securely with the official Fula Network bridge.">
+  <meta name="description" content="Bridge FULA tokens between Ethereum, Base and SKALE securely with the official Fula Network bridge.">
   <meta property="og:title" content="Bridge FULA | Fula Network">
-  <meta property="og:description" content="Bridge FULA tokens between Ethereum and Base securely with the official Fula Network bridge.">
+  <meta property="og:description" content="Bridge FULA tokens between Ethereum, Base and SKALE securely with the official Fula Network bridge.">
   <meta property="og:url" content="https://fulanetwork.github.io/bridge/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://fulanetwork.github.io/assets/images/logo/fula-icon-green.png">
@@ -243,7 +243,7 @@
         <div class="fula-logo-icon">F</div>
         <h1>FULA Bridge</h1>
       </div>
-      <p>Move your FULA between Ethereum and Base</p>
+      <p>Move your FULA between Ethereum, Base and SKALE</p>
     </div>
 
     <div class="fula-connect-section">
@@ -276,7 +276,7 @@
       </div>
       <div class="fula-route-balances">
         <span>FULA on <span id="fula-src-name">Ethereum</span>: <b id="fula-src-balance">&mdash;</b></span>
-        <span>ETH for fees: <b id="fula-eth-balance">&mdash;</b></span>
+        <span><span id="fula-native-label">ETH for fees</span>: <b id="fula-eth-balance">&mdash;</b></span>
       </div>
     </div>
 
@@ -289,7 +289,7 @@
       <div class="fula-limit-line" id="fula-limit-line">Loading limits&hellip;</div>
       <div class="fula-dust-note" id="fula-dust-note"></div>
       <div class="fula-fee-row">
-        <span>Bridge fee (paid in ETH on <span id="fula-fee-chain">Ethereum</span>)</span>
+        <span>Bridge fee (paid in <span id="fula-fee-native">ETH</span> on <span id="fula-fee-chain">Ethereum</span>)</span>
         <span class="fula-fee-value" id="fula-fee-value">&mdash;</span>
       </div>
       <div class="fula-notice">
@@ -349,7 +349,8 @@
       <div class="fula-info-title">How the bridge works</div>
       <ul>
         <li>This is the official lock &amp; release bridge for FULA. Tokens are held by the bridge contract on one chain and released on the other &mdash; nothing is minted or burned, so total supply never changes.</li>
-        <li>You pay one small fee in ETH on the source chain. Delivery on the destination is automatic &mdash; you don't need ETH there.</li>
+        <li>You pay one small fee in the source chain's gas token (ETH on Ethereum and Base; sFUEL, which is free, on SKALE). Delivery on the destination is automatic &mdash; you don't need gas there.</li>
+        <li>Ethereum &harr; Base runs on LayerZero. Base &harr; SKALE runs on a Hyperlane route operated by Fula Governance Association, with a daily limit per direction; larger amounts are released as the limit refills.</li>
         <li>Amounts are precise to 6 decimals (0.000001 FULA). Anything smaller stays in your wallet.</li>
         <li>If a transfer is delayed, it is queued &mdash; not lost. It can always be completed later, and this page will show you a Retry option when that applies.</li>
         <li>Bridging on Ethereum needs 2 wallet confirmations (Approve, then Bridge). Repeat transfers may need only 1.</li>
@@ -382,22 +383,77 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     RESUME_MAX_AGE_S: 7 * 24 * 3600, // stop auto-polling entries older than 7 days
     CHAINS: {
       ethereum: {
-        key: 'ethereum', name: 'Ethereum', chainId: 1, chainIdHex: '0x1', eid: 30101,
+        key: 'ethereum', name: 'Ethereum', chainId: 1, chainIdHex: '0x1', eid: 30101, nativeSymbol: 'ETH',
         token: '0x92217cCaEDBdbc54C76c15feA18823db1558fDc9',
         adapter: '0x170c553e662d9dbc0d2abd8dcba36bd48b7c15e1',
         rpcs: ['https://ethereum-rpc.publicnode.com', 'https://eth.drpc.org', 'https://eth.meowrpc.com', 'https://1rpc.io/eth', 'https://eth.llamarpc.com'],
         explorer: 'https://etherscan.io'
       },
       base: {
-        key: 'base', name: 'Base', chainId: 8453, chainIdHex: '0x2105', eid: 30184,
+        key: 'base', name: 'Base', chainId: 8453, chainIdHex: '0x2105', eid: 30184, nativeSymbol: 'ETH',
         token: '0x9e12735d77c72c5C3670636D428f2F3815d8A4cB',
         adapter: '0x154b9654c58BCE82745A3D2f1EEb228cBa7E327a',
         rpcs: ['https://base-rpc.publicnode.com', 'https://1rpc.io/base', 'https://base-mainnet.public.blastapi.io', 'https://base.drpc.org', 'https://mainnet.base.org'],
-        explorer: 'https://basescan.org'
+        explorer: 'https://basescan.org',
+        // Hyperlane lane to SKALE (fula-chain: scripts/hyperlane). Filled in after the mainnet deploy;
+        // while `router` is empty the SKALE lane is hidden.
+        hyperlane: { domain: 8453, mailbox: '0xeA87ae93Fa0019a82A727bfd3eBd1cFCa8f64f1D', router: '', rateLimitedIsm: '' }
+      },
+      skale: {
+        key: 'skale', name: 'SKALE Europa', chainId: 2046399126, chainIdHex: '0x79f99296', nativeSymbol: 'sFUEL',
+        token: '0x9e12735d77c72c5C3670636D428f2F3815d8A4cB',
+        rpcs: ['https://mainnet.skalenodes.com/v1/elated-tan-skat'],
+        explorer: 'https://elated-tan-skat.explorer.mainnet.skalenodes.com',
+        gasless: true, // sFUEL is free; the wallet needs a little of it (faucet) but it costs nothing
+        hyperlane: { domain: 2046399126, mailbox: '', router: '', rateLimitedIsm: '' }
       }
-    }
+    },
+    // Lanes: which chain pairs can bridge and over which protocol. `layerzero` = the live OFTAdapter
+    // escrow pair; `hyperlane` = the collateral warp route (self-hosted validator + relayer).
+    LANES: [
+      { a: 'ethereum', b: 'base', protocol: 'layerzero' },
+      { a: 'base', b: 'skale', protocol: 'hyperlane' }
+    ]
   };
-  const EID_TO_KEY = { 30101: 'ethereum', 30184: 'base' };
+  // ?testnet=1 — swap in the REHEARSAL route (Base Sepolia <-> SKALE Base Sepolia, mock token) so
+  // the Hyperlane lane can be exercised in a browser before the mainnet routers exist. Never linked.
+  const TESTNET = /[?&]testnet=1/.test(location.search);
+  if (TESTNET) {
+    CONFIG.CHAINS = {
+      base: {
+        key: 'base', name: 'Base Sepolia', chainId: 84532, chainIdHex: '0x14a34', eid: 40245, nativeSymbol: 'ETH',
+        token: '0xbF4721A620B437a4A112942Fe113b40bb3184FE0', adapter: '0x6bE953e030C23F4728446112aeD4AdB6ace19eD6',
+        rpcs: ['https://base-sepolia-rpc.publicnode.com', 'https://sepolia.base.org'], explorer: 'https://sepolia.basescan.org',
+        hyperlane: { domain: 84532, mailbox: '0x6966b0E55883d49BFB24539356a2f8A673E02039', router: '0x5F0C9486Eda50f7a4b36c46aabed90D5cbCab6ED', rateLimitedIsm: '0x23B0495aB947c79178abAcb7A78d0a79124dA7D7' }
+      },
+      skale: {
+        key: 'skale', name: 'SKALE Base Sepolia', chainId: 324705682, chainIdHex: '0x135a9d92', nativeSymbol: 'CREDIT', gasless: true,
+        token: '0xba5640948BD7B0B54ea773530d23Bae5A777b661',
+        rpcs: ['https://base-sepolia-testnet.skalenodes.com/v1/jubilant-horrible-ancha'], explorer: 'https://base-sepolia-testnet-explorer.skalenodes.com',
+        hyperlane: { domain: 324705682, mailbox: '0x2777033d6360Bf6A378107C72fa6a10E4621FC9e', router: '0x1a93D27cE441e86D3Fe0B2c3C7f76a9B6BA936f3', rateLimitedIsm: '0x8Fb5d7523d37df378BE0e95fF240a7487dEAC4Aa' }
+      }
+    };
+    CONFIG.LANES = [{ a: 'base', b: 'skale', protocol: 'hyperlane' }];
+  }
+  const EID_TO_KEY = { 30101: 'ethereum', 30184: 'base', 40161: 'ethereum', 40245: 'base' };
+
+  // A lane is usable when both chains exist and (for Hyperlane) both routers are configured.
+  function laneEnabled(l) {
+    const A = CONFIG.CHAINS[l.a], B = CONFIG.CHAINS[l.b];
+    if (!A || !B) return false;
+    if (l.protocol === 'hyperlane') return !!(A.hyperlane && A.hyperlane.router && B.hyperlane && B.hyperlane.router && B.hyperlane.mailbox);
+    return !!(A.adapter && B.adapter);
+  }
+  function laneFor(s, d) {
+    return CONFIG.LANES.find(l => laneEnabled(l) && ((l.a === s && l.b === d) || (l.a === d && l.b === s))) || null;
+  }
+  function partnersOf(key) {
+    const out = [];
+    for (const l of CONFIG.LANES) { if (!laneEnabled(l)) continue; if (l.a === key) out.push(l.b); else if (l.b === key) out.push(l.a); }
+    return out;
+  }
+  function protocolOf(s, d) { const l = laneFor(s, d); return l ? l.protocol : null; }
+  function chainKeys() { return Object.keys(CONFIG.CHAINS).filter(k => partnersOf(k).length > 0); }
 
   const TOKEN_ABI = [
     {"inputs":[{"name":"account","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
@@ -427,6 +483,21 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     {"inputs":[{"name":"","type":"address"},{"name":"","type":"uint32"},{"name":"","type":"bytes32"}],"name":"lazyInboundNonce","outputs":[{"name":"","type":"uint64"}],"stateMutability":"view","type":"function"},
     {"inputs":[{"name":"","type":"address"},{"name":"","type":"uint32"},{"name":"","type":"bytes32"},{"name":"","type":"uint64"}],"name":"inboundPayloadHash","outputs":[{"name":"","type":"bytes32"}],"stateMutability":"view","type":"function"}
   ];
+  // Hyperlane warp route (HypERC20Collateral) + Mailbox — the SKALE lane.
+  const HL_ROUTER_ABI = [
+    {"inputs":[{"name":"_destinationDomain","type":"uint32"}],"name":"quoteGasPayment","outputs":[{"name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"name":"_destination","type":"uint32"},{"name":"_recipient","type":"bytes32"},{"name":"_amount","type":"uint256"}],"name":"transferRemote","outputs":[{"name":"messageId","type":"bytes32"}],"stateMutability":"payable","type":"function"},
+    {"inputs":[{"name":"","type":"uint32"}],"name":"routers","outputs":[{"name":"","type":"bytes32"}],"stateMutability":"view","type":"function"}
+  ];
+  const HL_MAILBOX_ABI = [
+    {"inputs":[{"name":"_id","type":"bytes32"}],"name":"delivered","outputs":[{"name":"","type":"bool"}],"stateMutability":"view","type":"function"}
+  ];
+  const HL_RATELIMIT_ABI = [
+    {"inputs":[],"name":"calculateCurrentLevel","outputs":[{"name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[],"name":"maxCapacity","outputs":[{"name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
+  ];
+  const HL_DISPATCHID_TOPIC = Web3.utils.sha3('DispatchId(bytes32)');
+
   const OFTSENT_TOPIC = Web3.utils.sha3('OFTSent(bytes32,uint32,address,uint256,uint256)');
   const OFTRECEIVED_TOPIC = Web3.utils.sha3('OFTReceived(bytes32,uint32,address,uint256)');
   // PacketSent carries the LayerZero packet header, from which we read OUR message's nonce.
@@ -461,6 +532,8 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     srcName: document.getElementById('fula-src-name'),
     srcBalance: document.getElementById('fula-src-balance'),
     ethBalance: document.getElementById('fula-eth-balance'),
+    nativeLabel: document.getElementById('fula-native-label'),
+    feeNative: document.getElementById('fula-fee-native'),
     amount: document.getElementById('fula-amount'),
     maxBtn: document.getElementById('fula-max-btn'),
     limitLine: document.getElementById('fula-limit-line'),
@@ -536,13 +609,17 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   function buildRead(key) {
     const c = CONFIG.CHAINS[key];
     const w = new Web3(c.rpcs[reads[key] ? reads[key].rpcIndex : 0]);
+    const h = c.hyperlane || {};
     reads[key] = {
       rpcIndex: reads[key] ? reads[key].rpcIndex : 0,
       web3: w,
       token: new w.eth.Contract(TOKEN_ABI, c.token),
-      adapter: new w.eth.Contract(ADAPTER_ABI, c.adapter),
+      adapter: c.adapter ? new w.eth.Contract(ADAPTER_ABI, c.adapter) : null,
       mc: new w.eth.Contract(MULTICALL3_ABI, CONFIG.MULTICALL3),
-      endpoint: new w.eth.Contract(ENDPOINT_ABI, CONFIG.ENDPOINT)
+      endpoint: c.adapter ? new w.eth.Contract(ENDPOINT_ABI, CONFIG.ENDPOINT) : null,
+      hlRouter: h.router ? new w.eth.Contract(HL_ROUTER_ABI, h.router) : null,
+      hlMailbox: h.mailbox ? new w.eth.Contract(HL_MAILBOX_ABI, h.mailbox) : null,
+      hlRateLimit: h.rateLimitedIsm ? new w.eth.Contract(HL_RATELIMIT_ABI, h.rateLimitedIsm) : null
     };
   }
   function rotateRead(key) {
@@ -587,13 +664,45 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     const gen = ++loadGen;
     const s = srcKey, d = dstKey, acct = selectedAccount;
     const sc = CONFIG.CHAINS[s], dc = CONFIG.CHAINS[d];
+    const proto = protocolOf(s, d);
     el.limitLine.textContent = 'Loading limits…';
 
     try {
-      // ----- source chain batch -----
-      const srcCalls = [];
       const zero = '0x' + '0'.repeat(40);
       const who = acct || zero; // without a wallet we still load the bridge-wide limits
+      if (proto === 'hyperlane') {
+        // ----- Hyperlane lane: balance, allowance to the router, native balance; destination escrow
+        // balance and the destination's remaining daily inbound cap (RateLimitedIsm bucket) -----
+        const srcCalls = [];
+        srcCalls.push([sc.token, true, reads[s].token.methods.balanceOf(who).encodeABI()]);
+        srcCalls.push([sc.token, true, reads[s].token.methods.allowance(who, sc.hyperlane.router).encodeABI()]);
+        srcCalls.push([CONFIG.MULTICALL3, true, reads[s].mc.methods.getEthBalance(who).encodeABI()]);
+        srcCalls.push([CONFIG.MULTICALL3, true, reads[s].mc.methods.getBasefee().encodeABI()]); // fails on SKALE (no BASEFEE); allowed
+        const srcRes = await callRead(s, () => reads[s].mc.methods.aggregate3(srcCalls).call());
+        if (gen !== loadGen) return;
+        const dstCalls = [];
+        dstCalls.push([dc.token, true, reads[d].token.methods.balanceOf(dc.hyperlane.router).encodeABI()]);
+        if (dc.hyperlane.rateLimitedIsm) dstCalls.push([dc.hyperlane.rateLimitedIsm, true, reads[d].hlRateLimit.methods.calculateCurrentLevel().encodeABI()]);
+        const dstRes = await callRead(d, () => reads[d].mc.methods.aggregate3(dstCalls).call());
+        if (gen !== loadGen) return;
+        const bal = decodeWords(s, srcRes[0], 1), allow = decodeWords(s, srcRes[1], 1), ethBal = decodeWords(s, srcRes[2], 1), baseFee = decodeWords(s, srcRes[3], 1);
+        const liq = decodeWords(d, dstRes[0], 1), cap = dstRes[1] ? decodeWords(d, dstRes[1], 1) : null;
+        limits = {
+          balance: acct ? (bal ? bal[0] : null) : null,
+          allowance: acct ? (allow ? allow[0] : null) : null,
+          ethBalance: acct ? (ethBal ? ethBal[0] : null) : null,
+          canSend: null,
+          liquidity: liq ? liq[0] : null,
+          canReceive: cap ? cap[0] : null,
+          baseFee: baseFee ? baseFee[0] : null
+        };
+        renderLimits();
+        validate();
+        return;
+      }
+
+      // ----- LayerZero lane: source chain batch -----
+      const srcCalls = [];
       srcCalls.push([sc.token, true, reads[s].token.methods.balanceOf(who).encodeABI()]);
       srcCalls.push([sc.token, true, reads[s].token.methods.allowance(who, sc.adapter).encodeABI()]);
       srcCalls.push([sc.adapter, true, reads[s].adapter.methods.getAmountCanBeSent(dc.eid).encodeABI()]);
@@ -638,8 +747,11 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   }
 
   function renderLimits() {
-    el.srcName.textContent = CONFIG.CHAINS[srcKey].name;
-    el.feeChain.textContent = CONFIG.CHAINS[srcKey].name;
+    const sc = CONFIG.CHAINS[srcKey];
+    el.srcName.textContent = sc.name;
+    el.feeChain.textContent = sc.name;
+    el.nativeLabel.textContent = sc.nativeSymbol + (sc.gasless ? ' (free)' : ' for fees');
+    el.feeNative.textContent = sc.nativeSymbol;
     el.srcBalance.textContent = selectedAccount ? fmtWei(limits.balance) : 'connect wallet';
     el.ethBalance.textContent = selectedAccount ? fmtWei(limits.ethBalance, 5) : 'connect wallet';
 
@@ -650,7 +762,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     candidates.push({ v: CONFIG.UI_MAX, label: 'per-transfer limit' });
     if (limits.liquidity !== null) candidates.push({ v: limits.liquidity, label: 'bridge liquidity on ' + CONFIG.CHAINS[dstKey].name });
     if (limits.canSend !== null) candidates.push({ v: limits.canSend, label: 'bridge daily limit' });
-    if (limits.canReceive !== null) candidates.push({ v: limits.canReceive, label: 'bridge daily limit' });
+    if (limits.canReceive !== null) candidates.push({ v: limits.canReceive, label: protocolOf(srcKey, dstKey) === 'hyperlane' ? 'daily limit into ' + CONFIG.CHAINS[dstKey].name : 'bridge daily limit' });
 
     if (!candidates.length) { maxSendable = null; binderLabel = ''; el.limitLine.textContent = ''; return; }
     let min = candidates[0];
@@ -680,16 +792,26 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     if (!amt || amt <= 0n) { el.feeValue.textContent = '—'; validate(); return; }
     el.feeValue.innerHTML = '<span class="fula-spinner" style="width:12px;height:12px;"></span>';
     const s = srcKey, d = dstKey;
-    // Without a wallet we quote for a placeholder recipient — the fee doesn't depend on it.
-    const recipient = selectedAccount ? padAddress32(selectedAccount) : ('0x' + '11'.repeat(32));
-    const param = [CONFIG.CHAINS[d].eid, recipient, amt.toString(), amt.toString(), '0x', '0x', '0x'];
+    const sym = CONFIG.CHAINS[s].nativeSymbol;
     try {
+      if (protocolOf(s, d) === 'hyperlane') {
+        // The router quotes the interchain fee (0 on our route: we run the relayer and pay delivery).
+        const raw = await callRead(s, () => reads[s].hlRouter.methods.quoteGasPayment(CONFIG.CHAINS[d].hyperlane.domain).call());
+        if (gen !== quoteGen || s !== srcKey || d !== dstKey) return;
+        quotedFee = BigInt(raw);
+        el.feeValue.textContent = (quotedFee === 0n ? 'no bridge fee' : '~' + fmtWei(quotedFee, 6) + ' ' + sym) + (CONFIG.CHAINS[s].gasless ? ' (gas is free on ' + CONFIG.CHAINS[s].name + ')' : ' + gas');
+        validate();
+        return;
+      }
+      // Without a wallet we quote for a placeholder recipient — the fee doesn't depend on it.
+      const recipient = selectedAccount ? padAddress32(selectedAccount) : ('0x' + '11'.repeat(32));
+      const param = [CONFIG.CHAINS[d].eid, recipient, amt.toString(), amt.toString(), '0x', '0x', '0x'];
       const res = await callRead(s, () => reads[s].adapter.methods.quoteSend(param, false).call());
       if (gen !== quoteGen || s !== srcKey || d !== dstKey) return;
       const raw = (res && res.nativeFee !== undefined) ? res.nativeFee : (res && res.msgFee && res.msgFee.nativeFee !== undefined) ? res.msgFee.nativeFee : (res ? res[0] : null);
       if (raw === null || raw === undefined) throw new Error('quote shape');
       quotedFee = BigInt(raw);
-      el.feeValue.textContent = '~' + fmtWei(quotedFee, 6) + ' ETH + gas';
+      el.feeValue.textContent = '~' + fmtWei(quotedFee, 6) + ' ' + sym + ' + gas';
     } catch (e) {
       if (gen !== quoteGen) return;
       console.warn('quoteSend failed', e && e.message);
@@ -729,7 +851,13 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       btn.disabled = true; return;
     }
     if (quotedFee === null) { setHint('Waiting for the fee quote…'); btn.disabled = true; return; }
-    if (limits.ethBalance !== null) {
+    if (limits.ethBalance !== null && CONFIG.CHAINS[srcKey].gasless) {
+      // Gas costs nothing here but a transaction still needs a non-zero native balance to be mined.
+      if (limits.ethBalance === 0n) {
+        setHint('Your wallet needs a little ' + CONFIG.CHAINS[srcKey].nativeSymbol + ' on ' + CONFIG.CHAINS[srcKey].name + ' to send a transaction (it is free — use the SKALE faucet).', 'error');
+        btn.disabled = true; return;
+      }
+    } else if (limits.ethBalance !== null) {
       const padded = quotedFee + (quotedFee * CONFIG.FEE_PAD_BPS) / 10000n;
       // Gas allowance on top of the LayerZero fee, sized from the LIVE base fee (read in the same
       // Multicall batch as the balances): ~450k gas covers approve + send with headroom, priced at
@@ -740,7 +868,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
                                                : (srcKey === 'ethereum' ? 3n * 10n ** 9n : 10n ** 8n); // fallback if base fee unreadable
       const gasBudget = 450000n * gasPrice;
       if (limits.ethBalance < padded + gasBudget) {
-        setHint('Not enough ETH on ' + CONFIG.CHAINS[srcKey].name + ' for the bridge fee (~' + fmtWei(padded + gasBudget, 6) + ' ETH needed)', 'error');
+        setHint('Not enough ' + CONFIG.CHAINS[srcKey].nativeSymbol + ' on ' + CONFIG.CHAINS[srcKey].name + ' for the bridge fee (~' + fmtWei(padded + gasBudget, 6) + ' ' + CONFIG.CHAINS[srcKey].nativeSymbol + ' needed)', 'error');
         btn.disabled = true; return;
       }
     }
@@ -810,17 +938,35 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     }, 1000);
   }
 
+  // AppKit network object per chain key. SKALE Europa is in viem's chain list in recent AppKit
+  // builds; if this build lacks it (or in testnet mode) we hand-build a chain object of the same shape.
+  function appkitNetwork(key) {
+    const c = CONFIG.CHAINS[key];
+    if (!TESTNET) {
+      if (key === 'ethereum') return networks.mainnet;
+      if (key === 'base') return networks.base;
+      if (key === 'skale' && networks.skaleEuropa) return networks.skaleEuropa;
+    } else {
+      if (key === 'base' && networks.baseSepolia) return networks.baseSepolia;
+    }
+    const chain = {
+      id: c.chainId, name: c.name, nativeCurrency: { name: c.nativeSymbol, symbol: c.nativeSymbol, decimals: 18 },
+      rpcUrls: { default: { http: c.rpcs } }, blockExplorers: { default: { name: 'Explorer', url: c.explorer } },
+      chainNamespace: 'eip155', caipNetworkId: 'eip155:' + c.chainId
+    };
+    return (typeof networks.defineChain === 'function') ? networks.defineChain(chain) : chain;
+  }
   function initAppKit() {
-    const nets = [networks.mainnet, networks.base];
+    const nets = chainKeys().map(appkitNetwork);
     const wagmiAdapter = new WagmiAdapter({ networks: nets, projectId: CONFIG.PROJECT_ID });
     modal = createAppKit({
       adapters: [wagmiAdapter],
       networks: nets,
-      defaultNetwork: networks.mainnet,
+      defaultNetwork: nets[0],
       projectId: CONFIG.PROJECT_ID,
       metadata: {
         name: 'FULA Bridge',
-        description: 'Bridge FULA tokens between Ethereum and Base',
+        description: 'Bridge FULA tokens between Ethereum, Base and SKALE',
         url: 'https://fulanetwork.github.io',
         icons: ['https://fulanetwork.github.io/assets/images/logo/fula-icon-green.png'],
         // Sent to the wallet in the session proposal so it can return the user to this page
@@ -888,7 +1034,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     if (!appkitConnected || !selectedAccount) throw { code: 'NOT_CONNECTED' };
     if (!eip155Provider) throw { code: 'NO_PROVIDER' };
     const c = CONFIG.CHAINS[key];
-    const net = key === 'base' ? networks.base : networks.mainnet;
+    const net = appkitNetwork(key);
     const readChain = async () => parseInt(await eip155Provider.request({ method: 'eth_chainId' }), 16);
     let onChain = false;
     try { onChain = (await readChain()) === c.chainId; } catch (e) {}
@@ -898,7 +1044,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
         await eip155Provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: c.chainIdHex }] });
       } catch (e) {
         if (e && e.code === 4902) {
-          try { await eip155Provider.request({ method: 'wallet_addEthereumChain', params: [{ chainId: c.chainIdHex, chainName: c.name, rpcUrls: [c.rpcs[0]], nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, blockExplorerUrls: [c.explorer] }] }); } catch (_) {}
+          try { await eip155Provider.request({ method: 'wallet_addEthereumChain', params: [{ chainId: c.chainIdHex, chainName: c.name, rpcUrls: [c.rpcs[0]], nativeCurrency: { name: c.nativeSymbol, symbol: c.nativeSymbol, decimals: 18 }, blockExplorerUrls: [c.explorer] }] }); } catch (_) {}
         }
       }
       for (let i = 0; i < 8; i++) {
@@ -920,6 +1066,8 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   }
   // Chain-appropriate EIP-1559 fees from the public RPC (wallets often over-tip on Base).
   async function getFeeParams(key) {
+    // SKALE: fixed 100000 wei gas price, no fee market and no BASEFEE opcode — send legacy-priced txs.
+    if (CONFIG.CHAINS[key].gasless) return { gasPrice: '100000' };
     try {
       const blk = await reads[key].web3.eth.getBlock('latest');
       const base = BigInt(blk.baseFeePerGas);
@@ -935,6 +1083,10 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     if (e.code === 'NOT_CONNECTED' || e.code === 'NO_PROVIDER') return 'Connect your wallet first';
     if (/RateLimit/i.test(e.message || '')) return 'The bridge’s shared daily limit was just used up — nothing was sent and nothing was lost. It refills continuously; try again shortly.';
     return 'Transaction failed — nothing was sent';
+  }
+  // Chain keys of a history entry (new entries carry keys; LayerZero entries from before carry EIDs).
+  function entryKeys(e) {
+    return { sK: e.srcKey || EID_TO_KEY[e.srcEid], dK: e.dstKey || EID_TO_KEY[e.dstEid] };
   }
 
   // ============================== HISTORY ==============================
@@ -962,15 +1114,15 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     el.history.style.display = 'block';
     el.historyList.innerHTML = '';
     for (const e of list) {
-      const sK = EID_TO_KEY[e.srcEid], dK = EID_TO_KEY[e.dstEid];
-      if (!sK || !dK) continue;
+      const { sK, dK } = entryKeys(e);
+      if (!sK || !dK || !CONFIG.CHAINS[sK] || !CONFIG.CHAINS[dK]) continue;
       const div = document.createElement('div');
       div.className = 'fula-history-item';
       const pill = e.status === 'delivered' ? 'delivered' : e.status === 'parked' ? 'parked' : e.status === 'wedged' ? 'wedged' : 'pending';
       const pillText = e.status === 'delivered' ? 'Completed' : e.status === 'parked' ? 'Queued — retryable' : e.status === 'wedged' ? 'Needs attention' : 'In progress';
       let links = '<a href="' + CONFIG.CHAINS[sK].explorer + '/tx/' + e.srcTx + '" target="_blank" rel="noopener">' + CONFIG.CHAINS[sK].name + ' tx</a>';
       if (e.dstTx) links += '<a href="' + CONFIG.CHAINS[dK].explorer + '/tx/' + e.dstTx + '" target="_blank" rel="noopener">' + CONFIG.CHAINS[dK].name + ' tx</a>';
-      links += '<a href="' + CONFIG.SCAN_UI + e.srcTx + '" target="_blank" rel="noopener">LayerZero</a>';
+      if (e.protocol !== 'hyperlane') links += '<a href="' + CONFIG.SCAN_UI + e.srcTx + '" target="_blank" rel="noopener">LayerZero</a>';
       div.innerHTML =
         '<div class="fula-history-top">' +
           '<span><span class="fula-history-amount">' + fmtWei(BigInt(e.amountLD)) + ' FULA</span> ' +
@@ -1007,11 +1159,12 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
 
   function openStepper(entry) {
     shownTx = entry.srcTx || 'pre';
-    const sK = EID_TO_KEY[entry.srcEid], dK = EID_TO_KEY[entry.dstEid];
+    const { sK, dK } = entryKeys(entry);
     el.progressCard.classList.add('visible');
     el.progressTitle.textContent = 'Bridging ' + fmtWei(BigInt(entry.amountLD)) + ' FULA: ' + CONFIG.CHAINS[sK].name + ' → ' + CONFIG.CHAINS[dK].name;
     el.steps[0].label.textContent = 'Locking FULA into the ' + CONFIG.CHAINS[sK].name + ' bridge';
-    el.steps[2].label.textContent = 'Confirming on ' + CONFIG.CHAINS[dK].name;
+    el.steps[1].label.textContent = entry.protocol === 'hyperlane' ? 'Validator attests the transfer' : 'LayerZero verification';
+    el.steps[2].label.textContent = entry.protocol === 'hyperlane' ? 'Relayer delivers to ' + CONFIG.CHAINS[dK].name : 'Confirming on ' + CONFIG.CHAINS[dK].name;
     el.steps[3].label.textContent = 'Releasing FULA to your wallet on ' + CONFIG.CHAINS[dK].name;
     el.progressBanner.className = 'fula-progress-banner';
     el.progressBanner.innerHTML = '';
@@ -1020,7 +1173,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   }
 
   function renderStepperState(entry, scanMsg) {
-    const sK = EID_TO_KEY[entry.srcEid], dK = EID_TO_KEY[entry.dstEid];
+    const { sK, dK } = entryKeys(entry);
     const st = entry.status, phase = entry.phase || '';
     // Step 1
     if (!entry.srcTx) setStep(1, 'active', spinnerHTML('waiting for your wallet…'));
@@ -1037,6 +1190,22 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       return;
     }
     if (!entry.srcTx || phase === 'mining') { setStep(2, '', ''); setStep(3, '', ''); setStep(4, '', ''); return; }
+
+    if (entry.protocol === 'hyperlane') {
+      // No indexer on the SKALE lane: the only signal is the destination Mailbox. Until it reports
+      // the message delivered we show "in flight"; the funds are locked on the source either way.
+      const ageS = Math.floor(Date.now() / 1000) - (entry.ts || 0);
+      setStep(2, 'active', spinnerHTML('validator signing the ' + CONFIG.CHAINS[sK].name + ' checkpoint…'));
+      setStep(3, '', ''); setStep(4, '', '');
+      if (ageS > 1800) {
+        showBanner('calm',
+          'This transfer is taking longer than usual. Your tokens are locked safely on ' + CONFIG.CHAINS[sK].name +
+          ' and will be released on ' + CONFIG.CHAINS[dK].name + ' as soon as the bridge relayer is back; nothing is lost. ' +
+          'If it is still pending after a few hours, contact Fula Governance Association.',
+          entry, false);
+      }
+      return;
+    }
 
     let dvnDetail = '';
     if (scanMsg && scanMsg.verification && scanMsg.verification.dvn && scanMsg.verification.dvn.dvns) {
@@ -1080,7 +1249,12 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     el.progressBanner.className = 'fula-progress-banner visible ' + kind;
     let actions = '<div class="fula-banner-actions">';
     if (withRetry) actions += '<button class="fula-banner-btn" id="fula-banner-retry">Retry now</button>';
-    actions += '<a class="fula-banner-btn" style="text-decoration:none;display:inline-block;" href="' + CONFIG.SCAN_UI + entry.srcTx + '" target="_blank" rel="noopener">View on LayerZero Scan</a></div>';
+    if (entry.protocol === 'hyperlane') {
+      const { sK } = entryKeys(entry);
+      actions += '<a class="fula-banner-btn" style="text-decoration:none;display:inline-block;" href="' + CONFIG.CHAINS[sK].explorer + '/tx/' + entry.srcTx + '" target="_blank" rel="noopener">View source tx</a></div>';
+    } else {
+      actions += '<a class="fula-banner-btn" style="text-decoration:none;display:inline-block;" href="' + CONFIG.SCAN_UI + entry.srcTx + '" target="_blank" rel="noopener">View on LayerZero Scan</a></div>';
+    }
     el.progressBanner.innerHTML = html + actions;
     const rb = document.getElementById('fula-banner-retry');
     if (rb) rb.addEventListener('click', () => handleRetry(entry.srcTx, rb));
@@ -1115,8 +1289,22 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     const entry = list.find(x => x.srcTx === srcTx);
     if (!entry || entry.status === 'delivered' || entry.status === 'wedged') { stopPolling(srcTx); return; }
     const ps = pollState[srcTx] || { tick: 0, scanFails: 0 };
-    const dK = EID_TO_KEY[entry.dstEid];
+    const { dK } = entryKeys(entry);
     let scanMsg = null;
+
+    if (entry.protocol === 'hyperlane') {
+      // The destination Mailbox is the authority: delivered(messageId) flips exactly when the
+      // relayer's process() succeeded and the tokens were released.
+      if (entry.messageId && reads[dK] && reads[dK].hlMailbox) {
+        try {
+          const done = await callRead(dK, () => reads[dK].hlMailbox.methods.delivered(entry.messageId).call());
+          if (done === true || done === 'true') { finishDelivered(entry, entry.dstTx || null, null); return; }
+        } catch (e) { /* chain unreachable this cycle */ }
+      }
+      if (shownTx === srcTx) renderStepperState(entry, null);
+      renderHistory();
+      return;
+    }
 
     // --- LayerZero Scan API (primary) ---
     try {
@@ -1178,7 +1366,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   // with `lazyInboundNonce >= ours`, which only advances when a nonce is executed (or skipped by
   // the owner — a rare emergency action that would show up as a queued transfer, not a silent one).
   async function isExecutedOnChain(dK, entry) {
-    const sK = EID_TO_KEY[entry.srcEid];
+    const { sK } = entryKeys(entry);
     const peer = padAddress32(CONFIG.CHAINS[sK].adapter);
     const dstAdapter = CONFIG.CHAINS[dK].adapter;
     const n = BigInt(entry.nonce);
@@ -1238,6 +1426,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   // ============================== BRIDGE FLOW ==============================
   async function handleBridge() {
     if (isBridging || !selectedAccount) return;
+    if (protocolOf(srcKey, dstKey) === 'hyperlane') return handleBridgeHyperlane();
     const gen = ++txGen;
     const s = srcKey, d = dstKey, acct = selectedAccount;
     const sc = CONFIG.CHAINS[s], dc = CONFIG.CHAINS[d];
@@ -1292,8 +1481,8 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
 
       let srcTxHash = null;
       const provisional = {
-        srcTx: null, dstTx: null, guid: null,
-        srcEid: sc.eid, dstEid: dc.eid,
+        srcTx: null, dstTx: null, guid: null, protocol: 'layerzero',
+        srcEid: sc.eid, dstEid: dc.eid, srcKey: s, dstKey: d,
         amountLD: amt.toString(), dstBlockAtSend: dstBlockAtSend,
         ts: Math.floor(Date.now() / 1000), status: 'pending', phase: 'mining'
       };
@@ -1374,6 +1563,91 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     }
   }
 
+  // ---- Hyperlane lane (Base <-> SKALE): approve -> transferRemote -> DispatchId -> Mailbox.delivered ----
+  async function handleBridgeHyperlane() {
+    const gen = ++txGen;
+    const s = srcKey, d = dstKey, acct = selectedAccount;
+    const sc = CONFIG.CHAINS[s], dc = CONFIG.CHAINS[d];
+    const amt = quantized(parseAmount(el.amount.value));
+    if (!amt || amt <= 0n) return;
+    isBridging = true;
+    try {
+      setButtonLoading(el.bridgeBtn, true, 'Checking…');
+      await loadLimits();
+      if (gen !== txGen) return;
+      if (maxSendable === null || amt > maxSendable) {
+        showNotification('The available limit changed — max is now ' + fmtWei(maxSendable || 0n) + ' FULA. Nothing was sent.', 'warning');
+        return;
+      }
+      const w3 = await ensureWalletReady(s);
+      if (gen !== txGen) return;
+      const tokenWrite = new w3.eth.Contract(TOKEN_ABI, sc.token);
+      const routerWrite = new w3.eth.Contract(HL_ROUTER_ABI, sc.hyperlane.router);
+      const feeParams = await getFeeParams(s);
+
+      const allowance = BigInt(await callRead(s, () => reads[s].token.methods.allowance(acct, sc.hyperlane.router).call()));
+      if (allowance < amt) {
+        setButtonLoading(el.bridgeBtn, true, 'Approve in wallet…');
+        const m = tokenWrite.methods.approve(sc.hyperlane.router, amt.toString());
+        const gas = await estimateGasSafe(s, { from: acct, to: sc.token, data: m.encodeABI() }, 120000);
+        const rc = await m.send(Object.assign({ from: acct, gas: gas }, feeParams));
+        if (gen !== txGen) return;
+        setButtonLoading(el.bridgeBtn, true, 'Approval confirming…');
+        await waitForReadSync(s, rc && rc.blockNumber);
+      }
+
+      setButtonLoading(el.bridgeBtn, true, 'Quoting fee…');
+      const fee = BigInt(await callRead(s, () => reads[s].hlRouter.methods.quoteGasPayment(dc.hyperlane.domain).call()));
+      const recipient = padAddress32(acct);
+      setButtonLoading(el.bridgeBtn, true, 'Confirm in wallet…');
+      const sendMethod = routerWrite.methods.transferRemote(dc.hyperlane.domain, recipient, amt.toString());
+      const gas = await estimateGasSafe(s, { from: acct, to: sc.hyperlane.router, data: sendMethod.encodeABI(), value: fee.toString() }, 300000);
+
+      let srcTxHash = null;
+      const provisional = {
+        srcTx: null, dstTx: null, messageId: null, protocol: 'hyperlane',
+        srcKey: s, dstKey: d, amountLD: amt.toString(),
+        ts: Math.floor(Date.now() / 1000), status: 'pending', phase: 'mining'
+      };
+      const receiptPromise = new Promise((resolve, reject) => {
+        sendMethod.send(Object.assign({ from: acct, value: fee.toString(), gas: gas }, feeParams))
+          .on('transactionHash', h => { srcTxHash = h; provisional.srcTx = h; upsertEntry(provisional); openStepper(provisional); setButtonLoading(el.bridgeBtn, true, 'Bridging…'); })
+          .on('receipt', resolve)
+          .on('error', reject);
+      });
+      const receipt = await Promise.race([
+        receiptPromise.catch(e => { if (!srcTxHash) throw e; return waitReceiptOnRead(s, () => srcTxHash); }),
+        (async () => { return waitReceiptOnRead(s, () => srcTxHash); })()
+      ]);
+      if (gen !== txGen) return;
+      if (!receipt) {
+        if (srcTxHash) { startTracking(srcTxHash); showNotification('Still waiting for confirmation — check the explorer link in Recent transfers.', 'warning'); return; }
+        throw new Error('Transaction was not confirmed — nothing was sent.');
+      }
+      if (receipt.status === false || receipt.status === 0n || receipt.status === '0x0') {
+        upsertEntry({ srcTx: srcTxHash, status: 'wedged' });
+        throw new Error('The bridge transaction reverted on ' + sc.name + '. Nothing left your wallet except gas.');
+      }
+      // The Mailbox emits DispatchId(bytes32 indexed messageId) in the same transaction.
+      let messageId = null;
+      for (const log of (receipt.logs || [])) {
+        if (log.address && log.address.toLowerCase() === sc.hyperlane.mailbox.toLowerCase() && log.topics && log.topics[0] === HL_DISPATCHID_TOPIC) { messageId = log.topics[1]; break; }
+      }
+      const entry = upsertEntry({ srcTx: srcTxHash, messageId: messageId, phase: 'sent', status: 'pending' });
+      renderStepperState(entry, null);
+      startTracking(srcTxHash);
+      el.amount.value = '';
+      quotedFee = null; el.feeValue.textContent = '—';
+    } catch (e) {
+      if (gen !== txGen) return;
+      console.error('bridge (hyperlane)', e);
+      showNotification(txErrMsg(e), /cancelled/i.test(txErrMsg(e)) ? 'warning' : 'error');
+      await loadLimits().catch(() => {});
+    } finally {
+      if (gen === txGen) { isBridging = false; setButtonLoading(el.bridgeBtn, false, 'Bridge FULA'); validate(); }
+    }
+  }
+
   async function waitReceiptOnRead(key, getHash) {
     // ~3 minutes of polling on the read RPC
     for (let i = 0; i < 60; i++) {
@@ -1397,8 +1671,8 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   // retry button). This makes a bad in-page transaction impossible.
   async function handleRetry(srcTx, btn) {
     const entry = loadHistory().find(x => x.srcTx === srcTx);
-    if (!entry) return;
-    const dK = EID_TO_KEY[entry.dstEid], sK = EID_TO_KEY[entry.srcEid];
+    if (!entry || entry.protocol === 'hyperlane') return; // Hyperlane deliveries are retried by the relayer itself
+    const { sK, dK } = entryKeys(entry);
     const orig = btn.textContent;
     btn.disabled = true; btn.textContent = 'Checking…';
     try {
@@ -1474,10 +1748,23 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   }
 
   // ============================== ROUTE / INIT ==============================
+  // Rebuild the two <select>s from the enabled lanes: every chain that has a partner can be a
+  // source; the destination list is that chain's partners.
+  function fillSelects() {
+    const mk = (sel, keys, cur) => {
+      sel.innerHTML = '';
+      for (const k of keys) { const o = document.createElement('option'); o.value = k; o.textContent = CONFIG.CHAINS[k].name; sel.appendChild(o); }
+      sel.value = keys.indexOf(cur) >= 0 ? cur : keys[0];
+      return sel.value;
+    };
+    srcKey = mk(el.srcSelect, chainKeys(), srcKey);
+    dstKey = mk(el.dstSelect, partnersOf(srcKey), dstKey);
+  }
   function setRoute(newSrc, newDst) {
-    srcKey = newSrc; dstKey = newDst;
-    el.srcSelect.value = srcKey; el.dstSelect.value = dstKey;
-    try { localStorage.setItem('fulaBridge.route', srcKey); } catch (e) {}
+    srcKey = newSrc;
+    dstKey = partnersOf(newSrc).indexOf(newDst) >= 0 ? newDst : partnersOf(newSrc)[0];
+    fillSelects();
+    try { localStorage.setItem('fulaBridge.route', srcKey + '|' + dstKey); } catch (e) {}
     limits = { balance: null, ethBalance: null, allowance: null, liquidity: null, canSend: null, canReceive: null };
     maxSendable = null; quotedFee = null;
     el.feeValue.textContent = '—';
@@ -1488,14 +1775,21 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   }
 
   function init() {
-    buildRead('ethereum'); buildRead('base');
-    try { const saved = localStorage.getItem('fulaBridge.route'); if (saved === 'base') { srcKey = 'base'; dstKey = 'ethereum'; } } catch (e) {}
-    el.srcSelect.value = srcKey; el.dstSelect.value = dstKey;
+    for (const k of Object.keys(CONFIG.CHAINS)) buildRead(k);
+    const keys = chainKeys();
+    srcKey = keys[0]; dstKey = partnersOf(srcKey)[0];
+    try {
+      const saved = localStorage.getItem('fulaBridge.route') || '';
+      const [a, b] = saved.indexOf('|') >= 0 ? saved.split('|') : [saved === 'base' ? 'base' : null, saved === 'base' ? 'ethereum' : null];
+      if (a && b && laneFor(a, b)) { srcKey = a; dstKey = b; }
+    } catch (e) {}
+    fillSelects();
+    if (TESTNET) { el.srcName.parentNode.parentNode.insertAdjacentHTML('afterbegin', '<div style="color:var(--warning);font-size:12px;margin-bottom:8px;">TESTNET MODE — rehearsal route with a mock token, not FULA.</div>'); }
 
     initAppKit();
     el.connectBtn.addEventListener('click', () => { if (appkitConnected) modal.disconnect(); else modal.open(); });
-    el.srcSelect.addEventListener('change', () => { const v = el.srcSelect.value; setRoute(v, v === 'ethereum' ? 'base' : 'ethereum'); });
-    el.dstSelect.addEventListener('change', () => { const v = el.dstSelect.value; setRoute(v === 'ethereum' ? 'base' : 'ethereum', v); });
+    el.srcSelect.addEventListener('change', () => { const v = el.srcSelect.value; setRoute(v, dstKey === v ? srcKey : dstKey); });
+    el.dstSelect.addEventListener('change', () => { const v = el.dstSelect.value; setRoute(srcKey, v); });
     el.swapBtn.addEventListener('click', () => setRoute(dstKey, srcKey));
     el.maxBtn.addEventListener('click', () => {
       if (maxSendable === null || maxSendable <= 0n) return;
@@ -1525,8 +1819,8 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       <p id="disclaimer-text" style="margin-top:10px;line-height:1.5;font-size:14px;color:#333;">
         FULA Token is a utility token intended solely for use within the Fula network ecosystem.
         It does not represent an investment, security, or share in any company, and it does not provide any ownership, voting rights, or entitlement to profits.<br><br>
-        The bridge moves your own FULA tokens between the Ethereum and Base networks; it does not buy, sell, or exchange tokens.
-        Cross-chain transfers depend on third-party infrastructure (LayerZero) and public blockchains, and delivery times can vary.
+        The bridge moves your own FULA tokens between the Ethereum, Base and SKALE networks; it does not buy, sell, or exchange tokens.
+        Cross-chain transfers depend on third-party infrastructure (LayerZero, Hyperlane) and public blockchains, and delivery times can vary.
         The value of FULA may fluctuate significantly and may become worthless. Participation is entirely at your own risk.<br><br>
         Always do your own research and seek independent legal, tax, and financial advice before using blockchain applications.
       </p>
