@@ -362,6 +362,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/web3@4.16.0/dist/web3.min.js"></script>
+<script src="../js/fula-refill.js"></script>
 <script type="module">
 import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsdelivr.net/npm/@reown/appkit-cdn@1.8.23/dist/appkit.js';
 (function() {
@@ -770,14 +771,40 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     maxSendable = min.v - (min.v % CONFIG.DUST); // floor to bridge granularity
     binderLabel = min.label;
 
+    const liquidityBound = min.label.indexOf('liquidity') >= 0;
     if (maxSendable <= 0n) {
       el.limitLine.innerHTML = 'Nothing can be bridged right now (' + binderLabel + '). ' +
-        (min.label.indexOf('liquidity') >= 0 || min.label.indexOf('daily') >= 0
-          ? 'This frees up over time — check back soon.'
-          : '');
+        (liquidityBound ? '' : (min.label.indexOf('daily') >= 0 ? 'This frees up over time — check back soon.' : ''));
     } else {
       el.limitLine.innerHTML = 'Max: <b>' + fmtWei(maxSendable) + ' FULA</b> <span style="color:var(--text-muted)">(' + binderLabel + ')</span>';
     }
+    // The DESTINATION escrow is what pays out. When it is the binding limit, offer the permissionless
+    // refill (js/fula-refill.js): the LayerZero escrows are FulaRefillTreasury pools; the Hyperlane
+    // routers are not (the helper explains that instead of showing a button).
+    if (liquidityBound) {
+      const slot = document.createElement('div');
+      slot.className = 'fula-refill-slot';
+      el.limitLine.appendChild(slot);
+      renderEscrowRefill(slot);
+    }
+  }
+
+  // Refill control for the destination chain's escrow, rendered into `slot`.
+  function renderEscrowRefill(slot) {
+    if (!window.FulaRefill) return;
+    const dK = dstKey, dc = CONFIG.CHAINS[dK];
+    const proto = protocolOf(srcKey, dK);
+    const escrow = proto === 'hyperlane' ? (dc.hyperlane && dc.hyperlane.router) : dc.adapter;
+    if (!escrow) return;
+    const amt = quantized(parseAmount(el.amount.value));
+    FulaRefill.renderButton(slot, {
+      web3Read: reads[dK].web3, chainId: dc.chainId, poolAddress: escrow, needed: amt && amt > 0n ? amt : null,
+      from: selectedAccount, what: 'this transfer',
+      getWalletWeb3: () => ensureWalletReady(dK),           // the refill runs ON THE DESTINATION chain
+      feeParams: () => getFeeParams(dK),
+      onNotify: showNotification,
+      onDone: async () => { await loadLimits(); }
+    });
   }
 
   // ============================== FEE QUOTE ==============================
@@ -1221,8 +1248,19 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       setStep(4, 'active', 'queued — see below');
       showBanner('calm',
         'Your transfer is <b>queued on ' + CONFIG.CHAINS[dK].name + '</b>. The tokens are safe and this will complete — ' +
-        'the bridge’s capacity frees up continuously, and the transfer can be retried at any time.',
+        (entry.parkedReason === 'liquidity'
+          ? 'the bridge on ' + CONFIG.CHAINS[dK].name + ' holds less FULA than your transfer right now. Anyone can top it up from the refill treasury (below), and the transfer can be retried once it has.'
+          : 'the bridge’s daily capacity frees up continuously, and the transfer can be retried at any time.'),
         entry, true);
+      if (entry.parkedReason === 'liquidity') {
+        const slot = document.createElement('div'); slot.className = 'fula-refill-slot';
+        el.progressBanner.appendChild(slot);
+        if (window.FulaRefill) FulaRefill.renderButton(slot, {
+          web3Read: reads[dK].web3, chainId: CONFIG.CHAINS[dK].chainId, poolAddress: CONFIG.CHAINS[dK].adapter, needed: BigInt(entry.amountLD),
+          from: selectedAccount, what: 'this transfer', getWalletWeb3: () => ensureWalletReady(dK), feeParams: () => getFeeParams(dK),
+          onNotify: showNotification, onDone: async () => { entry.parkedReason = null; upsertEntry(entry); startTracking(entry.srcTx); }
+        });
+      }
       return;
     }
     if (st === 'wedged') {
@@ -1325,6 +1363,14 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       }
       if (name === 'PAYLOAD_STORED' || name === 'FAILED') {
         if (entry.status !== 'parked') { entry.status = 'parked'; upsertEntry(entry); showNotification('Transfer is queued on ' + CONFIG.CHAINS[dK].name + ' — tokens are safe, retry available.', 'warning'); }
+        // Why is it parked? If the destination escrow holds less than this transfer, the cure is a
+        // refill, not a retry — remember that so the banner can offer it.
+        if (!entry.parkedReason && reads[dK] && reads[dK].adapter) {
+          try {
+            const liq = BigInt(await callRead(dK, () => reads[dK].adapter.methods.availableLiquidity().call()));
+            if (liq < BigInt(entry.amountLD)) { entry.parkedReason = 'liquidity'; upsertEntry(entry); }
+          } catch (e) { /* unknown this cycle */ }
+        }
       } else if (name === 'BLOCKED') {
         entry.status = 'wedged'; upsertEntry(entry);
       }
@@ -1687,14 +1733,24 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       }
 
       const call = buildLzReceiveCandidates(m, entry, sK, dK);
-      let working = null;
+      let working = null, lastErr = null;
       for (const cand of call.candidates) {
         try {
           await reads[dK].web3.eth.call({ from: selectedAccount || undefined, to: CONFIG.ENDPOINT, data: cand });
           working = cand; break;
-        } catch (e) { /* try next candidate */ }
+        } catch (e) { lastErr = e; /* try next candidate */ }
       }
       if (!working) {
+        // The dry-run's revert tells us WHY delivery is blocked. If the destination escrow is short
+        // (InsufficientLiquidity), the fix is the permissionless refill — show it instead of handing
+        // the user over to LayerZero Scan, whose retry would fail the same way.
+        const low = window.FulaRefill ? FulaRefill.detectLowBalance(lastErr, { web3: reads[dK].web3, contract: CONFIG.CHAINS[dK].adapter }) : { kind: null };
+        if (low.kind === 'pool') {
+          entry.parkedReason = 'liquidity'; entry.status = 'parked'; upsertEntry(entry);
+          if (shownTx !== srcTx) openStepper(entry); else renderStepperState(entry, m);
+          showNotification('The bridge on ' + CONFIG.CHAINS[dK].name + ' holds less FULA than this transfer. Your tokens are safe — see the Refill option in the progress card.', 'warning');
+          return;
+        }
         // conditions not ready or reconstruction failed — hand over to LayerZero Scan
         window.open(CONFIG.SCAN_UI + srcTx, '_blank', 'noopener');
         showNotification('Retry isn’t ready here yet — opened LayerZero Scan, which can retry when conditions allow. Your tokens are safe.', 'warning');

@@ -503,6 +503,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/web3@4.16.0/dist/web3.min.js"></script>
+<script src="../js/fula-refill.js"></script>
 <script type="module">
 import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsdelivr.net/npm/@reown/appkit-cdn@1.8.20/dist/appkit.js';
 (function() {
@@ -528,6 +529,7 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   ];
 
   const STAKING_ABI = [
+    {"inputs":[],"name":"rewardPool","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
     {"inputs":[],"name":"getTotalStaked","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
     {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserTotalStaked","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
     {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserStakes","outputs":[{"components":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"rewardDebt","type":"uint256"},{"internalType":"uint256","name":"lockPeriod","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"address","name":"referrer","type":"address"},{"internalType":"bool","name":"isActive","type":"bool"}],"internalType":"struct StakingEngineLinear.StakeInfo[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},
@@ -555,6 +557,10 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   let modal=null, eip155Provider=null, web3=null, stakingWrite=null, tokenWrite=null;
   let selectedAccount=null, activeAccount=null, appkitConnected=false, currentChainId=null, wrongNetworkNotified=false;
   let selectedPeriod=null,tokenBalance=0,userStakes=[],currentBlockTimestamp=0,termsAccepted=false;
+  // Reward pool (the contract that pays claims): address + FULA balance (BigInt wei, null = unknown).
+  // A claim above this balance reverts InsufficientRewardsInPool, so Claim is blocked up front and the
+  // permissionless refill (js/fula-refill.js) is offered instead of an error.
+  let rewardPoolAddr=null, rewardPoolBalance=null;
 
   const el = {
     connectBtn: document.getElementById('fula-connect-btn'),
@@ -648,22 +654,82 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
   // Batch getClaimableStakerReward for a list of {stake,index} via Multicall3 (ONE request).
   // Returns an array aligned 1:1 with `active`; each element is a claimable-ether string, or null (=> render Refresh).
   // Falls back to sequential per-stake reads (each through callRead) if Multicall3 is unavailable.
+  function decodeWei(item) {
+    const ok=(item&&item.success!==undefined)?item.success:(item?item[0]:false);
+    const data=(item&&item.returnData!==undefined)?item.returnData:(item?item[1]:null);
+    if(!(ok===true||ok==='true')) return null;
+    if(!data || data==='0x' || data.length<66) return null;
+    try { return BigInt(String(readWeb3.eth.abi.decodeParameter('uint256',data))); } catch(e) { return null; }
+  }
+  async function getRewardPool() {
+    if(rewardPoolAddr) return rewardPoolAddr;
+    try { const a = await callRead(()=> stakingRead.methods.rewardPool().call()); if(a && /^0x[0-9a-fA-F]{40}$/.test(String(a))) rewardPoolAddr = String(a); }
+    catch(e) { console.warn('[rewardPool] unavailable:', e&&e.message); }
+    return rewardPoolAddr;
+  }
+  const etherToWei = s => { try { return BigInt(String(Web3.utils.toWei(String(s),'ether'))); } catch(e) { return null; } };
+  // True when a claim of `wei` cannot be paid from the reward pool (unknown balance => false, i.e. don't block).
+  const poolCannotPay = wei => (wei!==null && rewardPoolBalance!==null && wei>rewardPoolBalance);
+  // Batch getClaimableStakerReward for a list of {stake,index} via Multicall3 (ONE request), plus the reward
+  // pool's FULA balance in the same request (sets rewardPoolBalance).
+  // Returns an array aligned 1:1 with `active`; each element is a claimable-ether string, or null (=> render Refresh).
+  // Falls back to sequential per-stake reads (each through callRead) if Multicall3 is unavailable.
   async function fetchClaimableBatch(active) {
-    if(!active.length) return [];
+    rewardPoolBalance = null;
+    const pool = await getRewardPool();
+    if(!active.length && !pool) return [];
     // encodeABI is RPC-independent, so build calldata once. Use POSITIONAL arrays for the tuple input (robust across web3 v1/v4).
     const calldata = active.map(a => stakingRead.methods.getClaimableStakerReward(selectedAccount, a.index).encodeABI());
     const calls = active.map((a,k) => [CONFIG.STAKING_CONTRACT, true, calldata[k]]);
+    if(pool) calls.push([CONFIG.TOKEN_CONTRACT, true, tokenRead.methods.balanceOf(pool).encodeABI()]);
     try {
       const res = await callRead(()=> mcRead.methods.aggregate3(calls).call());
-      if(Array.isArray(res) && res.length===active.length) return res.map(decodeClaimable);
+      if(Array.isArray(res) && res.length===calls.length) {
+        if(pool) rewardPoolBalance = decodeWei(res[res.length-1]);
+        return res.slice(0, active.length).map(decodeClaimable);
+      }
       console.warn('[multicall] length mismatch, falling back to sequential');
     } catch(e) { console.warn('[multicall] failed, falling back to sequential:', e&&e.message); }
+    if(pool) { try { rewardPoolBalance = BigInt(String(await callRead(()=> tokenRead.methods.balanceOf(pool).call()))); } catch(e) { rewardPoolBalance = null; } }
     const out=[];
     for(const a of active) {
       try { out.push(Web3.utils.fromWei(String(await callRead(()=> stakingRead.methods.getClaimableStakerReward(selectedAccount, a.index).call())),'ether')); }
       catch(e) { out.push(null); }
     }
     return out;
+  }
+
+  // "Reward pool is short" explanation + the permissionless Refill control (js/fula-refill.js) into `slot`.
+  function renderRefillSlot(slot, needed, what) {
+    if(!slot || !window.FulaRefill) return;
+    slot.innerHTML='';
+    const intro=document.createElement('div'); intro.className='fula-hint warning'; intro.style.marginTop='8px';
+    intro.textContent=FulaRefill.friendly('pool',{what: what||'this claim'}); slot.appendChild(intro);
+    const box=document.createElement('div'); slot.appendChild(box);
+    if(!rewardPoolAddr){ box.textContent='Reward pool address unavailable right now.'; return; }
+    FulaRefill.renderButton(box,{
+      web3Read: readWeb3, chainId: CONFIG.CHAIN_ID, poolAddress: rewardPoolAddr, needed: needed, from: selectedAccount, what: what,
+      getWalletWeb3: async ()=>{ await ensureWalletReady(); return web3; },
+      feeParams: getFeeParams, onNotify: showNotification,
+      onDone: async ()=>{ await loadUserData(); }
+    });
+  }
+  const slotFor = btn => { const card = btn&&btn.closest ? btn.closest('.fula-stake-item, .fula-referred-staker-card') : null; return card ? card.querySelector('.fula-refill-slot') : null; };
+  // Pre-flight for claims/unstakes: estimate on the READ RPCs and KEEP a revert (an empty reward pool is
+  // caught BEFORE the user signs and pays); fall back to a fixed gas only on RPC flakiness.
+  function preflightGas(encodedData, toAddr, fallbackKey) {
+    const FALLBACK = { unstakeToken:600000, claimStakerReward:400000, claimReferrerReward:400000 };
+    return FulaRefill.preflight({
+      attempts: RPC_URLS.length, rotate: rotateRpc, fallback: FALLBACK[fallbackKey]||800000,
+      estimate: ()=> readWeb3.eth.estimateGas({ from: selectedAccount, to: toAddr, data: encodedData })
+    });
+  }
+  // A claim/unstake pre-flight reverted: explain it, offer the refill when it is the reward pool.
+  function explainPreflightRevert(e, btn, needed, what) {
+    const low = FulaRefill.detectLowBalance(e, { web3: readWeb3, contract: CONFIG.STAKING_CONTRACT });
+    if(low.kind==='pool') { renderRefillSlot(slotFor(btn), needed, what); return FulaRefill.friendly('pool',{what}); }
+    if(low.kind==='stake'||low.kind==='distribution'||low.kind==='wallet') return FulaRefill.friendly(low.kind,{what});
+    return 'This transaction would fail ('+(low.name||String(e&&e.message||e).slice(0,120))+'). Nothing was sent.';
   }
 
   // After a tx, wait until the read RPC has caught up to the mined block so the reload isn't stale.
@@ -944,13 +1010,17 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     else{periodLabel=Math.round(lockPeriod/(24*60*60))+' Days';apyLabel='Legacy';}
     const rewardFailed = (claimable===null || claimable===undefined);
     const hasUnclaimed = !rewardFailed && parseFloat(claimable)>0.000001;
+    const claimableWei = rewardFailed ? null : etherToWei(claimable);
+    // The reward pool cannot pay this claim: Claim is blocked (it would revert) and Unstake stays blocked
+    // (unstaking forfeits unclaimed rewards); the refill control is offered instead.
+    const poolShort = hasUnclaimed && poolCannotPay(claimableWei);
     // When the reward is unknown we neither enable Claim nor allow Unstake (avoids unstaking with unclaimed rewards).
     const canUnstake = !isLocked && !rewardFailed && !hasUnclaimed;
     const valueText = rewardFailed ? '—' : (formatNumber(claimable,6)+' FULA');
     const refreshBtnHTML = rewardFailed ? `<button class="fula-stake-refresh" data-index="${index}" title="Reward couldn't load — tap to retry">⟳ Refresh</button>` : '';
     const hintHTML = rewardFailed
       ? '<div class="fula-hint warning" style="margin-bottom:12px">⚠️ Reward amount could not be loaded (network busy). Tap Refresh.</div>'
-      : (!canUnstake&&!isLocked?'<div class="fula-hint warning" style="margin-bottom:12px">⚠️ Claim all rewards before unstaking</div>':'');
+      : (poolShort ? '' : (!canUnstake&&!isLocked?'<div class="fula-hint warning" style="margin-bottom:12px">⚠️ Claim all rewards before unstaking</div>':''));
     const div=document.createElement('div'); div.className='fula-stake-item';
     div.innerHTML=`<div class="fula-stake-header"><div class="fula-stake-amount">${formatNumber(amount)} FULA</div><div class="fula-stake-period">${periodLabel} • ${apyLabel}</div></div>
       <div class="fula-stake-info"><div class="fula-stake-info-item"><div class="fula-stake-info-label">Start Date</div><div class="fula-stake-info-value">${formatDate(startTime)}</div></div>
@@ -958,10 +1028,12 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       <div class="fula-stake-rewards"><span class="fula-stake-rewards-label">Claimable Rewards</span><span class="fula-stake-rewards-right"><span class="fula-stake-rewards-value">${valueText}</span>${refreshBtnHTML}</span></div>
       <div class="fula-stake-status ${isLocked?'locked':'unlocked'}">${isLocked?'🔒 Locked until '+formatDate(endTime):'✓ Ready to unstake'}</div>
       ${hintHTML}
-      <div class="fula-stake-actions"><button class="fula-stake-btn claim" data-index="${index}" ${hasUnclaimed?'':'disabled'}>Claim All Rewards</button>
+      <div class="fula-stake-actions"><button class="fula-stake-btn claim" data-index="${index}" ${(hasUnclaimed&&!poolShort)?'':'disabled'}>Claim All Rewards</button>
       <button class="fula-stake-btn unstake" data-index="${index}" ${canUnstake?'':'disabled'}>Unstake</button></div>
+      <div class="fula-refill-slot"></div>
       <button class="fula-details-toggle" data-index="${index}"><span>View Rewards Calendar</span><span class="arrow">▼</span></button>
       <div class="fula-details-content" data-index="${index}">${generateCalendarHTML(stake,index)}</div>`;
+    if(poolShort) renderRefillSlot(div.querySelector('.fula-refill-slot'), claimableWei, 'this claim ('+formatNumber(claimable,4)+' FULA)');
     div.querySelector('.fula-stake-btn.claim').addEventListener('click',()=>handleClaimStakerReward(index,div.querySelector('.fula-stake-btn.claim')));
     div.querySelector('.fula-stake-btn.unstake').addEventListener('click',()=>handleUnstake(index,div.querySelector('.fula-stake-btn.unstake'),hasUnclaimed));
     const refreshBtn=div.querySelector('.fula-stake-refresh');
@@ -1031,7 +1103,13 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       </div>
       <div class="fula-referred-staker-progress"><div class="fula-referred-staker-progress-bar" style="width:${Math.min(100,progress)}%"></div></div>
       <div class="fula-referred-staker-rewards"><span class="fula-referred-staker-rewards-label">Claimable Now</span><span class="fula-referred-staker-rewards-value">${formatNumber(Math.max(0,claimable),6)} FULA</span></div>
-      <button class="fula-action-btn" data-index="${index}" ${hasClaimable&&isActive?'':'disabled'}>${isActive?'Claim Reward':'Stake Ended'}</button>`;
+      <button class="fula-action-btn" data-index="${index}" ${hasClaimable&&isActive?'':'disabled'}>${isActive?'Claim Reward':'Stake Ended'}</button>
+      <div class="fula-refill-slot"></div>`;
+    const claimableWei = hasClaimable ? etherToWei(claimable.toFixed(18)) : null;
+    if(hasClaimable&&isActive&&poolCannotPay(claimableWei)) {
+      div.querySelector('.fula-action-btn').disabled = true;
+      renderRefillSlot(div.querySelector('.fula-refill-slot'), claimableWei, 'this referrer reward ('+formatNumber(claimable,4)+' FULA)');
+    }
     if(hasClaimable&&isActive) div.querySelector('.fula-action-btn').addEventListener('click',()=>handleClaimReferrerReward(index,div.querySelector('.fula-action-btn')));
     return div;
   }
@@ -1070,6 +1148,11 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
     if(e.code===4001||e.code==='ACTION_REJECTED'||/reject|denied/i.test(e.message||'')) return 'Transaction cancelled';
     if(e.code==='WRONG_NETWORK') return 'Please switch to Base network';
     if(e.code==='NOT_CONNECTED'||e.code==='NO_PROVIDER') return 'Connect your wallet first';
+    if(window.FulaRefill) {
+      const low = FulaRefill.detectLowBalance(e, { web3: readWeb3, contract: CONFIG.STAKING_CONTRACT });
+      const f = low.kind ? FulaRefill.friendly(low.kind, { what: 'this claim' }) : null;
+      if(f) return f;
+    }
     return 'Transaction failed';
   }
 
@@ -1110,9 +1193,20 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       setButtonLoading(btn,true,'Claiming...');
       await ensureWalletReady();
       const m=stakingWrite.methods.claimStakerReward(index);
-      const receipt=await m.send({from:selectedAccount,gas:await estimateGas(m.encodeABI(),CONFIG.STAKING_CONTRACT,'claimStakerReward'),...(await getFeeParams())});
+      // Pre-flight on the read RPCs: an empty reward pool is reported here (with the Refill control)
+      // instead of after a signed, failed transaction.
+      let needed=null; try { needed=BigInt(String(await callRead(()=> stakingRead.methods.getClaimableStakerReward(selectedAccount,index).call()))); } catch(e) {}
+      let gas;
+      try { gas=await preflightGas(m.encodeABI(),CONFIG.STAKING_CONTRACT,'claimStakerReward'); }
+      catch(pf){ console.warn('claim pre-flight reverted:',pf); showNotification(explainPreflightRevert(pf,btn,needed,'this claim'),'warning'); setButtonLoading(btn,false,orig); return; }
+      const receipt=await m.send({from:selectedAccount,gas,...(await getFeeParams())});
       showNotification('Rewards claimed!','success'); await waitForReadSync(receipt&&receipt.blockNumber); await loadUserData();
-    } catch(e){console.error(e);showNotification(txErrMsg(e),'warning');setButtonLoading(btn,false,orig);}
+    } catch(e){
+      console.error(e);
+      const low = window.FulaRefill ? FulaRefill.detectLowBalance(e,{web3:readWeb3,contract:CONFIG.STAKING_CONTRACT}) : {kind:null};
+      if(low.kind==='pool') renderRefillSlot(slotFor(btn),null,'this claim');
+      showNotification(txErrMsg(e),'warning');setButtonLoading(btn,false,orig);
+    }
   }
 
   async function handleUnstake(index,btn,hasUnclaimed) {
@@ -1124,7 +1218,10 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       setButtonLoading(btn,true,'Unstaking...');
       await ensureWalletReady();
       const m=stakingWrite.methods.unstakeToken(index);
-      const receipt=await m.send({from:selectedAccount,gas:await estimateGas(m.encodeABI(),CONFIG.STAKING_CONTRACT,'unstakeToken'),...(await getFeeParams())});
+      let gas;
+      try { gas=await preflightGas(m.encodeABI(),CONFIG.STAKING_CONTRACT,'unstakeToken'); }
+      catch(pf){ console.warn('unstake pre-flight reverted:',pf); showNotification(explainPreflightRevert(pf,btn,null,'this unstake'),'warning'); setButtonLoading(btn,false,orig); return; }
+      const receipt=await m.send({from:selectedAccount,gas,...(await getFeeParams())});
       showNotification('Unstaked!','success'); await waitForReadSync(receipt&&receipt.blockNumber); await loadUserData();
     } catch(e){console.error(e);showNotification(txErrMsg(e),'warning');setButtonLoading(btn,false,orig);}
   }
@@ -1136,9 +1233,17 @@ import { WagmiAdapter, createAppKit, networks, WagmiCore } from 'https://cdn.jsd
       setButtonLoading(btn,true,'Claiming...');
       await ensureWalletReady();
       const m=stakingWrite.methods.claimReferrerReward(index);
-      const receipt=await m.send({from:selectedAccount,gas:await estimateGas(m.encodeABI(),CONFIG.STAKING_CONTRACT,'claimReferrerReward'),...(await getFeeParams())});
+      let gas;
+      try { gas=await preflightGas(m.encodeABI(),CONFIG.STAKING_CONTRACT,'claimReferrerReward'); }
+      catch(pf){ console.warn('referrer claim pre-flight reverted:',pf); showNotification(explainPreflightRevert(pf,btn,null,'this referrer reward'),'warning'); setButtonLoading(btn,false,orig); return; }
+      const receipt=await m.send({from:selectedAccount,gas,...(await getFeeParams())});
       showNotification('Referrer reward claimed!','success'); await waitForReadSync(receipt&&receipt.blockNumber); await loadReferrerData();
-    } catch(e){console.error(e);showNotification(txErrMsg(e),'warning');setButtonLoading(btn,false,orig);}
+    } catch(e){
+      console.error(e);
+      const low = window.FulaRefill ? FulaRefill.detectLowBalance(e,{web3:readWeb3,contract:CONFIG.STAKING_CONTRACT}) : {kind:null};
+      if(low.kind==='pool') renderRefillSlot(slotFor(btn),null,'this referrer reward');
+      showNotification(txErrMsg(e),'warning');setButtonLoading(btn,false,orig);
+    }
   }
 
   function validateStakeAmount() {
